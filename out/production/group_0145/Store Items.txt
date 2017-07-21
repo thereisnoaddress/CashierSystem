@@ -1,0 +1,4 @@
+10000,broccoli,produce,vegetables,1,10,12,2,1,metro
+10001,chocolate,snacks,dessert,2,20,30,7,2,metro
+10002,bananas,produce,fruits,1,30,45,10,2,del monte
+10003,chips,snacks,junk food,2,10,40,7,8,lays
