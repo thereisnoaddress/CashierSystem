@@ -13,9 +13,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import javax.xml.crypto.Data;
 
 
@@ -23,8 +25,6 @@ import javax.xml.crypto.Data;
  * The Store class.
  *
  * Implement close() method that closes the daily values and puts them into storage.
- *
- *
  */
 public class Store {
 
@@ -37,15 +37,21 @@ public class Store {
   protected Map<String, Item> items;
   protected static final Logger logger = Logger.getLogger(Store.class.getName());
   protected static final Handler consoleHandler = new ConsoleHandler();
+  final FileHandler fileHandler = new FileHandler("log.txt");
+
+
 
 
   protected Store(String DataFileName) throws ClassNotFoundException, IOException {
     // Store constructor.
     items = new HashMap<String, Item>();
-
     logger.setLevel(Level.ALL);
     consoleHandler.setLevel(Level.ALL);
-    logger.addHandler(consoleHandler);
+    logger.addHandler(fileHandler);
+    SimpleFormatter formatter = new SimpleFormatter();
+    fileHandler.setFormatter(formatter);
+
+
 
     File data = new File(DataFileName);
     if (data.exists()) {
@@ -64,15 +70,8 @@ public class Store {
     }
     return null;
   }
-}
 
-
-
-  /**
-    }
-
-  // This will go into the initial main method
-  ////////////////////////////////////////////////////////protected void processData(String fileName) throws IOException {
+  protected void processData(String fileName) throws IOException {
 
     try {
       BufferedReader fileInput = new BufferedReader(new FileReader(fileName));
@@ -85,21 +84,24 @@ public class Store {
             Integer.parseInt(data[7]), Integer.parseInt(data[8]), data[9]);
         dataList.add(temp);
         line = fileInput.readLine();
+        logger.info( "I have added " + data[1] + " to the store");
 
       }
-    }catch (IOException e) {
+    } catch (IOException e) {
       logger.log(Level.SEVERE, "Cannot read from input.", e);
     }
   }
 
   //TODO: for when the program closes; new itemslist file.
-  /////////////////////////////////////////////////////////////////////////////protected void SaveData(String fileName) {
+/*
+  protected void SaveData(String fileName) {
 
   }
 
-  /////////////////////////////////////////////////////////////////////////////////////public void showInventory() {
+  public void showInventory() {
     for (Item i : dataList) {
       System.out.println(i);
     }
   }
+  */
 }
