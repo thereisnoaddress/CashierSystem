@@ -7,6 +7,20 @@ import java.io.InputStreamReader;
 /**
  * A class that simulates a store.
  */
+
+
+
+// Events.txt commands
+//Commands: (based on methods. Can add to them later
+// Get information: [UPC]
+// Set
+// Add item: [*constructor arguments*]
+// Remove
+// Sell
+// Return
+
+
+
 public class StoreSimulator {
 
   public static void main(String[] args)

@@ -22,22 +22,26 @@ import javax.xml.crypto.Data;
 /**
  * The Store class.
  *
- * We should also implement a dictionary where the UPC is the code.
- * This can be used for scanning. The ArrayList can be used for other methods where we cant use a dictionary
+ * Implement close() method that closes the daily values and puts them into storage.
+ *
+ *
  */
 public class Store {
 
-  private ArrayList<ConsolidatedItem> dataList = new ArrayList<>();
-  private ArrayList<ConsolidatedItem> itemsList = new ArrayList<>();
-  private ArrayList<ConsolidatedItem> unshelvedItemsList = new ArrayList<>();
-  private Map<String, ConsolidatedItem> items;
-  private static final Logger logger = Logger.getLogger(Store.class.getName());
-  private static final Handler consoleHandler = new ConsoleHandler();
+  protected String name;
+  protected TimeManager tm;
+  protected ArrayList<Item> dataList = new ArrayList<>();
+  protected ArrayList<Item> itemsList = new ArrayList<>();
+  protected ArrayList<Item> unshelvedItemsList = new ArrayList<>();
+  protected ArrayList<String> pendingOrders = new ArrayList<>();
+  protected Map<String, Item> items;
+  protected static final Logger logger = Logger.getLogger(Store.class.getName());
+  protected static final Handler consoleHandler = new ConsoleHandler();
 
 
   protected Store(String DataFileName) throws ClassNotFoundException, IOException {
     // Store constructor.
-    items = new HashMap<String, ConsolidatedItem>();
+    items = new HashMap<String, Item>();
 
     logger.setLevel(Level.ALL);
     consoleHandler.setLevel(Level.ALL);
@@ -52,77 +56,23 @@ public class Store {
     }
   }
 
-
-  public String addInventory(String UPC, double quantity) {
-
-    // Check if UPC corresponds to an existing item in itemsList
-    // If so, then add quantity to it.
-
-    if (getConsolidatedItem(UPC) != null) {
-      getConsolidatedItem(UPC).addQuantity(quantity);
-      return "I have added " + quantity + " of " + getConsolidatedItem(UPC).getName();
-
-    }
-
-    // If UPC is not found in itemsList, create a new item and add it to the list.
-    //
-    else if (UPCLookup(UPC) != null) {
-      String[] data = UPCLookup(UPC).split("\\,");
-      ConsolidatedItem ci = new ConsolidatedItem(data[0], data[1], data[2], data[3],
-          Integer.parseInt(data[4]), Double.parseDouble(data[5]), Double.parseDouble(data[6]),
-          Integer.parseInt(data[7]), Integer.parseInt(data[8]), data[9]);
-      itemsList.add(ci);
-      return "I have added " + quantity + " of " + ci.getName();
-    }
-    throw new NoSuchElementException("I couldn't find this!");
-  }
-
-
-  private void sell(String UPC, int quantity) throws NoSuchElementException {
-    if (getConsolidatedItem(UPC) != null) {
-      getConsolidatedItem(UPC).sell(quantity);
-    } else {
-      throw new NoSuchElementException("There is no item with UPC " + UPC);
-    }
-  }
-
-  private boolean checkInStock(String UPC) {
-    return getConsolidatedItem(UPC) != null;
-  }
-
-  private double getQuantity(String UPC) {
-    return getConsolidatedItem(UPC) != null ? getConsolidatedItem(UPC).getQuantity() : 0;
-  }
-
-  private double getSellPrice(String UPC) {
-    return getConsolidatedItem(UPC) != null ? getConsolidatedItem(UPC).getSellPrice() : null;
-  }
-
-  // Returns the ConsolidatedItem if it exists in itemsList, otherwise null.
-  public ConsolidatedItem getConsolidatedItem(String UPC) {
-    for (ConsolidatedItem ci : itemsList) {
-      if (ci.getUPC().equals(UPC)) {
-        return ci;
+  protected Item getItem(String UPC) {  // IE GET THE ITEM FROM THE UPC
+    for (Item i : itemsList) {
+      if (i.UPC.equals(UPC)) {
+        return i;
       }
     }
     return null;
   }
+}
 
 
-  // Return a string in the following format:
-  // [UPC, name, section, subsection, aisle]
-  public String UPCLookup(String UPC) {
-    for (ConsolidatedItem ci : dataList) {
-      if (ci.getUPC().equals(UPC)) {
-        return (ci.toString());
-      }
+
+  /**
     }
-    return null;
-  }
-
 
   // This will go into the initial main method
-  private void processData(String fileName) throws IOException {
+  ////////////////////////////////////////////////////////protected void processData(String fileName) throws IOException {
 
     try {
       BufferedReader fileInput = new BufferedReader(new FileReader(fileName));
@@ -130,7 +80,7 @@ public class Store {
 
       while (line != null) {
         String[] data = line.split("\\,");
-        ConsolidatedItem temp = new ConsolidatedItem(data[0], data[1], data[2], data[3],
+        Item temp = new Item(data[0], data[1], data[2], data[3],
             Integer.parseInt(data[4]), Double.parseDouble(data[5]), Double.parseDouble(data[6]),
             Integer.parseInt(data[7]), Integer.parseInt(data[8]), data[9]);
         dataList.add(temp);
@@ -143,22 +93,13 @@ public class Store {
   }
 
   //TODO: for when the program closes; new itemslist file.
-  private void SaveData(String fileName) {
+  /////////////////////////////////////////////////////////////////////////////protected void SaveData(String fileName) {
 
   }
 
-  public void showData() {
-    for (ConsolidatedItem i : dataList) {
+  /////////////////////////////////////////////////////////////////////////////////////public void showInventory() {
+    for (Item i : dataList) {
       System.out.println(i);
     }
   }
-
-
-  private int thresholdLookup(String UPC) {
-    if (getConsolidatedItem(UPC) != null) {
-      return getConsolidatedItem(UPC).getThreshold();
-    }
-    return 0;
-  }
-
 }
