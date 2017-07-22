@@ -19,6 +19,7 @@ public class FinancialManager {
     double revenue = quantity * price;
     double profit = quantity * (revenue - s.getItem(UPC).boughtPrice);
 
+
     item.revenueToday += revenue;
     item.profitToday += profit;
   }
