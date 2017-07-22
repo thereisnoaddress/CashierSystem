@@ -15,7 +15,7 @@ class ItemScanner {
 
   protected String UPCLookup(String UPC) { return s.getItem(UPC).toString(); }
 
-  protected int checkInStock(String UPC) { return s.getItem(UPC).quantity; }
+  protected double checkInStock(String UPC) { return s.getItem(UPC).quantity; }
 
   protected double getSellPrice(String UPC) { return s.getItem(UPC).sellPrice; }
 
