@@ -9,7 +9,7 @@ public class Item {
   protected double boughtPrice;
   protected double sellPrice;
   protected String UPC;
-  protected int quantity;
+  protected double quantity;
   protected boolean unshelvedQuantity;  // true if there are units in storage not on the shelves.  // Take out this attribute, and just have a list of unshelved items in store.
   protected int threshold;
   protected int orderSize;
@@ -28,7 +28,7 @@ public class Item {
   protected double profitToday;
 
   protected Item(String UPC, String name, String section, String subsection, int aisle,
-      double boughtPrice, double sellPrice, int quantity, int threshold,
+      double boughtPrice, double sellPrice, double quantity, int threshold,
       String supplier) {
 
     this.UPC = UPC;
