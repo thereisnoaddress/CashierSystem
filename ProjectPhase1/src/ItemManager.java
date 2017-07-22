@@ -41,5 +41,4 @@ public class ItemManager {
     Item item = s.getItem(UPC);
     item.threshold = threshold;
   }
-
 }

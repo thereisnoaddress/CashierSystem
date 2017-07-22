@@ -12,10 +12,8 @@ public class OrderManager {
 
   void autoOrder(String UPC) {
     Item item = s.getItem(UPC);
-    if (item.quantity < item.threshold) {
-      String order = item.threshold * 3 + " units of " + item.name + " have been ordered on " + "timestamp";
-      item.pendingOrders.add(order);
-    }
+    String order = item.threshold * 3 + " units of " + item.name + " have been ordered on " + "timestamp";
+    item.pendingOrders.add(order);
   }
 
   void customOrder(String UPC, int quantity) {  // String date should be automatically
@@ -30,7 +28,6 @@ public class OrderManager {
       String[] temp = s.split(",");
       if (temp[0].equals(quantity)) {
         item.pendingOrders.remove(s);
-        item.orderHistory.add(quantity + " units of " + item.name + " have been cancelled on " + "timestamp");
       }
     }
   }
@@ -43,10 +40,5 @@ public class OrderManager {
       sb.append(System.lineSeparator());
     }
     return sb.toString();
-  }
-
-  void addOrderHistory(String UPC, int quantity) {
-    Item item = s.getItem(UPC);
-    item.orderHistory.add(quantity + " items were added on " + tm.timeStamp());
   }
 }
