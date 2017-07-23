@@ -2,3 +2,10 @@
 10001,chocolate,snacks,dessert,2,20,30,7,2,metro
 10002,bananas,produce,fruits,1,30,45,10,2,del monte
 10003,chips,snacks,junk food,2,10,40,7,8,lays
+10004,milk,drinks,cold drinks,3,2,4.2,100,5,Beatrice
+10005,cucumbers,produce,vegetables,1,1.5,3,50,7,Farmer's Market
+10006,fresh avocados,produce,fruits,1,4,7.5,20,3,Farmer's Market
+10007,almonds,snacks,nuts,2,2.2,4.5,100,7,Sahale
+10008,tomatoes,produce,fruits,1,0.8,7.5,20,5,Farmer's Market
+10009,Hot Dog Sausage,meats,frozen,2,4.5,8,100,20,Brown Food Truck
+10010,Onions,produce,vegetables,2,4.5,8,100,20,Farmer's Market
