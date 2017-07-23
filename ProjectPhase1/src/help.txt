@@ -4,11 +4,11 @@ Group 0145 -- Instructions
 
 ## How to set up the item database ##
 Our program takes in a .txt file as its database. The database contains all the different types of items the store is able to recognize. Every line of the .txt file contains csv (comma separated values) and should be formatted in the following way: 
->>> UPC,name,section,subsection,aisle number
+>>> UPC,name,section,subsection,aisle number,bought price,sell price,quantity,threshold,supplier
 For example, a line in the database could be: 
->>> 10000,broccoli,produce,vegetables,1
-which denotes that broccoli has a UPC number of 10000 and its section is produce and its subsection is vegetables and is in aisle 1.
+>>> 10000,broccoli,produce,vegetables,1,10,20,50,5,Metro
+which denotes that broccoli has a UPC number of 10000 and its section is produce and its subsection is vegetables and is in aisle 1. They were bought at $10 and are sold at $20. 50 units are in store, and the threshold is 5. Its supplier is Metro.
 There should not be any extra spaces before or after the commas. 
 
 ***Compling the program***
-Press run to complie the program. The program will first ask for the path to the aforementioned database .txt file. After the user enters in the correct database file, 
+Press run to complie the program. The program will first ask for the path to the aforementioned StoreItems.txt file. After the user enters in the correct database file, 

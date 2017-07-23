@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class SaleManager implements Serializable {
+public class SaleManager implements Serializable{
 
   protected Store s;
   private TimeManager tm = new TimeManager();
@@ -9,7 +9,7 @@ public class SaleManager implements Serializable {
     s = store;
   }
 
-  protected boolean checkSale(String UPC) {
+  boolean checkSale(String UPC) {
     Item item = s.getItem(UPC);
     if (tm.after(item.saleStart) && tm.before(item.saleEnd)) {
       if (!item.saleStatus) {
@@ -43,7 +43,6 @@ public class SaleManager implements Serializable {
     if (item.saleStart.equals(start) && item.saleStart.equals(end)) {
       item.saleStart = null;
       item.saleEnd = null;
-
       String log = "The sale from " + start + " until " + end + " has been removed on "
           + tm.timeStamp();
     } else {

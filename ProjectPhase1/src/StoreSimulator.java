@@ -26,6 +26,7 @@ public class StoreSimulator implements Serializable {
   private static final Handler consoleHandler = new ConsoleHandler();
 
 
+
   public static void main(String[] args)
       throws IOException, FileNotFoundException, ClassNotFoundException {
     String filename = "store.ser";
@@ -73,6 +74,11 @@ public class StoreSimulator implements Serializable {
     } catch (Exception ex) {
       ex.printStackTrace();
     }
+
+    // Read the store from store.ser
+
+
+
 
   }
 

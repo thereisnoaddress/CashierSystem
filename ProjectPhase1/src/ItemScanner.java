@@ -5,9 +5,9 @@ import java.io.Serializable;
  */
 class ItemScanner implements Serializable {
   protected Store s;
-  protected OrderManager om;
-  protected FinancialManager fm;
-  protected TimeManager tm = new TimeManager();
+  private OrderManager om;
+  private FinancialManager fm;
+  private TimeManager tm = new TimeManager();
 
   protected ItemScanner(Store store, OrderManager orderManager, FinancialManager financialManager) {
     s = store;
@@ -15,20 +15,30 @@ class ItemScanner implements Serializable {
     fm = financialManager;
   }
 
-  protected String UPCLookup(String UPC) { return s.getItem(UPC).toString(); }
+  protected String UPCLookup(String UPC) {
+    s.logger.info("You have looed up UPC " + UPC);
+    return s.getItem(UPC).toString();
+  }
 
-  protected double checkInStock(String UPC) { return s.getItem(UPC).quantity; }
+  protected double checkInStock(String UPC) {
+    s.logger.info("You have checked if UPC " + UPC + " is in stock.");
+    return s.getItem(UPC).quantity;
+  }
 
-  protected double getSellPrice(String UPC) { return s.getItem(UPC).sellPrice; }
+  protected double getSellPrice(String UPC) {
+    s.logger.info("You have cheked the sell price of " + UPC);
+    return s.getItem(UPC).sellPrice;
+  }
 
-  protected void scanIn(String UPC, int quantity) {
+
+  private void scanIn(String UPC, int quantity) {
     Item item = s.getItem(UPC);
     if (item != null) {
       item.quantity += quantity;
       item.unshelvedQuantity = true;
       om.cancelPendingOrder(UPC, quantity);
       addOrderHistory(UPC, quantity);
-      String log = quantity + " item(s) of " + item + " have been scanned in on " + tm.timeStamp();
+      s.logger.info(quantity + " item(s) of " + item + " have been scanned in on " + tm.timeStamp());
     } else {
       System.out.println("This UPC is not associated with any item in store!");
     }
@@ -64,29 +74,6 @@ class ItemScanner implements Serializable {
     sell(UPC, 1);
   }
 
-  /** I don't think we need to deal with human errors, but if you want, we could implement this throw/catch block for all the methods lol rip
-  protected void sell(String UPC, int quantity) throws NoSuchElementException {
-    if (getItem(UPC) != null) {
-      getItem(UPC).sell(quantity);
-    } else {
-      throw new NoSuchElementException("There is no item with UPC " + UPC);
-    }
-  }
-
-
-   // This is another way we can prevent human errors from shutting down the program. Or we could do a checkUPC() method that would be implemented in the first line of every method to streamline the code for us
-   public String addInventory(String UPC, double quantity) {
-
-   // Check if UPC corresponds to an existing item in itemsList
-   // If so, then add quantity to it.
-
-   if (getItem(UPC) != null) {
-   getItem(UPC).addQuantity(quantity);
-   return "I have added " + quantity + " of " + getItem(UPC).getName();
-
-
-
-   */
 
   void returnItem(String UPC, int quantity) {
     Item item = s.getItem(UPC);

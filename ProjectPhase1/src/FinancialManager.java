@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class FinancialManager implements Serializable {
+public class FinancialManager implements Serializable{
   Store s;
   SaleManager sm;
 
@@ -19,6 +19,7 @@ public class FinancialManager implements Serializable {
       price = s.getItem(UPC).sellPrice;
     }
     double revenue = quantity * price;
+    s.logger.info("A sale has been made. " + quantity + " of " + s.getItem(UPC));
     double profit = quantity * (revenue - s.getItem(UPC).boughtPrice);
 
 

@@ -22,7 +22,6 @@ public class Item implements Serializable {
   protected ArrayList<String> pendingOrders; //List of pending orders
   protected ArrayList<String> salesHistory;  // History of units sold
   protected ArrayList<String> priceHistory;  // History of price
-  protected ArrayList<String> financialHistory;  // History of daily profits. Revenue, COGS, profit. sold today, profit today
   protected String supplier;
   protected int soldToday;  // quantity sold today
   protected double revenueToday;  // I have tp reset this, soldToday and profitToday daily somehow
@@ -149,11 +148,9 @@ public class Item implements Serializable {
   }
 
   protected ArrayList<String> getPriceHistory() {
-    return orderHistory;
+    return priceHistory;
   }
 
-  protected ArrayList<String> getFinancialHistory() {
-    return orderHistory;
    */
 
 
