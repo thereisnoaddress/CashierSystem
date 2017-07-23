@@ -41,7 +41,7 @@ public class Store implements Serializable{
   protected ArrayList<Item> unshelvedItemsList = new ArrayList<>();
   protected ArrayList<String> pendingOrders = new ArrayList<>();
   protected Map<String, Item> items;
-  protected Logger logger;
+  protected static Logger logger;
 
   Store(String DataFileName, Logger logger) throws ClassNotFoundException, IOException {
     // Store constructor.
