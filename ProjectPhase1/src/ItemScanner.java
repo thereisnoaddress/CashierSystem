@@ -31,7 +31,7 @@ class ItemScanner implements Serializable {
   }
 
 
-  private void scanIn(String UPC, int quantity) {
+  public void scanIn(String UPC, int quantity) {
     Item item = s.getItem(UPC);
     if (item != null) {
       item.quantity += quantity;

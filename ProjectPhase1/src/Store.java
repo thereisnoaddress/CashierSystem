@@ -28,25 +28,23 @@ import javax.xml.crypto.Data;
  *
  * Implement close() method that closes the daily values and puts them into storage.
  */
-public class Store implements Serializable {
+public class Store implements Serializable{
 
   protected String name;
+  private OrderManager om = new OrderManager(this);
+  private SaleManager sm = new SaleManager(this);
+  private FinancialManager fm = new FinancialManager(this, sm);
+  private ItemScanner is = new ItemScanner(this, om, fm);
+  private ItemManager im = new ItemManager(this);
+  protected TimeManager tm = new TimeManager();
   protected ArrayList<Item> itemsList = new ArrayList<>();
   protected ArrayList<Item> unshelvedItemsList = new ArrayList<>();
   protected ArrayList<String> pendingOrders = new ArrayList<>();
   protected Map<String, Item> items;
-  protected Map<String, String> dailyProfits;
   protected Logger logger;
 
-  protected TimeManager tm = new TimeManager();
-  protected ItemManager im = new ItemManager(this);
-  protected OrderManager om = new OrderManager(this);
-  protected SaleManager sm = new SaleManager(this);
-  protected FinancialManager fm = new FinancialManager(this, sm);
-  protected ItemScanner is = new ItemScanner(this, om, fm);
-
-  // Store constructor.
   Store(String DataFileName, Logger logger) throws ClassNotFoundException, IOException {
+    // Store constructor.
 
     this.logger = logger;
 
@@ -59,9 +57,17 @@ public class Store implements Serializable {
 
   }
 
+  Item getItem(String UPC) {
+    for (Item i : itemsList) {
+      if (i.UPC.equals(UPC)) {
+        return i;
+      }
+    }
+    return null;
+  }
+
   // A method that is called during the initializing of the store.
   // Takes StoreItems.txt and converts every line into an Item.
-
   private void processData(String fileName) throws IOException {
 
     try {
@@ -96,63 +102,147 @@ public class Store implements Serializable {
     } catch (IOException e) {
       logger.log(Level.SEVERE, "Cannot read from input.", e);
     }
-  }
 
+  }
 
   // A method that reads every line of Events.txt and processes the user's command.
   private void processEvent(String instruction) {
 
-    ArrayList<String> lineList = new ArrayList<String>(Arrays.asList(instruction.split("\\,")));
-      switch (lineList.get(0)) {
-        // 0 closes out the daily values and maps them to daily revenues and daily profits.
-        case "0":
-          logger.info("Session saved.");
-          closeDailyTotals();
-          //saveToFile();
-          break;
+    ArrayList<String> lineList = new ArrayList<>(Arrays.asList(instruction.split("\\,")));
 
-        case "1":
-          logger.info(getItem(lineList.get(1)).name);
-          return;
+    switch (lineList.get(0)) {
+      // 0 closes out the daily values and maps them to daily revenues and daily profits.
+      case "0":
+        logger.info("Session saved.");
+        closeDailyTotals();
+        //saveToFile();
+        break;
 
-        case "2":
-          logger.info(getItem(lineList.get(1)).toString());
-          return;
+      case "1":
+        logger.info(getItem(lineList.get(1)).name);
+        return;
 
-        case "3":
-          logger.info(Double.toString(getItem(lineList.get(1)).boughtPrice));
-          return;
+      case "2":
+        logger.info(getItem(lineList.get(1)).toString());
+        return;
 
-        case "4":
-          logger.info(Double.toString(getItem(lineList.get(1)).sellPrice));
-          return;
+      case "3":
+        logger.info(Double.toString(getItem(lineList.get(1)).boughtPrice));
+        return;
 
-        case "5":
-          logger.info(Boolean.toString(getItem(lineList.get(1)).unshelvedQuantity));
-          return;
+      case "4":
+        logger.info(Double.toString(getItem(lineList.get(1)).sellPrice));
+        return;
 
-        case "6":
-          logger.info(Integer.toString(getItem(lineList.get(1)).threshold));
-          return;
+      case "5":
+        logger.info(Boolean.toString(getItem(lineList.get(1)).unshelvedQuantity));
+        return;
 
-        case "7":
-          logger.info(Integer.toString(getItem(lineList.get(1)).orderSize));
-          return;
+      case "6":
+        logger.info(Integer.toString(getItem(lineList.get(1)).threshold));
+        return;
 
-        default:
-          logger.info(" Error: unrecognized command.");
-          break;
-      }
-  }
+      case "7":
+        logger.info(Integer.toString(getItem(lineList.get(1)).orderSize));
+        return;
 
-  // Reimplement using the map
-  Item getItem(String UPC) {
-    for (Item i : itemsList) {
-      if (i.UPC.equals(UPC)) {
-        return i;
-      }
+      case "8":
+        logger.info(Boolean.toString(getItem(lineList.get(1)).saleStatus));
+        return;
+
+      case "9":
+        logger.info(Double.toString(getItem(lineList.get(1)).salePrice));
+        return;
+
+      case "10":
+        logger.info(getItem(lineList.get(1)).saleStart);
+        return;
+
+      case "11":
+        logger.info(getItem(lineList.get(1)).saleEnd);
+        return;
+
+      case "12":
+        logger.info(getItem(lineList.get(1)).supplier);
+        return;
+
+      case "13":
+        logger.info(Integer.toString(getItem(lineList.get(1)).soldToday));
+        return;
+
+      case "14":
+        logger.info(Double.toString(getItem(lineList.get(1)).revenueToday));
+        return;
+
+      case "15":
+        logger.info(Double.toString(getItem(lineList.get(1)).profitToday));
+        return;
+
+      case "16":
+        logger.info(String.join(",", getItem(lineList.get(1)).orderHistory));
+        return;
+
+      case "17":
+        logger.info(String.join(",", getItem(lineList.get(1)).pendingOrders));
+        return;
+
+      case "18":
+        logger.info(String.join(",", getItem(lineList.get(1)).salesHistory));
+        return;
+
+      case "19":
+        logger.info(String.join(",", getItem(lineList.get(1)).priceHistory));
+        return;
+
+      case "20":
+        logger.info(is.getLocation(lineList.get(1)));
+        return;
+
+      case "21":
+        im.setSection(lineList.get(1), lineList.get(2));
+        logger.info("I have set " + lineList.get(1) + " to " + lineList.get(2));
+        return;
+
+      case "22":
+        im.setSubsection(lineList.get(1), lineList.get(2));
+        logger.info("I have set " + lineList.get(1) + " to " + lineList.get(2));
+        return;
+
+      case "23":
+        im.setAisle(lineList.get(1), Integer.parseInt(lineList.get(2)));
+        logger.info("I have set " + lineList.get(1) + " to " + lineList.get(2));
+        return;
+
+      case "24":
+        im.setBoughtPrice(lineList.get(1), Double.parseDouble(lineList.get(2)));
+        logger.info("I have set " + lineList.get(1) + " to " + lineList.get(2));
+        return;
+
+      case "25":
+        im.setSellPrice(lineList.get(1),Double.parseDouble(lineList.get(2)));
+        logger.info("I have set " + lineList.get(1) + " to " + lineList.get(2));
+        return;
+
+      case "26":
+        im.setQuantity(lineList.get(1), Integer.parseInt(lineList.get(2)));
+        logger.info("I have set " + lineList.get(1) + " to " + lineList.get(2));
+        return;
+
+      case "27":
+        im.setThreshold(lineList.get(1), Integer.parseInt(lineList.get(2)));
+        logger.info("I have set " + lineList.get(1) + " to " + lineList.get(2));
+        return;
+
+      case "28":
+        is.scanIn(lineList.get(1),Integer.parseInt(lineList.get(2)));
+        logger.info("I have scanned in" + lineList.get(2) + lineList.get(1) + "to the store");
+        return;
+
+      default:
+        logger.info(" Error: unrecognized command.");
+        break;
+
     }
-    return null;
   }
 
   // This takes all the daily profits, takes them to zero
@@ -168,10 +258,7 @@ public class Store implements Serializable {
       i.profitToday = 0;
     }
     String entry = "Revenue: " + revenue + ", Profit: " + profit;
-    dailyProfits.put(date, entry);
   }
-
-
 
   void save_to_file() {
     logger.info("The store has been saved.");
