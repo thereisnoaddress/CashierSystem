@@ -73,6 +73,7 @@ public class TimeManager {
         cur_month = 12;
         break;
     }
+
     int cur_date = Integer.parseInt(cur_values[2]);
     int cur_year = Integer.parseInt(cur_values[5]);
     String[] long_cur_time = cur_values[3].split(":");
@@ -130,6 +131,7 @@ public class TimeManager {
         ref_month = 12;
         break;
     }
+
     int ref_date = Integer.parseInt(ref_values[2]);
     int ref_year = Integer.parseInt(ref_values[5]);
     String[] long_ref_time = ref_values[3].split(":");
@@ -196,6 +198,7 @@ public class TimeManager {
         cur_month = 12;
         break;
     }
+
     int cur_date = Integer.parseInt(cur_values[2]);
     int cur_year = Integer.parseInt(cur_values[5]);
     String[] long_cur_time = cur_values[3].split(":");
@@ -259,37 +262,7 @@ public class TimeManager {
     String long_ref_time2 = long_ref_time[0] + long_ref_time[1] + long_ref_time[2];
     int ref_time = Integer.parseInt(long_ref_time2);
 
-
     return cur_year >= ref_year && cur_month >= ref_month && cur_date >= ref_date &&
         cur_time > ref_time;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   }
-
-
-
 }

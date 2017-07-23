@@ -30,13 +30,19 @@ import javax.xml.crypto.Data;
 public class Store {
 
   protected String name;
-  protected TimeManager tm;
   protected ArrayList<Item> itemsList = new ArrayList<>();
   protected ArrayList<Item> unshelvedItemsList = new ArrayList<>();
   protected ArrayList<String> pendingOrders = new ArrayList<>();
   protected Map<String, Item> items;
+  protected Map<String, String> dailyProfits;
   protected Logger logger;
 
+  protected TimeManager tm = new TimeManager();
+  protected ItemManager im = new ItemManager(this);
+  protected OrderManager om = new OrderManager(this);
+  protected SaleManager sm = new SaleManager(this);
+  protected FinancialManager fm = new FinancialManager(this, sm);
+  protected ItemScanner is = new ItemScanner(this, om, fm);
 
   // Store constructor.
   Store(String DataFileName, Logger logger) throws ClassNotFoundException, IOException {
@@ -51,16 +57,6 @@ public class Store {
     }
 
   }
-
-  Item getItem(String UPC) {
-    for (Item i : itemsList) {
-      if (i.UPC.equals(UPC)) {
-        return i;
-      }
-    }
-    return null;
-  }
-
 
   // A method that is called during the initializing of the store.
   // Takes StoreItems.txt and converts every line into an Item.
@@ -99,45 +95,84 @@ public class Store {
     } catch (IOException e) {
       logger.log(Level.SEVERE, "Cannot read from input.", e);
     }
-    }
+  }
 
 
   // A method that reads every line of Events.txt and processes the user's command.
   private void processEvent(String instruction) {
 
     ArrayList<String> lineList = new ArrayList<String>(Arrays.asList(instruction.split("\\,")));
+      switch (lineList.get(0)) {
+        // 0 closes out the daily values and maps them to daily revenues and daily profits.
+        case "0":
+          logger.info("Session saved.");
+          closeDailyTotals();
+          //saveToFile();
+          break;
 
-    switch (lineList.get(0)) {
+        case "1":
+          logger.info(getItem(lineList.get(1)).name);
+          return;
 
-      case "1":
-        logger.info(getItem(lineList.get(1)).name);
-        return;
+        case "2":
+          logger.info(getItem(lineList.get(1)).toString());
+          return;
 
-      case "2":
-        logger.info(getItem(lineList.get(1)).toString());
-        return;
+        case "3":
+          logger.info(Double.toString(getItem(lineList.get(1)).boughtPrice));
+          return;
 
-      case "3":
-        logger.info(Double.toString(getItem(lineList.get(1)).boughtPrice));
-        return;
+        case "4":
+          logger.info(Double.toString(getItem(lineList.get(1)).sellPrice));
+          return;
 
-      case "4":
-        logger.info(Double.toString(getItem(lineList.get(1)).sellPrice));
-        return;
+        case "5":
+          logger.info(Boolean.toString(getItem(lineList.get(1)).unshelvedQuantity));
+          return;
 
-      case "5":
-        logger.info(Boolean.toString(getItem(lineList.get(1)).unshelvedQuantity));
-        return;
+        case "6":
+          logger.info(Integer.toString(getItem(lineList.get(1)).threshold));
+          return;
 
-      case "6":
-        logger.info(Integer.toString(getItem(lineList.get(1)).threshold));
-        return;
+        case "7":
+          logger.info(Integer.toString(getItem(lineList.get(1)).orderSize));
+          return;
 
-      case "7":
-        logger.info(Integer.toString(getItem(lineList.get(1)).orderSize));
-        return;
+        default:
+          logger.info(" Error: unrecognized command.");
+          break;
+      }
+  }
 
-
+  // Reimplement using the map
+  Item getItem(String UPC) {
+    for (Item i : itemsList) {
+      if (i.UPC.equals(UPC)) {
+        return i;
+      }
     }
+    return null;
+  }
+
+  // This takes all the daily profits, takes them to zero
+  protected void closeDailyTotals() {
+    String date = tm.toString();
+    Double revenue = 0.0;
+    Double profit = 0.0;
+
+    for (Item i : itemsList) {
+      revenue += i.revenueToday;
+      profit += i.profitToday;
+      i.revenueToday = 0;
+      i.profitToday = 0;
+    }
+    String entry = "Revenue: " + revenue + ", Profit: " + profit;
+    dailyProfits.put(date, entry);
+  }
+
+
+
+  void save_to_file() {
+    logger.info("The store has been saved.");
   }
 }
