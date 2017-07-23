@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -30,39 +31,27 @@ public class Store {
 
   protected String name;
   protected TimeManager tm;
-  protected ArrayList<Item> dataList = new ArrayList<>();
   protected ArrayList<Item> itemsList = new ArrayList<>();
   protected ArrayList<Item> unshelvedItemsList = new ArrayList<>();
   protected ArrayList<String> pendingOrders = new ArrayList<>();
   protected Map<String, Item> items;
-  protected static final Logger logger = Logger.getLogger(Store.class.getName());
-  protected static final Handler consoleHandler = new ConsoleHandler();
-  final FileHandler fileHandler = new FileHandler("log.txt");
+  protected Logger logger;
 
-
-
-
-  protected Store(String DataFileName) throws ClassNotFoundException, IOException {
+  Store(String DataFileName, Logger logger) throws ClassNotFoundException, IOException {
     // Store constructor.
-    items = new HashMap<String, Item>();
-    logger.setLevel(Level.ALL);
-    consoleHandler.setLevel(Level.ALL);
-    logger.addHandler(fileHandler);
-    SimpleFormatter formatter = new SimpleFormatter();
-    fileHandler.setFormatter(formatter);
 
-
+    this.logger = logger;
 
     File data = new File(DataFileName);
     if (data.exists()) {
       processData(DataFileName);
-      System.out.println("a store has been created.");
     } else {
       data.createNewFile();
     }
+
   }
 
-  protected Item getItem(String UPC) {  // IE GET THE ITEM FROM THE UPC
+  Item getItem(String UPC) {
     for (Item i : itemsList) {
       if (i.UPC.equals(UPC)) {
         return i;
@@ -82,26 +71,59 @@ public class Store {
         Item temp = new Item(data[0], data[1], data[2], data[3],
             Integer.parseInt(data[4]), Double.parseDouble(data[5]), Double.parseDouble(data[6]),
             Integer.parseInt(data[7]), Integer.parseInt(data[8]), data[9]);
-        dataList.add(temp);
+        itemsList.add(temp);
         line = fileInput.readLine();
-        logger.info( "I have added " + data[1] + " to the store");
-
+        logger.info(data[1] + " has been added to the store.");
       }
     } catch (IOException e) {
       logger.log(Level.SEVERE, "Cannot read from input.", e);
     }
   }
 
-  //TODO: for when the program closes; new itemslist file.
-/*
-  protected void SaveData(String fileName) {
+  protected void processEvents(String eventsFileName) throws IOException {
 
-  }
+    try {
+      BufferedReader events = new BufferedReader(new FileReader(eventsFileName));
+      String line = events.readLine();
+      while (line != null) {
+        processEvent(line);
+        line = events.readLine();
+      }
+    } catch (IOException e) {
+      logger.log(Level.SEVERE, "Cannot read from input.", e);
+    }
+    }
 
-  public void showInventory() {
-    for (Item i : dataList) {
-      System.out.println(i);
+
+
+
+  public void processEvent(String instruction) {
+
+    ArrayList<String> lineList = new ArrayList<String>(Arrays.asList(instruction.split("\\,")));
+
+    switch (lineList.get(0)) {
+
+      case "1":
+        logger.info(getItem(lineList.get(1)).name);
+
+      case "2":
+        logger.info(getItem(lineList.get(1)).toString());
+
+      case "3":
+        logger.info(Double.toString(getItem(lineList.get(1)).boughtPrice));
+
+      case "4":
+        logger.info(Double.toString(getItem(lineList.get(1)).sellPrice));
+
+      case "5":
+        logger.info(Boolean.toString(getItem(lineList.get(1)).unshelvedQuantity));
+
+      case "6":
+        logger.info(Integer.toString(getItem(lineList.get(1)).threshold));
+
+      case "7":
+        logger.info(Integer.toString(getItem(lineList.get(1)).orderSize));
+
     }
   }
-  */
 }
