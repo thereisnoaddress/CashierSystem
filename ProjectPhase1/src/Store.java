@@ -95,9 +95,8 @@ public class Store {
     }
 
 
-
-
-  public void processEvent(String instruction) {
+  // A method that reads every line of Events.txt and processes the user's command.
+  private void processEvent(String instruction) {
 
     ArrayList<String> lineList = new ArrayList<String>(Arrays.asList(instruction.split("\\,")));
 
@@ -105,24 +104,32 @@ public class Store {
 
       case "1":
         logger.info(getItem(lineList.get(1)).name);
+        return;
 
       case "2":
         logger.info(getItem(lineList.get(1)).toString());
+        return;
 
       case "3":
         logger.info(Double.toString(getItem(lineList.get(1)).boughtPrice));
+        return;
 
       case "4":
         logger.info(Double.toString(getItem(lineList.get(1)).sellPrice));
+        return;
 
       case "5":
         logger.info(Boolean.toString(getItem(lineList.get(1)).unshelvedQuantity));
+        return;
 
       case "6":
         logger.info(Integer.toString(getItem(lineList.get(1)).threshold));
+        return;
 
       case "7":
         logger.info(Integer.toString(getItem(lineList.get(1)).orderSize));
+        return;
+
 
     }
   }
