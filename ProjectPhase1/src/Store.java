@@ -95,7 +95,7 @@ public class Store {
     } catch (IOException e) {
       logger.log(Level.SEVERE, "Cannot read from input.", e);
     }
-    }
+  }
 
 
   // A method that reads every line of Events.txt and processes the user's command.
@@ -103,35 +103,53 @@ public class Store {
 
     ArrayList<String> lineList = new ArrayList<String>(Arrays.asList(instruction.split("\\,")));
 
-    switch (lineList.get(0)) {
+    int index = 0;
+    String command = lineList.get(index);
+    while (index < lineList.size()) {
+      switch (command) {
 
-      case "1":
-        logger.info(getItem(lineList.get(1)).name);
-        return;
+        // 0 closes out the daily values and maps them to daily revenues and daily profits.
+        case "0":
+          logger.info("Session saved.");
+          closeDailyTotals();
+          //saveToFile();
+          break;
 
-      case "2":
-        logger.info(getItem(lineList.get(1)).toString());
-        return;
+        case "1":
+          logger.info(getItem(lineList.get(1)).name);
+          return;
 
-      case "3":
-        logger.info(Double.toString(getItem(lineList.get(1)).boughtPrice));
-        return;
+        case "2":
+          logger.info(getItem(lineList.get(1)).toString());
+          return;
 
-      case "4":
-        logger.info(Double.toString(getItem(lineList.get(1)).sellPrice));
-        return;
+        case "3":
+          logger.info(Double.toString(getItem(lineList.get(1)).boughtPrice));
+          return;
 
-      case "5":
-        logger.info(Boolean.toString(getItem(lineList.get(1)).unshelvedQuantity));
-        return;
+        case "4":
+          logger.info(Double.toString(getItem(lineList.get(1)).sellPrice));
+          return;
 
-      case "6":
-        logger.info(Integer.toString(getItem(lineList.get(1)).threshold));
-        return;
+        case "5":
+          logger.info(Boolean.toString(getItem(lineList.get(1)).unshelvedQuantity));
+          return;
 
-      case "7":
-        logger.info(Integer.toString(getItem(lineList.get(1)).orderSize));
-        return;
+        case "6":
+          logger.info(Integer.toString(getItem(lineList.get(1)).threshold));
+          return;
+
+        case "7":
+          logger.info(Integer.toString(getItem(lineList.get(1)).orderSize));
+          return;
+
+        default:
+          logger.info(" Error: unrecognized command.");
+          break;
+      }
+      index ++;
+      command = lineList.get(index);
+
     }
   }
 
@@ -146,7 +164,7 @@ public class Store {
   }
 
   // This takes all the daily profits, takes them to zero
-  protected void close() {
+  protected void closeDailyTotals() {
     String date = tm.toString();
     Double revenue = 0.0;
     Double profit = 0.0;
@@ -159,5 +177,11 @@ public class Store {
     }
     String entry = "Revenue: " + revenue + ", Profit: " + profit;
     dailyProfits.put(date, entry);
+  }
+
+
+
+  void save_to_file() {
+    logger.info("The store has been saved.");
   }
 }
