@@ -37,8 +37,9 @@ public class Store {
   protected Map<String, Item> items;
   protected Logger logger;
 
+
+  // Store constructor.
   Store(String DataFileName, Logger logger) throws ClassNotFoundException, IOException {
-    // Store constructor.
 
     this.logger = logger;
 
@@ -60,7 +61,11 @@ public class Store {
     return null;
   }
 
-  protected void processData(String fileName) throws IOException {
+
+  // A method that is called during the initializing of the store.
+  // Takes StoreItems.txt and converts every line into an Item.
+
+  private void processData(String fileName) throws IOException {
 
     try {
       BufferedReader fileInput = new BufferedReader(new FileReader(fileName));
@@ -80,7 +85,9 @@ public class Store {
     }
   }
 
-  protected void processEvents(String eventsFileName) throws IOException {
+  // A method that takes the entire Events.txt file and calls it line by line,
+  // sending every line to processEvent.
+  void processEvents(String eventsFileName) throws IOException {
 
     try {
       BufferedReader events = new BufferedReader(new FileReader(eventsFileName));
