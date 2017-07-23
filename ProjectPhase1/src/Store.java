@@ -102,12 +102,7 @@ public class Store {
   private void processEvent(String instruction) {
 
     ArrayList<String> lineList = new ArrayList<String>(Arrays.asList(instruction.split("\\,")));
-
-    int index = 0;
-    String command = lineList.get(index);
-    while (index < lineList.size()) {
-      switch (command) {
-
+      switch (lineList.get(0)) {
         // 0 closes out the daily values and maps them to daily revenues and daily profits.
         case "0":
           logger.info("Session saved.");
@@ -147,10 +142,6 @@ public class Store {
           logger.info(" Error: unrecognized command.");
           break;
       }
-      index ++;
-      command = lineList.get(index);
-
-    }
   }
 
   // Reimplement using the map
