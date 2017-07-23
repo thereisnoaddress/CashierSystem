@@ -1,21 +1,21 @@
 public class SaleManager {
 
   protected Store s;
-  protected TimeManager tm = new TimeManager();
+  private TimeManager tm = new TimeManager();
 
   protected SaleManager(Store store) {
     s = store;
   }
 
-  protected boolean checkSale(String UPC) {
+  private boolean checkSale(String UPC) {
     Item item = s.getItem(UPC);
     if (tm.after(item.saleStart) && tm.before(item.saleEnd)) {
-      if (item.saleStatus == false) {
+      if (!item.saleStatus) {
         setSaleStatusOn(UPC);
       }
       return true;
     } else {
-        if (item.saleStatus == true) {
+        if (item.saleStatus) {
           item.saleStatus = false;
         }
         return false;
@@ -59,7 +59,7 @@ public class SaleManager {
     }
   }
 
-  void setSaleStatusOn(String UPC) {
+  private void setSaleStatusOn(String UPC) {
     Item item = s.getItem(UPC);
     item.saleStatus = true;
     item.priceHistory.add("This item is now on sale. " + tm.timeStamp());
