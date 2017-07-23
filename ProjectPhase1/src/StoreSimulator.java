@@ -30,6 +30,13 @@ public class StoreSimulator {
     SimpleFormatter formatter = new SimpleFormatter();
     fileHandler.setFormatter(formatter);
 
+    // According to the handout we need this so...
+    BufferedReader nameReader = new BufferedReader(new InputStreamReader(System.in));
+    System.out.println("Please enter your employee/manager ID: ");
+    String employeeName = nameReader.readLine();
+    logger.info("User " + employeeName + " has signed in.");
+
+
     // Ask the user for a file path for StoreItems.txt so that a Store can be
     // created with the file's items.
     BufferedReader kbd = new BufferedReader(new InputStreamReader(System.in));
