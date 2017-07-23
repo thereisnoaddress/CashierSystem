@@ -22,13 +22,12 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import javax.xml.crypto.Data;
 
-
 /**
  * The Store class.
  *
  * Implement close() method that closes the daily values and puts them into storage.
  */
-public class Store implements Serializable{
+public class Store implements Serializable {
 
   protected String name;
   private OrderManager om = new OrderManager(this);
@@ -38,7 +37,7 @@ public class Store implements Serializable{
   private ItemManager im = new ItemManager(this);
   protected TimeManager tm = new TimeManager();
   protected ArrayList<Item> itemsList = new ArrayList<>();
-  protected ArrayList<Item> unshelvedItemsList = new ArrayList<>();
+  protected ArrayList<String> dailyProfits;
   protected ArrayList<String> pendingOrders = new ArrayList<>();
   protected Map<String, Item> items;
   protected static Logger logger;
@@ -219,7 +218,7 @@ public class Store implements Serializable{
         return;
 
       case "25":
-        im.setSellPrice(lineList.get(1),Double.parseDouble(lineList.get(2)));
+        im.setSellPrice(lineList.get(1), Double.parseDouble(lineList.get(2)));
         logger.info("I have set " + lineList.get(1) + " to " + lineList.get(2));
         return;
 
@@ -234,7 +233,7 @@ public class Store implements Serializable{
         return;
 
       case "28":
-        is.scanIn(lineList.get(1),Integer.parseInt(lineList.get(2)));
+        is.scanIn(lineList.get(1), Integer.parseInt(lineList.get(2)));
         logger.info("I have scanned in" + lineList.get(2) + lineList.get(1) + "to the store");
         return;
 
@@ -258,9 +257,45 @@ public class Store implements Serializable{
       i.profitToday = 0;
     }
     String entry = "Revenue: " + revenue + ", Profit: " + profit;
+    dailyProfits.add(entry);
   }
 
-  void save_to_file() {
-    logger.info("The store has been saved.");
+  protected String getItemsList() {
+    StringBuilder sb = new StringBuilder();
+    for (Item i : itemsList) {
+      sb.append(i.toString());
+      sb.append(System.lineSeparator());
+    }
+    return sb.toString();
+  }
+
+  protected String getUnshelvedItemsList() {
+    StringBuilder sb = new StringBuilder();
+    for (Item i : itemsList) {
+      if (i.unshelvedQuantity) {
+        sb.append(i.toString());
+        sb.append(System.lineSeparator());
+      }
+    }
+    return sb.toString();
+  }
+
+  protected String getPendingOrders() {
+    StringBuilder sb = new StringBuilder();
+    for (String s : pendingOrders) {
+      sb.append(s);
+      sb.append(System.lineSeparator());
+    }
+    return sb.toString();
+  }
+
+  protected String getDailyProfits() {
+    StringBuilder sb = new StringBuilder();
+    for (String s : dailyProfits) {
+      sb.append(s.toString());
+      sb.append(System.lineSeparator());
+      sb.append(System.lineSeparator());
+    }
+    return sb.toString();
   }
 }

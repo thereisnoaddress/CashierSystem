@@ -9,6 +9,12 @@ public class TimeManager implements Serializable{
     return new Date();
   }
 
+  protected String getTodaysDate() {
+    Date d = new Date();
+    String[] values = d.toString().split(" ");
+    return values[0] + values[1] + values[2] + values[5];
+  }
+
   protected boolean checkDifferentDates(String reference) {
     return before(reference) || after(reference);
   }
