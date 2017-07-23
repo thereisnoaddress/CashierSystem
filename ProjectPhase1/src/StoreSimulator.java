@@ -15,11 +15,8 @@ import java.util.logging.SimpleFormatter;
  */
 public class StoreSimulator {
 
-
   private static final Logger logger = Logger.getLogger(Store.class.getName());
   private static final Handler consoleHandler = new ConsoleHandler();
-
-
 
   public static void main(String[] args)
       throws IOException, FileNotFoundException, ClassNotFoundException {
@@ -48,10 +45,7 @@ public class StoreSimulator {
     System.out.println("Enter the file path for events.txt.");
     String eventsPath = kbd2.readLine();
     s.processEvents(eventsPath);
-
     }
-
-
 }
 
 

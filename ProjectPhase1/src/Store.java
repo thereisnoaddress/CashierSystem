@@ -30,13 +30,19 @@ import javax.xml.crypto.Data;
 public class Store {
 
   protected String name;
-  protected TimeManager tm;
   protected ArrayList<Item> itemsList = new ArrayList<>();
   protected ArrayList<Item> unshelvedItemsList = new ArrayList<>();
   protected ArrayList<String> pendingOrders = new ArrayList<>();
   protected Map<String, Item> items;
+  protected Map<String, String> dailyProfits;
   protected Logger logger;
 
+  protected TimeManager tm = new TimeManager();
+  protected ItemManager im = new ItemManager(this);
+  protected OrderManager om = new OrderManager(this);
+  protected SaleManager sm = new SaleManager(this);
+  protected FinancialManager fm = new FinancialManager(this, sm);
+  protected ItemScanner is = new ItemScanner(this, om, fm);
 
   // Store constructor.
   Store(String DataFileName, Logger logger) throws ClassNotFoundException, IOException {
@@ -51,16 +57,6 @@ public class Store {
     }
 
   }
-
-  Item getItem(String UPC) {
-    for (Item i : itemsList) {
-      if (i.UPC.equals(UPC)) {
-        return i;
-      }
-    }
-    return null;
-  }
-
 
   // A method that is called during the initializing of the store.
   // Takes StoreItems.txt and converts every line into an Item.
@@ -136,8 +132,32 @@ public class Store {
       case "7":
         logger.info(Integer.toString(getItem(lineList.get(1)).orderSize));
         return;
-
-
     }
+  }
+
+  // Reimplement using the map
+  Item getItem(String UPC) {
+    for (Item i : itemsList) {
+      if (i.UPC.equals(UPC)) {
+        return i;
+      }
+    }
+    return null;
+  }
+
+  // This takes all the daily profits, takes them to zero
+  protected void close() {
+    String date = tm.toString();
+    Double revenue = 0.0;
+    Double profit = 0.0;
+
+    for (Item i : itemsList) {
+      revenue += i.revenueToday;
+      profit += i.profitToday;
+      i.revenueToday = 0;
+      i.profitToday = 0;
+    }
+    String entry = "Revenue: " + revenue + ", Profit: " + profit;
+    dailyProfits.put(date, entry);
   }
 }

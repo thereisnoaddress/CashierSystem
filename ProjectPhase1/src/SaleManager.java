@@ -7,7 +7,7 @@ public class SaleManager {
     s = store;
   }
 
-  private boolean checkSale(String UPC) {
+  protected boolean checkSale(String UPC) {
     Item item = s.getItem(UPC);
     if (tm.after(item.saleStart) && tm.before(item.saleEnd)) {
       if (!item.saleStatus) {
@@ -41,6 +41,7 @@ public class SaleManager {
     if (item.saleStart.equals(start) && item.saleStart.equals(end)) {
       item.saleStart = null;
       item.saleEnd = null;
+
       String log = "The sale from " + start + " until " + end + " has been removed on "
           + tm.timeStamp();
     } else {
