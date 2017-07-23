@@ -1,4 +1,6 @@
-public class FinancialManager {
+import java.io.Serializable;
+
+public class FinancialManager implements Serializable {
   Store s;
   SaleManager sm;
 

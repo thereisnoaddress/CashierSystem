@@ -1,7 +1,9 @@
+import java.io.Serializable;
+
 /**
  * Scans stuff
  */
-class ItemScanner {
+class ItemScanner implements Serializable {
   protected Store s;
   protected OrderManager om;
   protected FinancialManager fm;

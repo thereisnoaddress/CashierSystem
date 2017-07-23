@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Date;
 
-public class TimeManager {
+public class TimeManager implements Serializable{
 
 
   // I don't think this is used

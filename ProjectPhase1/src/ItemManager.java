@@ -1,4 +1,6 @@
-public class ItemManager {
+import java.io.Serializable;
+
+public class ItemManager implements Serializable {
   protected Store s;
   protected TimeManager tm = new TimeManager();
 

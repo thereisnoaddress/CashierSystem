@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ import javax.xml.crypto.Data;
  *
  * Implement close() method that closes the daily values and puts them into storage.
  */
-public class Store {
+public class Store implements Serializable {
 
   protected String name;
   protected ArrayList<Item> itemsList = new ArrayList<>();
