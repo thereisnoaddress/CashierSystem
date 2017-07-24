@@ -11,4 +11,14 @@ which denotes that broccoli has a UPC number of 10000 and its section is produce
 There should not be any extra spaces before or after the commas. 
 
 ***Compling the program***
-Press run to complie the program. The program will first ask for the path to the aforementioned StoreItems.txt file. After the user enters in the correct database file, 
+Press run to complie the program. 
+- The first time the user runs the program, the program will ask the user to enter a path to StoreItems.txt, which is the aforementioned database file. 
+The program will then ask the user for a path to Events.txt. Our Events.txt file uses a code-to-action system, which is defined in eventCodes.txt. For example, 1 means get name, 2 means get item, etc.
+
+Every line is formatted in such a way that the first number means an action, the second and consequent numbers are data values. For example, a line could be: 
+>>> 1,100001
+which means "get the name of the item with UPC 100001".
+
+The program will run Events.txt line by line, storing the output in log.txt. 
+
+When the program finishes running, it will save itself as Store.ser so that next time when it runs it won't have to set up the database again. 
