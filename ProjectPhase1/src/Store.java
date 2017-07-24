@@ -1,27 +1,12 @@
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
-import javax.xml.crypto.Data;
-import java.util.Arrays;
 
 /**
  * The Store class.
@@ -30,7 +15,6 @@ import java.util.Arrays;
  */
 public class Store implements Serializable {
 
-  protected String name;
   private OrderManager om = new OrderManager(this);
   private SaleManager sm = new SaleManager(this);
   private FinancialManager fm = new FinancialManager(this, sm);
@@ -40,7 +24,6 @@ public class Store implements Serializable {
   private ArrayList<Item> itemsList = new ArrayList<>();
   private ArrayList<String> dailyProfits = new ArrayList<>();
   private ArrayList<String> pendingOrders = new ArrayList<>();
-  protected Map<String, Item> items;
   static Logger logger;
 
   Store(String DataFileName, Logger logger) throws ClassNotFoundException, IOException {
@@ -81,7 +64,7 @@ public class Store implements Serializable {
       String line = fileInput.readLine();
 
       while (line != null) {
-        String[] data = line.split("\\,");
+        String[] data = line.split(",");
         Item temp = new Item(data[0], data[1], data[2], data[3],
             Integer.parseInt(data[4]), Double.parseDouble(data[5]), Double.parseDouble(data[6]),
             Integer.parseInt(data[7]), Integer.parseInt(data[8]), data[9]);
@@ -114,7 +97,7 @@ public class Store implements Serializable {
   // A method that reads every line of Events.txt and processes the user's command.
   private void processEvent(String instruction) {
 
-    ArrayList<String> lineList = new ArrayList<>(Arrays.asList(instruction.split("\\,")));
+    ArrayList<String> lineList = new ArrayList<>(Arrays.asList(instruction.split(",")));
 
     switch (lineList.get(0)) {
       // 0 closes out the daily values and maps them to daily revenues and daily profits.
@@ -223,7 +206,6 @@ public class Store implements Serializable {
         logger.info("I have set the bought price of " + getItem(lineList.get(1)).name + " to: " + lineList.get(2));
         return;
 
-
       case "25":
         im.setSellPrice(lineList.get(1), Double.parseDouble(lineList.get(2)));
         logger.info("I have set the sell price of " + getItem(lineList.get(1)).name + " to: " + lineList.get(2));
@@ -239,18 +221,15 @@ public class Store implements Serializable {
         logger.info("I have set the threshold of " + getItem(lineList.get(1)).name + " to: " + lineList.get(2));
         return;
 
-
       case "28":
         is.scanIn(lineList.get(1), Integer.parseInt(lineList.get(2)));
         logger.info("I have scanned in" + lineList.get(2) + getItem(lineList.get(1)).name  + "to the store");
         return;
 
-
       case "29":
         is.sell(lineList.get(1));
         logger.info(getItem(lineList.get(1)).name  + "is sold");
         return;
-
 
       case "30":
         is.returnItem(lineList.get(1),Integer.parseInt(lineList.get(2)));
@@ -262,24 +241,20 @@ public class Store implements Serializable {
         logger.info("I have set " + getItem(lineList.get(1)).name  + " to supplier: " + lineList.get(2));
         return;
 
-
       case "32":
         om.customOrder(lineList.get(1), Integer.parseInt(lineList.get(2)));
         logger.info(lineList.get(2) + " units of " + getItem(lineList.get(1)).name  + " have been ordered ");
         return;
-
 
       case "33":
         om.cancelPendingOrder(lineList.get(1), Integer.parseInt(lineList.get(2)));
         logger.info(lineList.get(2) + " units of " + getItem(lineList.get(1)).name  + " have been canceled ");
         return;
 
-
       case "34":
         logger.info(om.viewPendingOrders(lineList.get(1)));
         return;
 
-//time manager
       case "35":
         logger.info(Boolean.toString(sm.checkSale(lineList.get(1))));
         return;
@@ -295,7 +270,6 @@ public class Store implements Serializable {
             " with sale price:" + lineList.get(4) + " on " + tm.timeStamp());
         return;
 
-//salemanager line 43
       case "38":
         sm.removeSale(lineList.get(1), lineList.get(2), lineList.get(3));
         logger.info("The sale for " + getItem(lineList.get(1)).name + " from " + lineList.get(2) + " to " + lineList.get(3) + " has been removed on"
@@ -305,7 +279,6 @@ public class Store implements Serializable {
       case "39":
         logger.info(sm.getSaleDuration(lineList.get(1)));
         return;
-
 
       case "40":
         sm.setSaleStatusOff(lineList.get(1));
