@@ -5,7 +5,7 @@ public class SaleManager implements Serializable{
   protected Store s;
   private TimeManager tm = new TimeManager();
 
-  protected SaleManager(Store store) {
+  SaleManager(Store store) {
     s = store;
   }
 
@@ -57,7 +57,7 @@ public class SaleManager implements Serializable{
    *                    for example: Sat Jul 22 18:27:06 EDT 2017
    * @param price   The price of the Item while on sale
    */
-  protected void addSale(String UPC, String start, String end, double price) {
+  void addSale(String UPC, String start, String end, double price) {
     Item item = s.getItem(UPC);
     item.saleStatus = true;
     item.saleStart = start;
@@ -77,7 +77,7 @@ public class SaleManager implements Serializable{
    *                      The format is: www mmm dd hh:mm:ss TMZ yyyy
    *                      for example: Sat Jul 22 18:27:06 EDT 2017
    */
-  protected void removeSale(String UPC, String start, String end) {
+  void removeSale(String UPC, String start, String end) {
     Item item = s.getItem(UPC);
     if (item.saleStart.equals(start) && item.saleStart.equals(end)) {
       item.saleStart = null;
@@ -95,7 +95,7 @@ public class SaleManager implements Serializable{
    * @param UPC   The UPC of the item to be set on sale
    * @return      The number of days of the sale
    */
-  protected String getSaleDuration(String UPC) {
+  String getSaleDuration(String UPC) {
     Item item = s.getItem(UPC);
     if (item.saleStart != null && item.saleEnd != null) {
       int start = Integer.parseInt(item.saleStart.split(" ")[2]);

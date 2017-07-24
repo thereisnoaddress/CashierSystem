@@ -1,4 +1,3 @@
 close() method from store in Events method
 events.txt method
 Make sure that the same UPC is not reused
-Write for loops and access methods for each of the String arrays

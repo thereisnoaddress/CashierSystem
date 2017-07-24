@@ -121,7 +121,6 @@ public class Store implements Serializable {
       case "0":
         logger.info("Session saved.");
         closeDailyTotals();
-        //saveToFile();
         break;
 
       case "1":
@@ -185,19 +184,19 @@ public class Store implements Serializable {
         return;
 
       case "16":
-        logger.info(getItem(lineList.get(1)).InfoToString(getItem(lineList.get(1)).orderHistory));
+        logger.info(getItem(lineList.get(1)).infoToString(getItem(lineList.get(1)).orderHistory));
         return;
 
       case "17":
-        logger.info(getItem(lineList.get(1)).InfoToString(getItem(lineList.get(1)).pendingOrders));
+        logger.info(getItem(lineList.get(1)).infoToString(getItem(lineList.get(1)).pendingOrders));
         return;
 
       case "18":
-        logger.info(getItem(lineList.get(1)).InfoToString(getItem(lineList.get(1)).salesHistory));
+        logger.info(getItem(lineList.get(1)).infoToString(getItem(lineList.get(1)).salesHistory));
         return;
 
       case "19":
-        logger.info(getItem(lineList.get(1)).InfoToString(getItem(lineList.get(1)).priceHistory));
+        logger.info(getItem(lineList.get(1)).infoToString(getItem(lineList.get(1)).priceHistory));
         return;
 
       case "20":
@@ -368,7 +367,7 @@ public class Store implements Serializable {
       i.profitToday = 0.0;
     }
     String entry = "Revenue: " + revenue + ", Profit: " + profit;
-    dailyProfits.add(entry);
+    dailyProfits.add(date + " " + entry);
     logger.info("All of the daily revenues and profits have been closed out.");
   }
 
@@ -428,7 +427,6 @@ public class Store implements Serializable {
     StringBuilder sb = new StringBuilder();
     for (String s : dailyProfits) {
       sb.append(s);
-      sb.append(System.lineSeparator());
       sb.append(System.lineSeparator());
     }
     return sb.toString();

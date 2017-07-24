@@ -3,9 +3,9 @@ import java.io.Serializable;
 public class OrderManager implements Serializable{
 
   protected Store s;
-  protected TimeManager tm = new TimeManager();
+  private TimeManager tm = new TimeManager();
 
-  protected OrderManager(Store store) { s = store; }
+  OrderManager(Store store) { s = store; }
 
   void setSupplier(String UPC, String supplier) {
     Item item = s.getItem(UPC);

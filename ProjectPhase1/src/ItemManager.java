@@ -4,7 +4,7 @@ public class ItemManager implements Serializable{
   protected Store s;
   protected TimeManager tm = new TimeManager();
 
-  protected ItemManager(Store store) {
+  ItemManager(Store store) {
     s = store;
   }
 

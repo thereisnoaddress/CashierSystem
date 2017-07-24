@@ -9,7 +9,7 @@ class ItemScanner implements Serializable {
   private FinancialManager fm;
   private TimeManager tm = new TimeManager();
 
-  protected ItemScanner(Store store, OrderManager orderManager, FinancialManager financialManager) {
+  ItemScanner(Store store, OrderManager orderManager, FinancialManager financialManager) {
     s = store;
     om = orderManager;
     fm = financialManager;
@@ -34,7 +34,7 @@ class ItemScanner implements Serializable {
    * @param UPC   The UPC of the Item whose quantity we'd like to check
    * @return      The quantity of the Item
    */
-  protected int checkInStock(String UPC) {
+  int checkInStock(String UPC) {
     s.logger.info("You have checked if UPC " + UPC + " is in stock.");
     return s.getItem(UPC).quantity;
   }
@@ -63,7 +63,7 @@ class ItemScanner implements Serializable {
    * @param UPC         The UPC of the Item being scanned in
    * @param quantity    The quantity to be scanned in
    */
-  protected void scanIn(String UPC, int quantity) {
+  void scanIn(String UPC, int quantity) {
     Item item = s.getItem(UPC);
     if (item != null) {
       item.quantity += quantity;
@@ -87,7 +87,7 @@ class ItemScanner implements Serializable {
    * @param UPC       The UPC of the Item whose orderHistory we'd like to update.
    * @param quantity  The quantity associated with the order
    */
-  void addOrderHistory(String UPC, int quantity) {
+  private void addOrderHistory(String UPC, int quantity) {
     Item item = s.getItem(UPC);
     item.orderHistory.add(quantity + " items were added on " + tm.timeStamp());
   }
@@ -101,7 +101,7 @@ class ItemScanner implements Serializable {
    * @param UPC         The UPC of the Item to be sold
    * @param quantity    The quantity of the Item sold
    */
-  void sell(String UPC, int quantity) {
+  private void sell(String UPC, int quantity) {
     Item item = s.getItem(UPC);
     if (item.quantity < item.threshold) {
       om.autoOrder(UPC);
