@@ -1,0 +1,15 @@
+Chris (zhuchri3):
+- Wrote the initial methods and classes of Item and Store
+- Implemented serialization and item processing methods of Store
+- Wrote all the input and output methods for log.txt and ItemList.txt
+- Implemented logger, handler, filehandler
+- Created ItemList.txt
+- Tested and debugged event-related errors and exceptions
+
+Livia (lihuiyan):
+- Implemented the processEvent method in Store. Java
+- Created the Events.txt
+- Created the Events codes.txt
+- Debugging
+- Actively participated in class design discussions
+- Pay close attention to the discussion board and keep teammates updated
