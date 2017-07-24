@@ -184,21 +184,20 @@ public class Store implements Serializable {
         logger.info(Double.toString(getItem(lineList.get(1)).profitToday));
         return;
 
-//find a way to convert arraylist to string
       case "16":
-        logger.info(Arrays.toString(getItem(lineList.get(1)).orderHistory.toArray()));
+        logger.info(getItem(lineList.get(1)).InfoToString(getItem(lineList.get(1)).orderHistory));
         return;
-//same as before
+
       case "17":
-        logger.info(String.join(",", getItem(lineList.get(1)).pendingOrders));
+        logger.info(getItem(lineList.get(1)).InfoToString(getItem(lineList.get(1)).pendingOrders));
         return;
-//same as before
+
       case "18":
-        logger.info(String.join(",", getItem(lineList.get(1)).salesHistory));
+        logger.info(getItem(lineList.get(1)).InfoToString(getItem(lineList.get(1)).salesHistory));
         return;
-//same as before
+
       case "19":
-        logger.info(String.join(",", getItem(lineList.get(1)).priceHistory));
+        logger.info(getItem(lineList.get(1)).InfoToString(getItem(lineList.get(1)).priceHistory));
         return;
 
       case "20":
@@ -225,7 +224,7 @@ public class Store implements Serializable {
         logger.info("I have set the bought price of " + getItem(lineList.get(1)).name + " to: " + lineList.get(2));
         return;
 
-//related to price history
+
       case "25":
         im.setSellPrice(lineList.get(1), Double.parseDouble(lineList.get(2)));
         logger.info("I have set the sell price of " + getItem(lineList.get(1)).name + " to: " + lineList.get(2));
@@ -241,19 +240,19 @@ public class Store implements Serializable {
         logger.info("I have set the threshold of " + getItem(lineList.get(1)).name + " to: " + lineList.get(2));
         return;
 
-//related to sale history
+
       case "28":
         is.scanIn(lineList.get(1), Integer.parseInt(lineList.get(2)));
         logger.info("I have scanned in" + lineList.get(2) + getItem(lineList.get(1)).name  + "to the store");
         return;
 
-// related to sale history
+
       case "29":
         is.sell(lineList.get(1));
         logger.info(getItem(lineList.get(1)).name  + "is sold");
         return;
 
-//related to sale history
+
       case "30":
         is.returnItem(lineList.get(1),Integer.parseInt(lineList.get(2)));
         logger.info(lineList.get(2) + getItem(lineList.get(1)).name  + "have been returned to store");
@@ -264,19 +263,19 @@ public class Store implements Serializable {
         logger.info("I have set " + getItem(lineList.get(1)).name  + " to supplier: " + lineList.get(2));
         return;
 
-//related to pendingorder
+
       case "32":
         om.customOrder(lineList.get(1), Integer.parseInt(lineList.get(2)));
         logger.info(lineList.get(2) + " units of " + getItem(lineList.get(1)).name  + " have been ordered ");
         return;
 
-//pendingorder
+
       case "33":
         om.cancelPendingOrder(lineList.get(1), Integer.parseInt(lineList.get(2)));
         logger.info(lineList.get(2) + " units of " + getItem(lineList.get(1)).name  + " have been canceled ");
         return;
 
-//pendingorder
+
       case "34":
         logger.info(om.viewPendingOrders(lineList.get(1)));
         return;
@@ -308,7 +307,7 @@ public class Store implements Serializable {
         logger.info(sm.getSaleDuration(lineList.get(1)));
         return;
 
-//pricehistory
+
       case "40":
         sm.setSaleStatusOff(lineList.get(1));
         logger.info(getItem(lineList.get(1)).name + "is no longer on sale on " + tm.timeStamp());
