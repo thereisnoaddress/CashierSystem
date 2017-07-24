@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +26,7 @@ public class Store implements Serializable {
   private ArrayList<String> dailyProfits = new ArrayList<>();
   private ArrayList<String> pendingOrders = new ArrayList<>();
   static Logger logger;
+  private HashMap<String, Item> UPCToItem = new HashMap<String, Item>();
 
   Store(String DataFileName, Logger logger) throws ClassNotFoundException, IOException {
     // Store constructor.
@@ -47,12 +49,7 @@ public class Store implements Serializable {
    * @return      The Item with the specified UPC
    */
   Item getItem(String UPC) {
-    for (Item i : itemsList) {
-      if (i.UPC.equals(UPC)) {
-        return i;
-      }
-    }
-    return null;
+    return UPCToItem.get(UPC);
   }
 
   // A method that is called during the initializing of the store.
@@ -69,6 +66,7 @@ public class Store implements Serializable {
             Integer.parseInt(data[4]), Double.parseDouble(data[5]), Double.parseDouble(data[6]),
             Integer.parseInt(data[7]), Integer.parseInt(data[8]), data[9]);
         itemsList.add(temp);
+        UPCToItem.put(temp.UPC, temp);
         line = fileInput.readLine();
         logger.info(data[1] + " has been added to the store.");
       }
