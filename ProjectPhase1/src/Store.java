@@ -354,6 +354,7 @@ public class Store implements Serializable {
     }
     String entry = "Revenue: " + revenue + ", Profit: " + profit;
     dailyProfits.add(entry);
+    logger.info("All of the daily revenues and profits have been closed out.");
   }
 
   /**
@@ -411,7 +412,7 @@ public class Store implements Serializable {
   protected String getDailyProfits() {
     StringBuilder sb = new StringBuilder();
     for (String s : dailyProfits) {
-      sb.append(s.toString());
+      sb.append(s);
       sb.append(System.lineSeparator());
       sb.append(System.lineSeparator());
     }

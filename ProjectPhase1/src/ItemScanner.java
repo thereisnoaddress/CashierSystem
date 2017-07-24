@@ -23,7 +23,7 @@ class ItemScanner implements Serializable {
    * @return      The formatted String that shows the key attributes of the Item
    */
   protected String UPCLookup(String UPC) {
-    s.logger.info("You have looed up UPC " + UPC);
+    s.logger.info("You have looked up UPC " + UPC);
     return s.getItem(UPC).toString();
   }
 
@@ -70,7 +70,7 @@ class ItemScanner implements Serializable {
       item.unshelvedQuantity = true;
       om.cancelPendingOrder(UPC, quantity);
       addOrderHistory(UPC, quantity);
-      s.logger.info(quantity + " item(s) of " + item + " have been scanned in on " + tm.timeStamp());
+      s.logger.info(quantity + " item(s) of " + item + " have been scanned in.");
     } else {
       System.out.println("This UPC is not associated with any item in store!");
     }
@@ -111,11 +111,13 @@ class ItemScanner implements Serializable {
       item.soldToday += quantity;
       item.salesHistory.add(quantity + "units sold of " + item.name);
       fm.recordSale(UPC, quantity);
-      String log = quantity + " item(s) of " + item.name + "have been sold on " + tm.timeStamp();
+      s.logger.info(quantity + " item(s) of " + item.name +
+          "have been sold.");
       }
     else {
       System.out.println("Don't have this much inventory to scan out!");
-      String log = "Error: insufficient quantity of " + item.name + ". Scan was rejected on " + tm.timeStamp();
+      s.logger.info("Error: insufficient quantity of " + item.name +
+          ". Scan was rejected.");
     }
   }
   void sell(String UPC) {  // This method is run if no parameter is given
@@ -137,9 +139,7 @@ class ItemScanner implements Serializable {
     item.soldToday -= quantity;
     item.salesHistory.add(quantity + "unit(s) of " + item.name + " were returned on "
         + tm.timeStamp());
-    String log = quantity + "unit(s) of " + item.name + "were returned on "
-        + tm.timeStamp();
-
+    s.logger.info(quantity + "unit(s) of " + item.name + "were returned.");
     fm.recordSale(UPC, -quantity);
   }
 

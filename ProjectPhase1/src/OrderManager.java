@@ -10,6 +10,7 @@ public class OrderManager implements Serializable{
   void setSupplier(String UPC, String supplier) {
     Item item = s.getItem(UPC);
     item.supplier = supplier;
+    s.logger.info("The new supplier of " + s.getItem(UPC).name + " is " + supplier);
   }
 
   /**
@@ -21,8 +22,10 @@ public class OrderManager implements Serializable{
    */
   void autoOrder(String UPC) {
     Item item = s.getItem(UPC);
-    String order = item.threshold * 3 + " units of " + item.name + " have been ordered on " + "timestamp";
+    String order = item.threshold * 3 + " units of " + item.name +
+        " have been ordered on " + tm.timeStamp();
     item.pendingOrders.add(order);
+    s.logger.info("" + item.orderSize + " of " + item.name + " have been auto-ordered.");
   }
 
   /**
@@ -48,10 +51,11 @@ public class OrderManager implements Serializable{
    */
   void cancelPendingOrder(String UPC, int quantity) {
     Item item = s.getItem(UPC);
-    for (String s : item.pendingOrders) {
-      String[] temp = s.split(",");
+    for (String st : item.pendingOrders) {
+      String[] temp = st.split(",");
       if (temp[0].equals(quantity)) {
-        item.pendingOrders.remove(s);
+        item.pendingOrders.remove(st);
+        s.logger.info("Order of " + quantity + " of " + UPC + " has been cancelled.");
       }
     }
   }

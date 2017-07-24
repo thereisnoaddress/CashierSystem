@@ -40,6 +40,7 @@ public class SaleManager implements Serializable{
   void setSalePrice(String UPC, double price) {
     Item item = s.getItem(UPC);
     item.salePrice = price;
+    s.logger.info("The new sale price of " + s.getItem(UPC).name + " is " + price);
   }
 
   /**
@@ -62,7 +63,7 @@ public class SaleManager implements Serializable{
     item.saleStart = start;
     item.saleEnd = end;
     item.salePrice = price;
-    String log = "A sale has been set from " + start + " until " + end + " on " + tm.timeStamp();
+    s.logger.info("A sale has been set from " + start + " until " + end);
   }
 
   /**
@@ -81,10 +82,9 @@ public class SaleManager implements Serializable{
     if (item.saleStart.equals(start) && item.saleStart.equals(end)) {
       item.saleStart = null;
       item.saleEnd = null;
-      String log = "The sale from " + start + " until " + end + " has been removed on "
-          + tm.timeStamp();
+      s.logger.info("The sale from " + start + " until " + end + " has been removed.");
     } else {
-      String log = "No such sale exists! No changes have been made.";
+      s.logger.info("No such sale exists! No changes have been made.");
     }
   }
 
@@ -115,7 +115,8 @@ public class SaleManager implements Serializable{
   private void setSaleStatusOn(String UPC) {
     Item item = s.getItem(UPC);
     item.saleStatus = true;
-    item.priceHistory.add("This item is now on sale. " + tm.timeStamp());
+    item.priceHistory.add("" + item.name + " is now on sale. " + tm.timeStamp());
+    s.logger.info("" + item.name + " is now on sale.");
   }
 
   /**
@@ -128,5 +129,6 @@ public class SaleManager implements Serializable{
     Item item = s.getItem(UPC);
     item.saleStatus = false;
     item.priceHistory.add("This item is no longer on sale. " + tm.timeStamp());
+    s.logger.info("" + item.name + " is no longer on sale.");
   }
 }
