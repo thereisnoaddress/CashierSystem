@@ -38,7 +38,7 @@ public class Store implements Serializable {
   private ItemManager im = new ItemManager(this);
   private TimeManager tm = new TimeManager();
   private ArrayList<Item> itemsList = new ArrayList<>();
-  private ArrayList<String> dailyProfits;
+  private ArrayList<String> dailyProfits = new ArrayList<>();
   private ArrayList<String> pendingOrders = new ArrayList<>();
   protected Map<String, Item> items;
   static Logger logger;
@@ -330,15 +330,19 @@ public class Store implements Serializable {
 
       case "45":
         logger.info(this.getItemsList());
+        return;
 
       case "46":
         logger.info(this.getUnshelvedItemsList());
+        return;
 
       case "47":
         logger.info(this.getPendingOrders());
+        return;
 
       case "48":
         logger.info(this.getDailyProfits());
+        return;
 
       default:
         logger.info(" Error: unrecognized command.");
