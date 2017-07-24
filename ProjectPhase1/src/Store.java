@@ -337,9 +337,19 @@ public class Store implements Serializable {
         logger.info(this.getDailyProfits());
         return;
 
+      case "49":
+        logger.info("Employee " + lineList.get(1) + " has signed in.");
+        return;
+
+      case "50":
+        logger.info("Employee " + lineList.get(1) + " has signed out.");
+        return;
+
       default:
         logger.info(" Error: unrecognized command.");
         break;
+
+
 
     }
   }
