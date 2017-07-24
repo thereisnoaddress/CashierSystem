@@ -13,3 +13,10 @@ Livia (lihuiyan):
 - Debugging
 - Actively participated in class design discussions
 - Pay close attention to the discussion board and keep teammates updated
+
+Ramis Najam (najamram):
+-Added attributes to Item
+-Created and did most of the methods for: FinancialManager, ItemManager, ItemScanner,
+OrderManager, SaleManager, TimeManager
+-Wrote some getter methods in Store
+-Created UML Diagram

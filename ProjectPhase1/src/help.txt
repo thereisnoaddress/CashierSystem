@@ -20,7 +20,7 @@ We have included a file called "Events codes.txt" that has more information on h
 
 ***Compling the program***
 
-Press run to complie the program. 
+Press run to compile the program.
 - The first time the user runs the program, the program will ask the user to enter a path to StoreItems.txt, which is the aforementioned database file. 
 The program will then ask the user for a path to Events.txt. 
 
