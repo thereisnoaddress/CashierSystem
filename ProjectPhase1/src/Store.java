@@ -38,7 +38,7 @@ public class Store implements Serializable {
   private ItemManager im = new ItemManager(this);
   private TimeManager tm = new TimeManager();
   private ArrayList<Item> itemsList = new ArrayList<>();
-  private ArrayList<String> dailyProfits;
+  private ArrayList<String> dailyProfits = new ArrayList<>();
   private ArrayList<String> pendingOrders = new ArrayList<>();
   protected Map<String, Item> items;
   static Logger logger;
