@@ -1,24 +1,23 @@
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 
-public class TimeManager implements Serializable{
+public class TimeManager implements Serializable {
 
   /**
    * Returns the Date object corresponding to the Date instance at which this method is called.
    *
-   * @return    The Date object for this instant.
+   * @return The Date object for this instant.
    */
   protected Date getDate() {
     return new Date();
-  }
+  }  // Will be used in Phase 2
 
   /**
    * This method returns the String of today's date, but does not include the time.
    *
-   * @return    Formatted String of today's date
+   * @return Formatted String of today's date
    */
-  protected String getTodaysDate() {
+  protected String getTodaysDate() {  // It is used, but IntelliJ doesn't recognize it
     Date d = new Date();
     String[] values = d.toString().split(" ");
     return values[0] + values[1] + values[2] + values[5];
@@ -28,10 +27,9 @@ public class TimeManager implements Serializable{
    * This method checks if the current instant is one a different date
    * than the instance defined in the parameter
    *
-   * @param reference   The string date we wish to compare to.
-   *                      The format is: www mmm dd hh:mm:ss TMZ yyyy
-   *                      for example: Sat Jul 22 18:27:06 EDT 2017
-   * @return            Returns whether the current date and specified date are different
+   * @param reference The string date we wish to compare to. The format is: www mmm dd hh:mm:ss TMZ
+   * yyyy for example: Sat Jul 22 18:27:06 EDT 2017
+   * @return Returns whether the current date and specified date are different
    */
   protected boolean checkDifferentDates(String reference) {
     return before(reference) || after(reference);
@@ -40,7 +38,7 @@ public class TimeManager implements Serializable{
   /**
    * Returns the formatted String of the current Date instant.
    *
-   * @return    Formatted String of the current date instance.
+   * @return Formatted String of the current date instance.
    */
   String timeStamp() {
     Date d = new Date();
@@ -51,8 +49,8 @@ public class TimeManager implements Serializable{
    * This method checks whether the current instance is before the reference instance
    * specified in the parameter.
    *
-   * @param reference   The string of the date to be compared to
-   * @return            Whether or not the current date is before the reference
+   * @param reference The string of the date to be compared to
+   * @return Whether or not the current date is before the reference
    */
   boolean before(String reference) {
     Date d = new Date();
@@ -110,8 +108,6 @@ public class TimeManager implements Serializable{
         cur_month = 12;
         break;
     }
-
-
 
     int cur_date = Integer.parseInt(cur_values[2]);
     int cur_year = Integer.parseInt(cur_values[5]);
@@ -184,12 +180,11 @@ public class TimeManager implements Serializable{
    * This method checks whether the current instance is after the reference instance
    * specified in the parameter.
    *
-   * @param reference   The string of the date to be compared to
-   *                        The format is: www mmm dd hh:mm:ss TMZ yyyy
-   *                        for example: Sat Jul 22 18:27:06 EDT 2017
-   * @return            Whether or not the current date is after the reference
+   * @param reference The string of the date to be compared to The format is: www mmm dd hh:mm:ss
+   * TMZ yyyy for example: Sat Jul 22 18:27:06 EDT 2017
+   * @return Whether or not the current date is after the reference
    */
-  protected boolean after(String reference) {
+  boolean after(String reference) {
     Date d = new Date();
     String[] cur_values = d.toString().split(" ");
     String[] ref_values = reference.split(" ");
@@ -307,7 +302,6 @@ public class TimeManager implements Serializable{
     String[] long_ref_time = ref_values[3].split(":");
     String long_ref_time2 = long_ref_time[0] + long_ref_time[1] + long_ref_time[2];
     int ref_time = Integer.parseInt(long_ref_time2);
-
 
     return cur_year >= ref_year && cur_month >= ref_month && cur_date >= ref_date &&
         cur_time > ref_time;

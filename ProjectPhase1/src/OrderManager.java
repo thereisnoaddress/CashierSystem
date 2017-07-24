@@ -1,11 +1,13 @@
 import java.io.Serializable;
 
-public class OrderManager implements Serializable{
+public class OrderManager implements Serializable {
 
   protected Store s;
   private TimeManager tm = new TimeManager();
 
-  OrderManager(Store store) { s = store; }
+  OrderManager(Store store) {
+    s = store;
+  }
 
   void setSupplier(String UPC, String supplier) {
     Item item = s.getItem(UPC);
@@ -18,7 +20,7 @@ public class OrderManager implements Serializable{
    * the Item with the given UPC has fallen below the threshold quantity.
    * This order is then added to pending orders.
    *
-   * @param UPC   The UPC of the Item that is to be auto ordered.
+   * @param UPC The UPC of the Item that is to be auto ordered.
    */
   void autoOrder(String UPC) {
     Item item = s.getItem(UPC);
@@ -32,8 +34,8 @@ public class OrderManager implements Serializable{
    * This method allows the manager to make a custom order of the Item with the given
    * UPC
    *
-   * @param UPC         The Item to be ordered
-   * @param quantity    The quantity to be ordered
+   * @param UPC The Item to be ordered
+   * @param quantity The quantity to be ordered
    */
   void customOrder(String UPC, int quantity) {  // String date should be automatically
     Item item = s.getItem(UPC);
@@ -46,14 +48,14 @@ public class OrderManager implements Serializable{
    * The system checks if there are any pending orders with the specified quantity,
    * and then cancels the first match.
    *
-   * @param UPC         The UPC of the Item whose order we want to cancel
-   * @param quantity    The corresponding quantity associated with the order we want to cancel
+   * @param UPC The UPC of the Item whose order we want to cancel
+   * @param quantity The corresponding quantity associated with the order we want to cancel
    */
   void cancelPendingOrder(String UPC, int quantity) {
     Item item = s.getItem(UPC);
     for (String st : item.pendingOrders) {
       String[] temp = st.split(",");
-      if (temp[0].equals(quantity)) {
+      if (Integer.parseInt(temp[0]) == quantity) {
         item.pendingOrders.remove(st);
         s.logger.info("Order of " + quantity + " of " + UPC + " has been cancelled.");
       }
@@ -64,8 +66,8 @@ public class OrderManager implements Serializable{
    * This method is used to view a formatted list of all pending orders for the
    * specified Item.
    *
-   * @param UPC   The UPC of the Item whose pendingOrders we'd like to see
-   * @return      The formatted String of pendingOrders
+   * @param UPC The UPC of the Item whose pendingOrders we'd like to see
+   * @return The formatted String of pendingOrders
    */
   String viewPendingOrders(String UPC) {
     Item item = s.getItem(UPC);

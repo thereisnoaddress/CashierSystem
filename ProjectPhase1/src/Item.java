@@ -57,21 +57,17 @@ public class Item implements Serializable {
 
 
   String infoToString(ArrayList<String> info) {
-    String returnString = "";
+
     if (info == null) {
       return "";
     } else {
-      for (int i = 0; i < info.size(); i++) {
-        returnString += info.get(i);
-        returnString += ",";
+      StringBuilder sb = new StringBuilder();
+      for (String i : info) {
+        sb.append(i);
+        sb.append(", ");
       }
-      return returnString;
+      return sb.toString();
     }
-
   }
 }
-
-
-
-
 

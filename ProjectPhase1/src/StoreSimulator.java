@@ -24,11 +24,9 @@ public class StoreSimulator implements Serializable {
   private static final Handler consoleHandler = new ConsoleHandler();
 
 
-
   public static void main(String[] args)
       throws IOException, ClassNotFoundException {
     String filename = "store.ser";
-
 
     // If the store is being built for the first time
     FileInputStream fis;
@@ -45,7 +43,6 @@ public class StoreSimulator implements Serializable {
       s = initialStoreCreation();
     }
 
-
     final FileHandler fileHandler = new FileHandler("log.txt", true);
     logger.setLevel(Level.ALL);
     consoleHandler.setLevel(Level.ALL);
@@ -60,7 +57,6 @@ public class StoreSimulator implements Serializable {
     String eventsPath = kbd2.readLine();
     s.processEvents(eventsPath);
 
-
     FileOutputStream fos;
     ObjectOutputStream out;
     // Save the store to store.ser
@@ -74,9 +70,6 @@ public class StoreSimulator implements Serializable {
     }
 
     // Read the store from store.ser
-
-
-
 
   }
 
@@ -101,8 +94,6 @@ public class StoreSimulator implements Serializable {
     logger.info("A new store has been created.");
     return s;
   }
-
-
 
 
 }
