@@ -237,6 +237,81 @@ public class Store implements Serializable {
         logger.info("I have scanned in" + lineList.get(2) + lineList.get(1) + "to the store");
         return;
 
+      case "29":
+        is.sell(lineList.get(1));
+        logger.info(lineList.get(1) + "is sold");
+        return;
+
+      case "30":
+        is.returnItem(lineList.get(1),Integer.parseInt(lineList.get(2)));
+        logger.info(lineList.get(2) + lineList.get(1) + "have been returned to store");
+        return;
+
+      case "31":
+        om.setSupplier(lineList.get(1),lineList.get(2));
+        logger.info("I have set " + lineList.get(1) + " to " + lineList.get(2));
+        return;
+
+      case "32":
+        om.customOrder(lineList.get(1), Integer.parseInt(lineList.get(2)));
+        logger.info(lineList.get(2) + " units of " + lineList.get(1) + " have been ordered ");
+        return;
+
+      case "33":
+        om.cancelPendingOrder(lineList.get(1), Integer.parseInt(lineList.get(2)));
+        logger.info(lineList.get(2) + " units of " + lineList.get(1) + " have been canceled ");
+        return;
+
+      case "34":
+        logger.info(om.viewPendingOrders(lineList.get(1)));
+        return;
+
+      case "35":
+        logger.info(Boolean.toString(sm.checkSale(lineList.get(1))));
+        return;
+
+      case "36":
+        sm.setSalePrice(lineList.get(1), Double.parseDouble(lineList.get(2)));
+        logger.info("I have set " + lineList.get(1) + " to " + lineList.get(2));
+        return;
+
+      case "37":
+        sm.addSale(lineList.get(1), lineList.get(2), lineList.get(3),Double.parseDouble(lineList.get(4)));
+        logger.info("A sale has been set from " + lineList.get(2) + " until " + lineList.get(3) + " on " + tm.timeStamp());
+        return;
+
+      case "38":
+        sm.removeSale(lineList.get(1), lineList.get(2), lineList.get(3));
+        logger.info("The sale from " + lineList.get(2) + " until " + lineList.get(3) + " has been removed on "
+            + tm.timeStamp());
+        return;
+
+      case "39":
+        logger.info(sm.getSaleDuration(lineList.get(1)));
+        return;
+
+      case "40":
+        sm.setSaleStatusOff(lineList.get(1));
+        logger.info(lineList.get(1) + "is no longer on sale." + tm.timeStamp());
+
+      case "41":
+        logger.info(Integer.toString(getItem(lineList.get(1)).aisle));
+        return;
+
+      case "42":
+        logger.info(getItem(lineList.get(1)).section);
+        return;
+
+      case "43":
+        logger.info(getItem(lineList.get(1)).subsection);
+        return;
+
+      case "44":
+        logger.info(Double.toString(is.checkInStock(lineList.get(1))));
+        return;
+
+
+
       default:
         logger.info(" Error: unrecognized command.");
         break;

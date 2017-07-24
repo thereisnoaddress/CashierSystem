@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class TimeManager implements Serializable{
 
-
   protected Date getDate() {
     return new Date();
   }
