@@ -1,6 +1,7 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 
+
 public class Item implements Serializable {
 
   protected String name;
@@ -16,12 +17,12 @@ public class Item implements Serializable {
   protected int orderSize;
   protected boolean saleStatus = false;
   protected double salePrice;
-  protected String saleStart;  // We'll need to figure out how to implement time
+  protected String saleStart;
   protected String saleEnd;
-  protected ArrayList<String> orderHistory;  //List of orders made (as well as cancellations)
-  protected ArrayList<String> pendingOrders; //List of pending orders
-  protected ArrayList<String> salesHistory;  // History of units sold
-  protected ArrayList<String> priceHistory;  // History of price
+  protected ArrayList<String> orderHistory = new ArrayList<String>();  //List of orders made (as well as cancellations)
+  protected ArrayList<String> pendingOrders = new ArrayList<String>(); //List of pending orders
+  protected ArrayList<String> salesHistory = new ArrayList<String>();  // History of units sold
+  protected ArrayList<String> priceHistory = new ArrayList<String>();  // History of price
   protected String supplier;
   protected int soldToday;  // quantity sold today
   protected double revenueToday = 0.0;  // I have tp reset this, soldToday and profitToday daily somehow
@@ -53,106 +54,22 @@ public class Item implements Serializable {
   public boolean equals(Item i) {
     return UPC.equals(i.UPC);
   }
+
+
+  public String InfoToString(ArrayList<String> info) {
+    String returnString = "";
+    if (info == null) {
+      return "";
+    } else {
+      for (int i = 0; i < info.size(); i++) {
+        returnString += info.get(i);
+        returnString += ",";
+      }
+      return returnString;
+    }
+
+  }
 }
-
-
-  /** These methods are never used as I just access them directly - its more efficient, and I don't think we'll lose marks?
-   * All the set methods are implemented in other classes as needed
-   *
-  protected String getUPC() {
-    return UPC;
-  }
-
-  protected String getName() {
-    return name;
-  }
-
-  protected int getAisle() {
-    return this.aisle;
-  }
-
-  protected String getSection() {
-    return this.section;
-  }
-
-  protected String getSubection() {
-    return this.subsection;
-  }
-
-  double getBoughtPrice() {
-    return boughtPrice;
-  }
-
-  protected double getSellPrice() {
-    return sellPrice;
-  }
-
-  protected String getSaleStart() {
-    return saleStart;
-  }
-
-  protected String getSaleEnd() {
-    return saleEnd;
-  }
-
-  protected boolean getSaleStatus() {
-    return saleStatus;
-  }
-
-  protected double getSalePrice() {
-    return salePrice;
-  }
-
-  protected String getSupplier() {
-    return supplier;
-  }
-
-  protected ArrayList<String> getOrderHistory() {
-    return orderHistory;
-  }
-
-  public int getQuantity() {
-    return quantity;
-  }
-
-  public int getThreshold() {
-    return threshold;
-  }
-
-  public int getOrderSize() {
-    return this.orderSize;
-  }
-
-  protected int getSoldToday() {
-    return soldToday;
-  }
-
-  protected double getRevenueToday() {
-    return revenueToday;
-  }
-
-  protected double getProfitToday() {
-    return profitToday;
-  }
-
-  protected boolean getUnshelvedQuantity() {
-    return unshelvedQuantity;
-  }
-
-  protected ArrayList<String> getPendingOrders() {
-    return pendingOrders;
-  }
-
-  protected ArrayList<String> getSalesHistory() {
-    return salesHistory;
-  }
-
-  protected ArrayList<String> getPriceHistory() {
-    return priceHistory;
-  }
-
-   */
-
 
 
 
