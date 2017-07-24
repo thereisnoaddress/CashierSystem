@@ -1,9 +1,7 @@
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -28,7 +26,7 @@ public class StoreSimulator implements Serializable {
 
 
   public static void main(String[] args)
-      throws IOException, FileNotFoundException, ClassNotFoundException {
+      throws IOException, ClassNotFoundException {
     String filename = "store.ser";
 
 
@@ -42,9 +40,9 @@ public class StoreSimulator implements Serializable {
       in = new ObjectInputStream(fis);
       s = (Store) in.readObject();
       in.close();
-      s.logger = logger;
+      Store.logger = logger;
     } catch (FileNotFoundException ex) {
-      s = InitialStoreCreation();
+      s = initialStoreCreation();
     }
 
 
@@ -82,7 +80,7 @@ public class StoreSimulator implements Serializable {
 
   }
 
-  private static Store InitialStoreCreation() throws IOException, ClassNotFoundException {
+  private static Store initialStoreCreation() throws IOException, ClassNotFoundException {
 
     // Initialize a FileHandler, a consoleHandler, and a logger to output
     // to log.txt
