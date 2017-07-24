@@ -10,7 +10,7 @@ public class Item implements Serializable {
   protected double boughtPrice;
   protected double sellPrice;
   protected String UPC;
-  protected double quantity;
+  protected int quantity;
   protected boolean unshelvedQuantity;  // true if there are units in storage not on the shelves.  // Take out this attribute, and just have a list of unshelved items in store.
   protected int threshold;
   protected int orderSize;
@@ -24,11 +24,11 @@ public class Item implements Serializable {
   protected ArrayList<String> priceHistory;  // History of price
   protected String supplier;
   protected int soldToday;  // quantity sold today
-  protected double revenueToday;  // I have tp reset this, soldToday and profitToday daily somehow
-  protected double profitToday;
+  protected double revenueToday = 0.0;  // I have tp reset this, soldToday and profitToday daily somehow
+  protected double profitToday = 0.0;
 
   protected Item(String UPC, String name, String section, String subsection, int aisle,
-      double boughtPrice, double sellPrice, double quantity, int threshold,
+      double boughtPrice, double sellPrice, int quantity, int threshold,
       String supplier) {
 
     this.UPC = UPC;

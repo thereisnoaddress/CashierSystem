@@ -57,6 +57,12 @@ public class Store implements Serializable {
 
   }
 
+  /**
+   * This method gets the Item for the specified UPC.
+   *
+   * @param UPC   The UPC of the Item we want ot get
+   * @return      The Item with the specified UPC
+   */
   Item getItem(String UPC) {
     for (Item i : itemsList) {
       if (i.UPC.equals(UPC)) {
@@ -330,7 +336,11 @@ public class Store implements Serializable {
     }
   }
 
-  // This takes all the daily profits, takes them to zero
+  /**
+   * This method sums up the revenues and profits for each Item in the store.
+   * It adds them up, and creates an entry in dailyProfits. Once this is done,
+   * it sets the revenueToday and profitToday attributes for each item back to 0.0
+   */
   protected void closeDailyTotals() {
     String date = tm.toString();
     Double revenue = 0.0;
@@ -339,13 +349,18 @@ public class Store implements Serializable {
     for (Item i : itemsList) {
       revenue += i.revenueToday;
       profit += i.profitToday;
-      i.revenueToday = 0;
-      i.profitToday = 0;
+      i.revenueToday = 0.0;
+      i.profitToday = 0.0;
     }
     String entry = "Revenue: " + revenue + ", Profit: " + profit;
     dailyProfits.add(entry);
   }
 
+  /**
+   * This method returns a formatted list of all the Items in Store.
+   *
+   * @return A formatted String of all the items.
+   */
   protected String getItemsList() {
     StringBuilder sb = new StringBuilder();
     for (Item i : itemsList) {
@@ -355,6 +370,12 @@ public class Store implements Serializable {
     return sb.toString();
   }
 
+  /**
+   * This method returns a formatted list of all the Items with unshelvedQuantity
+   * in Store.
+   *
+   * @return A formatted String of all the unshelved Items.
+   */
   protected String getUnshelvedItemsList() {
     StringBuilder sb = new StringBuilder();
     for (Item i : itemsList) {
@@ -366,6 +387,12 @@ public class Store implements Serializable {
     return sb.toString();
   }
 
+  /**
+   * This method returns a formatted list of all the Items in
+   * Store that have pendingOrders.
+   *
+   * @return A formatted String of all Items in pendingOrders.
+   */
   protected String getPendingOrders() {
     StringBuilder sb = new StringBuilder();
     for (String s : pendingOrders) {
@@ -375,6 +402,12 @@ public class Store implements Serializable {
     return sb.toString();
   }
 
+  /**
+   * This method returns a formatted list of the dailyProfits history of the store,
+   * by date.
+   *
+   * @return    A formatted String that lists all the dailyProfits in the Store's history.
+   */
   protected String getDailyProfits() {
     StringBuilder sb = new StringBuilder();
     for (String s : dailyProfits) {
