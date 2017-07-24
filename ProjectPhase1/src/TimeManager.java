@@ -42,7 +42,7 @@ public class TimeManager implements Serializable{
    *
    * @return    Formatted String of the current date instance.
    */
-  protected String timeStamp() {
+  String timeStamp() {
     Date d = new Date();
     return d.toString();
   }
@@ -54,7 +54,7 @@ public class TimeManager implements Serializable{
    * @param reference   The string of the date to be compared to
    * @return            Whether or not the current date is before the reference
    */
-  protected boolean before(String reference) {
+  boolean before(String reference) {
     Date d = new Date();
     String[] cur_values = d.toString().split(" ");
     String[] ref_values = reference.split(" ");

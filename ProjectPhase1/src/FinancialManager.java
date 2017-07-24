@@ -1,10 +1,10 @@
 import java.io.Serializable;
 
-public class FinancialManager implements Serializable{
+class FinancialManager implements Serializable{
   Store s;
-  SaleManager sm;
+  private SaleManager sm;
 
-  protected FinancialManager(Store store, SaleManager saleManager) {
+  FinancialManager(Store store, SaleManager saleManager) {
     s = store;
     sm = saleManager;
   }
@@ -18,7 +18,7 @@ public class FinancialManager implements Serializable{
    * @param UPC         The UPC code of the item to be recorded
    * @param quantity    The quantity of the item
    */
-  protected void recordSale(String UPC, int quantity) {
+  void recordSale(String UPC, int quantity) {
     Item item = s.getItem(UPC);
     double price;
     if (sm.checkSale(item.UPC)) {
