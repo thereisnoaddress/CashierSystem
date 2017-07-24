@@ -328,6 +328,18 @@ public class Store implements Serializable {
         logger.info(Double.toString(is.checkInStock(lineList.get(1))));
         return;
 
+      case "45":
+        logger.info(this.getItemsList());
+
+      case "46":
+        logger.info(this.getUnshelvedItemsList());
+
+      case "47":
+        logger.info(this.getPendingOrders());
+
+      case "48":
+        logger.info(this.getDailyProfits());
+
       default:
         logger.info(" Error: unrecognized command.");
         break;
@@ -340,7 +352,7 @@ public class Store implements Serializable {
    * It adds them up, and creates an entry in dailyProfits. Once this is done,
    * it sets the revenueToday and profitToday attributes for each item back to 0.0
    */
-  protected void closeDailyTotals() {
+  private void closeDailyTotals() {
     String date = tm.toString();
     Double revenue = 0.0;
     Double profit = 0.0;
@@ -361,7 +373,7 @@ public class Store implements Serializable {
    *
    * @return A formatted String of all the items.
    */
-  protected String getItemsList() {
+  private String getItemsList() {
     StringBuilder sb = new StringBuilder();
     for (Item i : itemsList) {
       sb.append(i.toString());
@@ -376,7 +388,7 @@ public class Store implements Serializable {
    *
    * @return A formatted String of all the unshelved Items.
    */
-  protected String getUnshelvedItemsList() {
+  private String getUnshelvedItemsList() {
     StringBuilder sb = new StringBuilder();
     for (Item i : itemsList) {
       if (i.unshelvedQuantity) {
@@ -393,7 +405,7 @@ public class Store implements Serializable {
    *
    * @return A formatted String of all Items in pendingOrders.
    */
-  protected String getPendingOrders() {
+  private String getPendingOrders() {
     StringBuilder sb = new StringBuilder();
     for (String s : pendingOrders) {
       sb.append(s);
@@ -408,7 +420,7 @@ public class Store implements Serializable {
    *
    * @return    A formatted String that lists all the dailyProfits in the Store's history.
    */
-  protected String getDailyProfits() {
+  private String getDailyProfits() {
     StringBuilder sb = new StringBuilder();
     for (String s : dailyProfits) {
       sb.append(s);
