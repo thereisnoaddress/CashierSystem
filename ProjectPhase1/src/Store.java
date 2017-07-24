@@ -57,6 +57,12 @@ public class Store implements Serializable {
 
   }
 
+  /**
+   * This method gets the Item for the specified UPC.
+   *
+   * @param UPC   The UPC of the Item we want ot get
+   * @return      The Item with the specified UPC
+   */
   Item getItem(String UPC) {
     for (Item i : itemsList) {
       if (i.UPC.equals(UPC)) {
@@ -178,21 +184,20 @@ public class Store implements Serializable {
         logger.info(Double.toString(getItem(lineList.get(1)).profitToday));
         return;
 
-//find a way to convert arraylist to string
       case "16":
-        logger.info(Arrays.toString(getItem(lineList.get(1)).orderHistory.toArray()));
+        logger.info(getItem(lineList.get(1)).InfoToString(getItem(lineList.get(1)).orderHistory));
         return;
-//same as before
+
       case "17":
-        logger.info(String.join(",", getItem(lineList.get(1)).pendingOrders));
+        logger.info(getItem(lineList.get(1)).InfoToString(getItem(lineList.get(1)).pendingOrders));
         return;
-//same as before
+
       case "18":
-        logger.info(String.join(",", getItem(lineList.get(1)).salesHistory));
+        logger.info(getItem(lineList.get(1)).InfoToString(getItem(lineList.get(1)).salesHistory));
         return;
-//same as before
+
       case "19":
-        logger.info(String.join(",", getItem(lineList.get(1)).priceHistory));
+        logger.info(getItem(lineList.get(1)).InfoToString(getItem(lineList.get(1)).priceHistory));
         return;
 
       case "20":
@@ -219,7 +224,7 @@ public class Store implements Serializable {
         logger.info("I have set the bought price of " + getItem(lineList.get(1)).name + " to: " + lineList.get(2));
         return;
 
-//related to price history
+
       case "25":
         im.setSellPrice(lineList.get(1), Double.parseDouble(lineList.get(2)));
         logger.info("I have set the sell price of " + getItem(lineList.get(1)).name + " to: " + lineList.get(2));
@@ -235,19 +240,19 @@ public class Store implements Serializable {
         logger.info("I have set the threshold of " + getItem(lineList.get(1)).name + " to: " + lineList.get(2));
         return;
 
-//related to sale history
+
       case "28":
         is.scanIn(lineList.get(1), Integer.parseInt(lineList.get(2)));
         logger.info("I have scanned in" + lineList.get(2) + getItem(lineList.get(1)).name  + "to the store");
         return;
 
-// related to sale history
+
       case "29":
         is.sell(lineList.get(1));
         logger.info(getItem(lineList.get(1)).name  + "is sold");
         return;
 
-//related to sale history
+
       case "30":
         is.returnItem(lineList.get(1),Integer.parseInt(lineList.get(2)));
         logger.info(lineList.get(2) + getItem(lineList.get(1)).name  + "have been returned to store");
@@ -258,19 +263,19 @@ public class Store implements Serializable {
         logger.info("I have set " + getItem(lineList.get(1)).name  + " to supplier: " + lineList.get(2));
         return;
 
-//related to pendingorder
+
       case "32":
         om.customOrder(lineList.get(1), Integer.parseInt(lineList.get(2)));
         logger.info(lineList.get(2) + " units of " + getItem(lineList.get(1)).name  + " have been ordered ");
         return;
 
-//pendingorder
+
       case "33":
         om.cancelPendingOrder(lineList.get(1), Integer.parseInt(lineList.get(2)));
         logger.info(lineList.get(2) + " units of " + getItem(lineList.get(1)).name  + " have been canceled ");
         return;
 
-//pendingorder
+
       case "34":
         logger.info(om.viewPendingOrders(lineList.get(1)));
         return;
@@ -302,7 +307,7 @@ public class Store implements Serializable {
         logger.info(sm.getSaleDuration(lineList.get(1)));
         return;
 
-//pricehistory
+
       case "40":
         sm.setSaleStatusOff(lineList.get(1));
         logger.info(getItem(lineList.get(1)).name + "is no longer on sale on " + tm.timeStamp());
@@ -330,7 +335,11 @@ public class Store implements Serializable {
     }
   }
 
-  // This takes all the daily profits, takes them to zero
+  /**
+   * This method sums up the revenues and profits for each Item in the store.
+   * It adds them up, and creates an entry in dailyProfits. Once this is done,
+   * it sets the revenueToday and profitToday attributes for each item back to 0.0
+   */
   protected void closeDailyTotals() {
     String date = tm.toString();
     Double revenue = 0.0;
@@ -339,13 +348,19 @@ public class Store implements Serializable {
     for (Item i : itemsList) {
       revenue += i.revenueToday;
       profit += i.profitToday;
-      i.revenueToday = 0;
-      i.profitToday = 0;
+      i.revenueToday = 0.0;
+      i.profitToday = 0.0;
     }
     String entry = "Revenue: " + revenue + ", Profit: " + profit;
     dailyProfits.add(entry);
+    logger.info("All of the daily revenues and profits have been closed out.");
   }
 
+  /**
+   * This method returns a formatted list of all the Items in Store.
+   *
+   * @return A formatted String of all the items.
+   */
   protected String getItemsList() {
     StringBuilder sb = new StringBuilder();
     for (Item i : itemsList) {
@@ -355,6 +370,12 @@ public class Store implements Serializable {
     return sb.toString();
   }
 
+  /**
+   * This method returns a formatted list of all the Items with unshelvedQuantity
+   * in Store.
+   *
+   * @return A formatted String of all the unshelved Items.
+   */
   protected String getUnshelvedItemsList() {
     StringBuilder sb = new StringBuilder();
     for (Item i : itemsList) {
@@ -366,6 +387,12 @@ public class Store implements Serializable {
     return sb.toString();
   }
 
+  /**
+   * This method returns a formatted list of all the Items in
+   * Store that have pendingOrders.
+   *
+   * @return A formatted String of all Items in pendingOrders.
+   */
   protected String getPendingOrders() {
     StringBuilder sb = new StringBuilder();
     for (String s : pendingOrders) {
@@ -375,10 +402,16 @@ public class Store implements Serializable {
     return sb.toString();
   }
 
+  /**
+   * This method returns a formatted list of the dailyProfits history of the store,
+   * by date.
+   *
+   * @return    A formatted String that lists all the dailyProfits in the Store's history.
+   */
   protected String getDailyProfits() {
     StringBuilder sb = new StringBuilder();
     for (String s : dailyProfits) {
-      sb.append(s.toString());
+      sb.append(s);
       sb.append(System.lineSeparator());
       sb.append(System.lineSeparator());
     }

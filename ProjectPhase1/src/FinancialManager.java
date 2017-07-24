@@ -9,6 +9,15 @@ public class FinancialManager implements Serializable{
     sm = saleManager;
   }
 
+  /**
+   * This method takes the UPC of the item as well as the quantity sold
+   * as parameters. It first checks whether it is on sale, and then it
+   * adds the revenue and profit from this transaction to  the revenueToday
+   * and profitToday attributes in the Item
+   *
+   * @param UPC         The UPC code of the item to be recorded
+   * @param quantity    The quantity of the item
+   */
   protected void recordSale(String UPC, int quantity) {
     Item item = s.getItem(UPC);
     double price;
