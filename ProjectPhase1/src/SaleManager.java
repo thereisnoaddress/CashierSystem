@@ -49,7 +49,11 @@ public class SaleManager implements Serializable{
    * Note: only one sale may be set at a time
    * @param UPC     The UPC of the Item to which we'd like to add a sale
    * @param start   The start date of the sale
+   *                    The format is: www mmm dd hh:mm:ss TMZ yyyy
+   *                    for example: Sat Jul 22 18:27:06 EDT 2017
    * @param end     The end date of the sale
+   *                    The format is: www mmm dd hh:mm:ss TMZ yyyy
+   *                    for example: Sat Jul 22 18:27:06 EDT 2017
    * @param price   The price of the Item while on sale
    */
   protected void addSale(String UPC, String start, String end, double price) {
@@ -66,7 +70,11 @@ public class SaleManager implements Serializable{
    *
    * @param UPC     The UPC of the Item we would like to remove the sale
    * @param start   The start date of the sale
+   *                      The format is: www mmm dd hh:mm:ss TMZ yyyy
+   *                      for example: Sat Jul 22 18:27:06 EDT 2017
    * @param end     The end date of the sale
+   *                      The format is: www mmm dd hh:mm:ss TMZ yyyy
+   *                      for example: Sat Jul 22 18:27:06 EDT 2017
    */
   protected void removeSale(String UPC, String start, String end) {
     Item item = s.getItem(UPC);

@@ -28,7 +28,9 @@ public class TimeManager implements Serializable{
    * This method checks if the current instant is one a different date
    * than the instance defined in the parameter
    *
-   * @param reference   The string date we wish to compare to
+   * @param reference   The string date we wish to compare to.
+   *                      The format is: www mmm dd hh:mm:ss TMZ yyyy
+   *                      for example: Sat Jul 22 18:27:06 EDT 2017
    * @return            Returns whether the current date and specified date are different
    */
   protected boolean checkDifferentDates(String reference) {
@@ -183,6 +185,8 @@ public class TimeManager implements Serializable{
    * specified in the parameter.
    *
    * @param reference   The string of the date to be compared to
+   *                        The format is: www mmm dd hh:mm:ss TMZ yyyy
+   *                        for example: Sat Jul 22 18:27:06 EDT 2017
    * @return            Whether or not the current date is after the reference
    */
   protected boolean after(String reference) {
