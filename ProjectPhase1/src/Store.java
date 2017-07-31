@@ -93,7 +93,7 @@ public class Store implements Serializable {
   }
 
   // A method that reads every line of Events.txt and processes the user's command.
-  private void processEvent(String instruction) {
+  public void processEvent(String instruction) {
 
     ArrayList<String> lineList = new ArrayList<>(Arrays.asList(instruction.split(",")));
 
@@ -298,7 +298,7 @@ public class Store implements Serializable {
         return;
 
       case "39":
-        logger.info(sm.getSaleDuration(lineList.get(1)));
+        logger.info("Sale duration is" + sm.getSaleDuration(lineList.get(1)));
         return;
 
       case "40":
@@ -306,15 +306,18 @@ public class Store implements Serializable {
         logger.info(getItem(lineList.get(1)).name + "is no longer on sale on " + tm.timeStamp());
 
       case "41":
-        logger.info(Integer.toString(getItem(lineList.get(1)).aisle));
+        logger.info(getItem(lineList.get(1)).name + " is on aisle " +
+            Integer.toString(getItem(lineList.get(1)).aisle));
         return;
 
       case "42":
-        logger.info(getItem(lineList.get(1)).section);
+        logger.info(getItem(lineList.get(1)).name + " belongs to section " +
+            getItem(lineList.get(1)).section);
         return;
 
       case "43":
-        logger.info(getItem(lineList.get(1)).subsection);
+        logger.info(getItem(lineList.get(1)).name + " belongs to subsection " +
+            getItem(lineList.get(1)).subsection);
         return;
 
       case "44":
@@ -348,8 +351,6 @@ public class Store implements Serializable {
       default:
         logger.info(" Error: unrecognized command.");
         break;
-
-
 
     }
   }
