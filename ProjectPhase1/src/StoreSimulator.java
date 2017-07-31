@@ -50,16 +50,32 @@ public class StoreSimulator implements Serializable {
     SimpleFormatter formatter = new SimpleFormatter();
     fileHandler.setFormatter(formatter);
 
+    /*
     // Phase 1: Ask the user for a file path for Events.txt and processes all the
     // events in the file using the Store object s.
     BufferedReader kbd2 = new BufferedReader(new InputStreamReader(System.in));
     System.out.println("Enter the file path for events.txt.");
     String eventsPath = kbd2.readLine();
     s.processEvents(eventsPath);
+    */
 
+
+    // Phase 2: Make the user input a line and return something.
+    BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+    System.out.println("Please enter a command in proper format, as stated in events codes.");
+    String input = userInput.readLine();
+    while (!input.equals("exit")) {
+
+      s.processEvent(input);
+
+
+      input = userInput.readLine();
+    }
+
+
+    // Save the store to store.ser
     FileOutputStream fos;
     ObjectOutputStream out;
-    // Save the store to store.ser
     try {
       fos = new FileOutputStream(filename);
       out = new ObjectOutputStream(fos);
@@ -68,8 +84,6 @@ public class StoreSimulator implements Serializable {
     } catch (Exception ex) {
       ex.printStackTrace();
     }
-
-    // Read the store from store.ser
 
   }
 
