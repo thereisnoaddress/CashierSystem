@@ -65,10 +65,7 @@ public class StoreSimulator implements Serializable {
     System.out.println("Please enter a command in proper format, as stated in events codes.");
     String input = userInput.readLine();
     while (!input.equals("exit")) {
-
       s.processEvent(input);
-
-
       input = userInput.readLine();
     }
 

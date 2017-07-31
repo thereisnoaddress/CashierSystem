@@ -48,8 +48,13 @@ public class Store implements Serializable {
    * @param UPC The UPC of the Item we want ot get
    * @return The Item with the specified UPC
    */
-  Item getItem(String UPC) {
-    return UPCToItem.get(UPC);
+  Item getItem(String UPC) throws NullPointerException{
+    try {
+      return UPCToItem.get(UPC);
+    } catch (NullPointerException e) {
+      logger.severe("This item does not exist.");
+      return null;
+    }
   }
 
   // A method that is called during the initializing of the store.
