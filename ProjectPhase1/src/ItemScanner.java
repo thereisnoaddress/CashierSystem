@@ -1,8 +1,6 @@
 import java.io.Serializable;
 
-/**
- * Scans stuff
- */
+
 class ItemScanner implements Serializable {
 
   protected Store s;

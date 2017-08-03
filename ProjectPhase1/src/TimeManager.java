@@ -4,7 +4,7 @@ import java.util.Date;
 public class TimeManager implements Serializable {
 
   /**
-   * Returns the Date object corresponding to the Date instance at which this method is called.
+   * Return the Date object corresponding to the Date instance at which this method is called.
    *
    * @return The Date object for this instant.
    */
@@ -13,7 +13,7 @@ public class TimeManager implements Serializable {
   }  // Will be used in Phase 2
 
   /**
-   * This method returns the String of today's date, but does not include the time.
+   * return the String of today's date, but does not include the time.
    *
    * @return Formatted String of today's date
    */
@@ -36,7 +36,7 @@ public class TimeManager implements Serializable {
   }
 
   /**
-   * Returns the formatted String of the current Date instant.
+   * Return the formatted String of the current Date instant.
    *
    * @return Formatted String of the current date instance.
    */
@@ -46,7 +46,7 @@ public class TimeManager implements Serializable {
   }
 
   /**
-   * This method checks whether the current instance is before the reference instance
+   * Check whether the current instance is before the reference instance
    * specified in the parameter.
    *
    * @param reference The string of the date to be compared to

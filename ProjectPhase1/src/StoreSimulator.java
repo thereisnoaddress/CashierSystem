@@ -53,6 +53,7 @@ public class StoreSimulator implements Serializable {
     /*
     // Phase 1: Ask the user for a file path for Events.txt and processes all the
     // events in the file using the Store object s.
+
     BufferedReader kbd2 = new BufferedReader(new InputStreamReader(System.in));
     System.out.println("Enter the file path for events.txt.");
     String eventsPath = kbd2.readLine();
