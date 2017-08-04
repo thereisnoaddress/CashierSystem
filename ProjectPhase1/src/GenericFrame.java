@@ -45,38 +45,6 @@ public class GenericFrame {
     controlPanel.add(viewButton);
   }
 
-  public void showList() {
-
-    DefaultListModel items = new DefaultListModel();
-
-    items.addElement("chocolate");
-    items.addElement("chips");
-    items.addElement("milk");
-
-    JList storeItems = new JList(items);
-    storeItems.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    storeItems.setSelectedIndex(0);
-    storeItems.setVisibleRowCount(10);
-    storeItems.setLocation(300,0);
-
-    JScrollPane storeItemsScrollPane = new JScrollPane(storeItems);
-
-/*
-    showButton.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        String data = "";
-        if (storeItems.getSelectedIndex() != -1) {
-          data = "Item Selected: " + storeItems.getSelectedValue();
-          statusLabel.setText(data);
-        }
-        statusLabel.setText(data);
-      }
-
-    });
-    */
-
-    controlPanel.add(storeItemsScrollPane);
-  }
 
 
 
