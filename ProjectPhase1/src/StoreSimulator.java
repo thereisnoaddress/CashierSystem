@@ -24,7 +24,7 @@ public class StoreSimulator implements Serializable {
   private static final Handler consoleHandler = new ConsoleHandler();
 
 
-  public static void main(String[] args)
+  public Store StoreSimulator()
       throws IOException, ClassNotFoundException {
     String filename = "store.ser";
 
@@ -60,7 +60,7 @@ public class StoreSimulator implements Serializable {
     s.processEvents(eventsPath);
     */
 
-
+/*
     // Phase 2: Make the user input a line and return something.
     BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
     System.out.println("Please enter a command in proper format, as stated in events codes.");
@@ -69,7 +69,7 @@ public class StoreSimulator implements Serializable {
       s.processEvent(input);
       input = userInput.readLine();
     }
-
+*/
 
     // Save the store to store.ser
     FileOutputStream fos;
@@ -83,7 +83,10 @@ public class StoreSimulator implements Serializable {
       ex.printStackTrace();
     }
 
+    return s;
   }
+
+
 
   private static Store initialStoreCreation() throws IOException, ClassNotFoundException {
 

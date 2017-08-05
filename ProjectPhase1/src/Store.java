@@ -14,13 +14,13 @@ import java.util.logging.Logger;
  */
 public class Store implements Serializable {
 
-  private OrderManager om = new OrderManager(this);
-  private SaleManager sm = new SaleManager(this);
-  private FinancialManager fm = new FinancialManager(this, sm);
-  private ItemScanner is = new ItemScanner(this, om, fm);
-  private ItemManager im = new ItemManager(this);
-  private TimeManager tm = new TimeManager();
-  private ArrayList<Item> itemsList = new ArrayList<>();
+  protected OrderManager om = new OrderManager(this);
+  protected SaleManager sm = new SaleManager(this);
+  protected FinancialManager fm = new FinancialManager(this, sm);
+  protected ItemScanner is = new ItemScanner(this, om, fm);
+  protected ItemManager im = new ItemManager(this);
+  protected TimeManager tm = new TimeManager();
+  protected ArrayList<Item> itemsList = new ArrayList<>();
   private ArrayList<String> dailyProfits = new ArrayList<>();
   private ArrayList<String> pendingOrders = new ArrayList<>();  // Will be updated in Phase 2
   static Logger logger;
@@ -115,6 +115,7 @@ public class Store implements Serializable {
           logger.info(getItem(lineList.get(1)).name);
           return;
 
+        // TODO: fix this
         case "2":
           logger.info(getItem(lineList.get(1)).toString());
           return;
