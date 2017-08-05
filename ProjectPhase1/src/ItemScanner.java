@@ -101,7 +101,7 @@ class ItemScanner implements Serializable {
    * @param UPC The UPC of the Item to be sold
    * @param quantity The quantity of the Item sold
    */
-  private void sell(String UPC, int quantity) {  // This value will not always be 1 in Phase 2
+   void sell(String UPC, int quantity) {  // This value will not always be 1 in Phase 2
     Item item = s.getItem(UPC);
     if (item.quantity < item.threshold) {
       om.autoOrder(UPC);
@@ -110,7 +110,7 @@ class ItemScanner implements Serializable {
       item.quantity -= quantity;
       item.soldToday += quantity;
       item.salesHistory.add(quantity + "units sold of " + item.name);
-      fm.recordSale(UPC, quantity);
+//      fm.recordSale(UPC, quantity);
       s.logger.info(quantity + " item(s) of " + item.name +
           "have been sold.");
     } else {

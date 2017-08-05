@@ -10,6 +10,7 @@
     private JButton sellButton;
     private JList storeItems;
     private JTextField textField;
+    private JTextField textField2;
     private Store s;
 
     private GenericFrame() throws IOException, ClassNotFoundException {
@@ -47,7 +48,8 @@
       showButton.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           if (storeItems.getSelectedIndex() != -1) {
-            textField.setText("Index selected: " + storeItems.getSelectedValue());
+            textField.setText("You have " + ((Item) storeItems.getSelectedValue()).quantity + ""
+                + " right now.");
           }
 
         }
@@ -59,9 +61,11 @@
         public void actionPerformed(ActionEvent e) {
           if (storeItems.getSelectedIndex() != -1) {
             //textField.setText("Index selected: " + storeItems.getSelectedIndex());
-            System.out.println(((Item)storeItems.getSelectedValue()).quantity);
-            s.is.sell(((Item)storeItems.getSelectedValue()).UPC);
-            System.out.println(((Item)storeItems.getSelectedValue()).quantity);
+
+            s.is.sell(((Item)storeItems.getSelectedValue()).UPC,
+                Integer.parseInt(textField2.getText()));
+            textField.setText("You now have " +((Item) storeItems.getSelectedValue()).quantity
+             + " left over");
           }
 
         }
@@ -73,7 +77,10 @@
 
     private void showTextField(){
       textField = new JTextField(20);
+      textField2 = new JTextField(30);
+      textField2.setText("Enter how many you want to sell!");
       controlPanel.add(textField);
+      controlPanel.add(textField2);
     }
 
     private void showList() {
