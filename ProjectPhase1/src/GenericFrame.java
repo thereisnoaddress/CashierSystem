@@ -8,6 +8,7 @@
     private JPanel controlPanel;
     private JButton showButton;
     private JButton sellButton;
+
     private JList storeItems;
     private JTextField textField;
     private JTextField textField2;
@@ -28,15 +29,15 @@
     }
 
     private void prepareGUI(){
+
       mainFrame = new JFrame("Generic Frame");
       mainFrame.setSize(800,400);
       mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      mainFrame.setLayout(new FlowLayout());
       mainFrame.setLocationRelativeTo(null);
 
       controlPanel = new JPanel();
       controlPanel.setLayout(new FlowLayout());
-      controlPanel.setSize(800,400);
+      controlPanel.setSize(mainFrame.getWidth(),mainFrame.getHeight());
 
       mainFrame.add(controlPanel);
       mainFrame.setVisible(true);
