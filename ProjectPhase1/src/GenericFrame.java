@@ -4,22 +4,23 @@
   import javax.swing.*;
 
   public class GenericFrame {
-    private JFrame mainFrame;
-    private JPanel controlPanel;
-    private JButton showButton;
-    private JButton sellButton;
+    protected JFrame mainFrame;
+    protected JPanel controlPanel;
+    protected JButton showButton;
 
-    private JList storeItems;
-    private JTextField textField;
-    private JTextField textField2;
-    private Store s;
 
-    private GenericFrame() throws IOException, ClassNotFoundException {
+    protected JList storeItems;
+    protected JTextField textField;
+
+    protected Store s;
+
+    GenericFrame(String title) throws IOException, ClassNotFoundException {
       prepareGUI();
       startStore();
       showList();
       showButtons();
       showTextField();
+      mainFrame.setTitle(title);
 
     }
 
@@ -28,10 +29,11 @@
       s = ss.StoreSimulator();
     }
 
+
     private void prepareGUI(){
 
       mainFrame = new JFrame("Generic Frame");
-      mainFrame.setSize(800,400);
+      mainFrame.setSize(300,500);
       mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       mainFrame.setLocationRelativeTo(null);
 
@@ -56,32 +58,17 @@
         }
       });
 
-      sellButton = new JButton("sell");
-      sellButton.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          if (storeItems.getSelectedIndex() != -1) {
-            //textField.setText("Index selected: " + storeItems.getSelectedIndex());
 
-            s.is.sell(((Item)storeItems.getSelectedValue()).UPC,
-                Integer.parseInt(textField2.getText()));
-            textField.setText("You now have " +((Item) storeItems.getSelectedValue()).quantity
-             + " left over");
-          }
-
-        }
-      });
 
       controlPanel.add(showButton);
-      controlPanel.add(sellButton);
+
     }
 
     private void showTextField(){
       textField = new JTextField(20);
-      textField2 = new JTextField(30);
-      textField2.setText("Enter how many you want to sell!");
+
       controlPanel.add(textField);
-      controlPanel.add(textField2);
+
     }
 
     private void showList() {
@@ -109,7 +96,7 @@
 
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-      GenericFrame  swingControlDemo = new GenericFrame();
+      GenericFrame  swingControlDemo = new GenericFrame("Generic");
     }
 
   }

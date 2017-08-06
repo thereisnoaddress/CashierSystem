@@ -109,10 +109,10 @@ class ItemScanner implements Serializable {
     if (item.quantity >= quantity) {
       item.quantity -= quantity;
       item.soldToday += quantity;
-      item.salesHistory.add(quantity + "units sold of " + item.name);
+      item.salesHistory.add(quantity + " units sold of " + item.name);
 //      fm.recordSale(UPC, quantity);
       s.logger.info(quantity + " item(s) of " + item.name +
-          "have been sold.");
+          " have been sold.");
     } else {
       System.out.println("Don't have this much inventory to scan out!");
       s.logger.info("Error: insufficient quantity of " + item.name +
@@ -139,7 +139,7 @@ class ItemScanner implements Serializable {
     item.soldToday -= quantity;
     item.salesHistory.add(quantity + "unit(s) of " + item.name + " were returned on "
         + tm.timeStamp());
-    s.logger.info(quantity + "unit(s) of " + item.name + "were returned.");
+    s.logger.info(quantity + "unit(s) of " + item.name + " were returned.");
     fm.recordSale(UPC, -quantity);
   }
 

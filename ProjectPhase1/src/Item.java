@@ -65,9 +65,9 @@ public class Item implements Serializable {
   }
 
   public String toString() {
-    return UPC + "," + name + "," + section + "," + subsection + "," + aisle + "," + boughtPrice
-        + "," + sellPrice + "," + quantity + "," + threshold + "," + supplier;
+    return name;
   }
+
 
   protected boolean equals(Item i) {
     return UPC.equals(i.UPC);
