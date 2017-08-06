@@ -24,7 +24,7 @@ public class Store implements Serializable {
   private ArrayList<String> dailyProfits = new ArrayList<>();
   private ArrayList<String> pendingOrders = new ArrayList<>();  // Will be updated in Phase 2
   static Logger logger;
-  private HashMap<String, Item> UPCToItem = new HashMap<String, Item>();
+  protected HashMap<String, Item> UPCToItem = new HashMap<String, Item>();
 
   Store(String DataFileName, Logger logger) throws ClassNotFoundException, IOException {
     // Store constructor.
@@ -64,21 +64,28 @@ public class Store implements Serializable {
       String line = fileInput.readLine();
 
       while (line != null) {
-        String[] data = line.split(",");
-
         // Divide this up into different constructors.
-        Item temp = new Item(data[0], data[1], data[2], data[3],
-            Integer.parseInt(data[4]), Double.parseDouble(data[5]), Double.parseDouble(data[6]),
-            Integer.parseInt(data[7]), Integer.parseInt(data[8]), data[9]);
+        Item i = makeNewItem(line);
 
-        itemsList.add(temp);
-        UPCToItem.put(temp.UPC, temp);
         line = fileInput.readLine();
-        logger.info(data[1] + " has been added to the store.");
+        logger.info(i.name + " has been added to the store.");
       }
     } catch (IOException e) {
       logger.log(Level.SEVERE, "Cannot read from input.", e);
     }
+  }
+
+  public Item makeNewItem(String itemInfo){
+    String[] data = itemInfo.split(",");
+
+    // Divide this up into different constructors.
+    Item temp = new Item(data[0], data[1], data[2], data[3],
+        Integer.parseInt(data[4]), Double.parseDouble(data[5]), Double.parseDouble(data[6]),
+        Integer.parseInt(data[7]), Integer.parseInt(data[8]), data[9]);
+
+    itemsList.add(temp);
+    UPCToItem.put(temp.UPC, temp);
+    return temp;
   }
 
   // A method that takes the entire Events.txt file and calls it line by line,

@@ -33,7 +33,9 @@ public class CashierFrame extends GenericFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         if (storeItems.getSelectedIndex() != -1) {
-          int quantity = Integer.parseInt(JOptionPane.showInputDialog("How many do you want to sell?"));
+          int quantity = Integer.parseInt(JOptionPane.showInputDialog(
+              "How many do you want to sell?",
+              JOptionPane.YES_NO_OPTION));
           s.is.sell(((Item)storeItems.getSelectedValue()).UPC,
               quantity);
           selling.addElement(((Item) storeItems.getSelectedValue()).name);
@@ -54,7 +56,7 @@ public class CashierFrame extends GenericFrame {
           ((Item) storeItems.getSelectedValue()).quantity = Integer.parseInt(
               JOptionPane.showInputDialog("There are currently " +
                       ((Item) storeItems.getSelectedValue()).quantity + " of this item."
-                  + "How many do you want to change it to?"));
+                  + "How many do you want to change it to?", JOptionPane.YES_NO_OPTION));
           JOptionPane.showMessageDialog(null, "Now there are " +
               ((Item) storeItems.getSelectedValue()).quantity);
         }
@@ -66,7 +68,7 @@ public class CashierFrame extends GenericFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         Double received = Double.parseDouble(JOptionPane.showInputDialog("Your total is " +
-            price +". Enter paid amount:"));
+            price +". Enter paid amount:", JOptionPane.YES_NO_OPTION));
         JOptionPane.showMessageDialog(null, "Your change is " +
             (received - price));
         price = 0;

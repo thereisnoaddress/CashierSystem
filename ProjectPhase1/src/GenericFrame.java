@@ -7,6 +7,7 @@
     protected JFrame mainFrame;
     protected JPanel controlPanel;
     protected JButton showButton;
+    protected DefaultListModel items;
 
 
     protected JList storeItems;
@@ -46,7 +47,7 @@
     }
 
     private void showButtons(){
-      showButton = new JButton("Show");
+      showButton = new JButton("Show Quantity");
       showButton.setLayout(new BorderLayout());
       showButton.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -74,11 +75,9 @@
     private void showList() {
 
 
-      DefaultListModel items = new DefaultListModel();
+      items = new DefaultListModel();
 
-      for (Item i : s.itemsList) {
-        items.addElement(i);
-      }
+      addToList();
 
 
       storeItems = new JList(items);
@@ -93,6 +92,11 @@
       controlPanel.add(storeItemsScrollPane);
     }
 
+    void addToList(){
+      for (Item i : s.itemsList) {
+        items.addElement(i);
+      }
+    }
 
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
