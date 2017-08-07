@@ -10,7 +10,7 @@ public class ReshelverFrame extends GenericFrame {
   protected JButton orderHistory;
   protected JButton quantity;
 
-  private ReshelverFrame() throws IOException, ClassNotFoundException {
+  ReshelverFrame() throws IOException, ClassNotFoundException {
     super("Receiver");
     prepareButtons();
   }

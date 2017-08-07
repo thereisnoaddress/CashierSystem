@@ -110,7 +110,7 @@ class ItemScanner implements Serializable {
       item.quantity -= quantity;
       item.soldToday += quantity;
       item.salesHistory.add(quantity + " units sold of " + item.name);
-//      fm.recordSale(UPC, quantity);
+      fm.recordSale(UPC, quantity);
       s.logger.info(quantity + " item(s) of " + item.name +
           " have been sold.");
     } else {

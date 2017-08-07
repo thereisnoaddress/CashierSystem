@@ -21,7 +21,7 @@ public class CashierFrame extends GenericFrame {
   protected JTextField textField;
 
 
-  private CashierFrame() throws IOException, ClassNotFoundException {
+  CashierFrame() throws IOException, ClassNotFoundException {
     super("Cashier");
     prepareButtons();
     prepareList();

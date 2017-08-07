@@ -22,7 +22,8 @@ public class Store implements Serializable {
   protected TimeManager tm = new TimeManager();
   protected ArrayList<Item> itemsList = new ArrayList<>();
   private ArrayList<String> dailyProfits = new ArrayList<>();
-  private ArrayList<String> pendingOrders = new ArrayList<>();  // Will be updated in Phase 2
+  private ArrayList<String> pendingOrders = new ArrayList<>();
+  protected double revenue;
   static Logger logger;
   protected HashMap<String, Item> UPCToItem = new HashMap<String, Item>();
 

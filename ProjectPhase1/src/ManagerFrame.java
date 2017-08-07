@@ -5,7 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 public class ManagerFrame extends GenericFrame {
-  private ManagerFrame() throws IOException, ClassNotFoundException {
+  ManagerFrame() throws IOException, ClassNotFoundException {
     super("Manager");
     prepareButtons();
   }

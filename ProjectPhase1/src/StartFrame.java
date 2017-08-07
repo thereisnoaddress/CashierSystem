@@ -12,10 +12,8 @@ import javax.swing.ListSelectionModel;
 
 public class StartFrame {
     private JFrame mainFrame;
-    private JPanel panel;
-    private JButton goButton;
 
-  public StartFrame() throws IOException, ClassNotFoundException {
+  private StartFrame() throws IOException, ClassNotFoundException {
 
     mainFrame = new JFrame("User chooser");
     mainFrame.setSize(300,300);
@@ -23,11 +21,11 @@ public class StartFrame {
     mainFrame.setLocationRelativeTo(null);
     mainFrame.setVisible(true);
 
-    panel = new JPanel();
+    JPanel panel = new JPanel();
     panel.setLayout(new FlowLayout());
     panel.setVisible(true);
 
-    goButton = new JButton("Go");
+    JButton goButton = new JButton("Go");
     panel.add(goButton);
 
     mainFrame.add(panel);
