@@ -22,16 +22,17 @@ public class StoreSimulator implements Serializable {
 
   private static final Logger logger = Logger.getLogger(Store.class.getName());
   private static final Handler consoleHandler = new ConsoleHandler();
+  private Store s;
+  private String filename;
 
 
   public Store StoreSimulator()
       throws IOException, ClassNotFoundException {
-    String filename = "store.ser";
+    filename = "store.ser";
 
     // If the store is being built for the first time
     FileInputStream fis;
     ObjectInputStream in;
-    Store s;
 
     try {
       fis = new FileInputStream(filename);
@@ -39,10 +40,10 @@ public class StoreSimulator implements Serializable {
       s = (Store) in.readObject();
       in.close();
       Store.logger = logger;
+
     } catch (FileNotFoundException ex) {
       s = initialStoreCreation();
     }
-
 
 
     final FileHandler fileHandler = new FileHandler("log.txt", true);
@@ -73,6 +74,11 @@ public class StoreSimulator implements Serializable {
     }
 */
 
+    return s;
+  }
+
+
+  protected void saveStore(){
     // Save the store to store.ser
     FileOutputStream fos;
     ObjectOutputStream out;
@@ -81,14 +87,11 @@ public class StoreSimulator implements Serializable {
       out = new ObjectOutputStream(fos);
       out.writeObject(s);
       out.close();
+      System.out.println("store saved");
     } catch (Exception ex) {
       ex.printStackTrace();
     }
-
-    return s;
   }
-
-
 
   private static Store initialStoreCreation() throws IOException, ClassNotFoundException {
 

@@ -1,81 +1,87 @@
-  import java.awt.*;
-  import java.awt.event.*;
-  import java.io.IOException;
-  import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
+import javax.swing.*;
 
-  public class GenericFrame {
-    protected JFrame mainFrame;
-    protected JPanel controlPanel;
-    protected DefaultListModel items;
+public class GenericFrame {
 
-
-    protected JList storeItems;
-
-
-    protected Store s;
-
-    GenericFrame(String title) throws IOException, ClassNotFoundException {
-      prepareGUI();
-      startStore();
-      showList();
-
-      mainFrame.setTitle(title);
-
-    }
-
-    private void startStore() throws IOException, ClassNotFoundException {
-      StoreSimulator ss = new StoreSimulator();
-      s = ss.StoreSimulator();
-    }
+  protected JFrame mainFrame;
+  protected JPanel controlPanel;
+  protected DefaultListModel items;
+  protected StoreSimulator ss;
 
 
-    private void prepareGUI(){
+  protected JList storeItems;
 
-      mainFrame = new JFrame("Generic Frame");
-      mainFrame.setSize(300,500);
-      mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      mainFrame.setLocationRelativeTo(null);
+  protected Store s;
 
-      controlPanel = new JPanel();
-      controlPanel.setLayout(new FlowLayout());
-      controlPanel.setSize(mainFrame.getWidth(),mainFrame.getHeight());
+  GenericFrame(String title) throws IOException, ClassNotFoundException {
+    prepareGUI();
+    startStore();
+    showList();
 
-      mainFrame.add(controlPanel);
-      mainFrame.setVisible(true);
-    }
+    mainFrame.setTitle(title);
 
+  }
 
-
-
-    private void showList() {
+  private void startStore() throws IOException, ClassNotFoundException {
+    ss = new StoreSimulator();
+    s = ss.StoreSimulator();
+  }
 
 
-      items = new DefaultListModel();
+  private void prepareGUI() {
 
-      addToList();
+    mainFrame = new JFrame("Generic Frame");
+    mainFrame.setSize(300, 500);
+    //mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    mainFrame.setLocationRelativeTo(null);
+    mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+      @Override
+      public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+        ss.saveStore();
+        System.exit(0);
+      }
+    });
+
+    controlPanel = new JPanel();
+    controlPanel.setLayout(new FlowLayout());
+    controlPanel.setSize(mainFrame.getWidth(), mainFrame.getHeight());
+
+    mainFrame.add(controlPanel);
+    mainFrame.setVisible(true);
+  }
 
 
-      storeItems = new JList(items);
+  private void showList() {
 
-      storeItems.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-      storeItems.setSelectedIndex(0);
-      storeItems.setVisibleRowCount(10);
-      storeItems.setLocation(300,0);
+    items = new DefaultListModel();
 
-      JScrollPane storeItemsScrollPane = new JScrollPane(storeItems);
+    addToList();
 
-      controlPanel.add(storeItemsScrollPane);
-    }
+    storeItems = new JList(items);
 
-    void addToList(){
-      for (Item i : s.itemsList) {
+    storeItems.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    storeItems.setSelectedIndex(0);
+    storeItems.setVisibleRowCount(10);
+    storeItems.setLocation(300, 0);
+
+    JScrollPane storeItemsScrollPane = new JScrollPane(storeItems);
+
+    controlPanel.add(storeItemsScrollPane);
+  }
+
+  void addToList() {
+    for (Item i : s.itemsList) {
+      if (i.quantity > 0) {
         items.addElement(i);
       }
     }
-
-
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
-      GenericFrame  swingControlDemo = new GenericFrame("Generic");
-    }
-
   }
+
+
+  public static void main(String[] args) throws IOException, ClassNotFoundException {
+    GenericFrame swingControlDemo = new GenericFrame("Generic");
+  }
+
+}

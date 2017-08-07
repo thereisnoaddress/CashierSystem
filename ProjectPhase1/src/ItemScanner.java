@@ -101,7 +101,7 @@ class ItemScanner implements Serializable {
    * @param UPC The UPC of the Item to be sold
    * @param quantity The quantity of the Item sold
    */
-   void sell(String UPC, int quantity) {  // This value will not always be 1 in Phase 2
+   void sell(String UPC, int quantity) {
     Item item = s.getItem(UPC);
     if (item.quantity < item.threshold) {
       om.autoOrder(UPC);
