@@ -34,7 +34,7 @@ public class StartFrame {
 
     JList userList = new JList(users);
     userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    userList.setLayoutOrientation(JList.VERTICAL_WRAP);
+    userList.setLayoutOrientation(JList.VERTICAL);
 
     JScrollPane listScroller = new JScrollPane(userList);
     listScroller.setPreferredSize(new Dimension(250, 80));

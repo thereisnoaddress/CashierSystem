@@ -44,7 +44,6 @@ public class CashierFrame extends GenericFrame {
           total.setText("Total:" + Double.toString(price));
           JOptionPane.showMessageDialog(null, "You now have " +((Item) storeItems.getSelectedValue()).quantity
               + " left over");
-          textField.setText("");
           System.out.println("revenue " + s.fm.revenueToday);
         }
       }

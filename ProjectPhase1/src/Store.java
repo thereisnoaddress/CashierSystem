@@ -14,12 +14,12 @@ import java.util.logging.Logger;
  */
 public class Store implements Serializable {
 
-  protected OrderManager om = new OrderManager(this);
-  protected SaleManager sm = new SaleManager(this);
-  protected FinancialManager fm = new FinancialManager(this, sm);
-  protected ItemScanner is = new ItemScanner(this, om, fm);
-  protected ItemManager im = new ItemManager(this);
-  protected TimeManager tm = new TimeManager();
+  protected OrderManager om;
+  protected SaleManager sm;
+  protected FinancialManager fm;
+  protected ItemScanner is;
+  protected ItemManager im;
+  protected TimeManager tm ;
   protected ArrayList<Item> itemsList = new ArrayList<>();
   private ArrayList<String> dailyProfits = new ArrayList<>();
   private ArrayList<String> pendingOrders = new ArrayList<>();
@@ -29,6 +29,14 @@ public class Store implements Serializable {
 
   Store(String DataFileName, Logger logger) throws ClassNotFoundException, IOException {
     // Store constructor.
+
+    om = new OrderManager(this);
+    sm = new SaleManager(this);
+    fm = new FinancialManager(this, sm);
+    is = new ItemScanner(this, om, fm);
+    im = new ItemManager(this);
+    tm = new TimeManager();
+
 
     Store.logger = logger;
 
