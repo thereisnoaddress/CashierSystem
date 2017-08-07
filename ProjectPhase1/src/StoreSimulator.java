@@ -87,7 +87,6 @@ public class StoreSimulator implements Serializable {
       out = new ObjectOutputStream(fos);
       out.writeObject(s);
       out.close();
-      System.out.println("store saved");
     } catch (Exception ex) {
       ex.printStackTrace();
     }

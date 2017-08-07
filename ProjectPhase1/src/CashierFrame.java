@@ -21,6 +21,7 @@ public class CashierFrame extends GenericFrame {
   protected JButton checkSaleDates;
   protected JTextField textField;
   protected JButton resetDay;
+  protected JButton showStock;
 
 
   CashierFrame() throws IOException, ClassNotFoundException {
@@ -30,6 +31,17 @@ public class CashierFrame extends GenericFrame {
   }
 
   private void prepareButtons(){
+
+    showStock = new JButton("Check stock");
+    showStock.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if (storeItems.getSelectedIndex() != -1) {
+          JOptionPane.showMessageDialog(null, "There are " +
+              ((Item)storeItems.getSelectedValue()).quantity + " in stock.");
+        }
+      }
+    });
 
     sellButton = new JButton("Sell");
     sellButton.addActionListener(new ActionListener() {
@@ -118,6 +130,7 @@ public class CashierFrame extends GenericFrame {
     controlPanel.add(checkOut);
     controlPanel.add(checkSaleDates);
     controlPanel.add(resetDay);
+    controlPanel.add(showStock);
 
   }
 
