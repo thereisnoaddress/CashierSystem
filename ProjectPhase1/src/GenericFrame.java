@@ -6,12 +6,11 @@
   public class GenericFrame {
     protected JFrame mainFrame;
     protected JPanel controlPanel;
-    protected JButton showButton;
     protected DefaultListModel items;
 
 
     protected JList storeItems;
-    protected JTextField textField;
+
 
     protected Store s;
 
@@ -19,8 +18,7 @@
       prepareGUI();
       startStore();
       showList();
-      showButtons();
-      showTextField();
+
       mainFrame.setTitle(title);
 
     }
@@ -46,31 +44,8 @@
       mainFrame.setVisible(true);
     }
 
-    private void showButtons(){
-      showButton = new JButton("Show Quantity");
-      showButton.setLayout(new BorderLayout());
-      showButton.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-          if (storeItems.getSelectedIndex() != -1) {
-            textField.setText("You have " + ((Item) storeItems.getSelectedValue()).quantity + ""
-                + " right now.");
-          }
-
-        }
-      });
 
 
-
-      controlPanel.add(showButton);
-
-    }
-
-    private void showTextField(){
-      textField = new JTextField(20);
-
-      controlPanel.add(textField);
-
-    }
 
     private void showList() {
 

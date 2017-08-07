@@ -18,6 +18,7 @@ public class CashierFrame extends GenericFrame {
   protected JButton changeQuantity;
   protected JButton checkOut;
   protected JButton checkSaleDates;
+  protected JTextField textField;
 
 
   private CashierFrame() throws IOException, ClassNotFoundException {
@@ -44,6 +45,7 @@ public class CashierFrame extends GenericFrame {
           JOptionPane.showMessageDialog(null, "You now have " +((Item) storeItems.getSelectedValue()).quantity
               + " left over");
           textField.setText("");
+          System.out.println("revenue " + s.fm.revenueToday);
         }
       }
     });
@@ -71,6 +73,7 @@ public class CashierFrame extends GenericFrame {
             price +". Enter paid amount:", JOptionPane.YES_NO_OPTION));
         JOptionPane.showMessageDialog(null, "Your change is " +
             (received - price));
+        // TODO: Implement financial manager stuff
         price = 0;
         total.setText("0.0");
         selling.removeAllElements();
@@ -95,6 +98,13 @@ public class CashierFrame extends GenericFrame {
     controlPanel.add(changeQuantity);
     controlPanel.add(checkOut);
     controlPanel.add(checkSaleDates);
+
+  }
+
+  private void showTextField(){
+    textField = new JTextField(20);
+
+    controlPanel.add(textField);
 
   }
 

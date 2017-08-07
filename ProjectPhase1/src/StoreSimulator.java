@@ -43,6 +43,8 @@ public class StoreSimulator implements Serializable {
       s = initialStoreCreation();
     }
 
+
+
     final FileHandler fileHandler = new FileHandler("log.txt", true);
     logger.setLevel(Level.ALL);
     consoleHandler.setLevel(Level.ALL);
