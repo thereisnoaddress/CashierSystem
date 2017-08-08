@@ -22,6 +22,7 @@ public class CashierFrame extends GenericFrame {
   protected JTextField textField;
   protected JButton resetDay;
   protected JButton showStock;
+  protected JButton scanIn;
 
 
   CashierFrame() throws IOException, ClassNotFoundException {
@@ -124,6 +125,15 @@ public class CashierFrame extends GenericFrame {
       }
     });
 
+    scanIn = new JButton("Scan in");
+    scanIn.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        JOptionPane.showMessageDialog(null,
+            "This is where you put your scanned UPC.");
+      }
+    });
+
 
     controlPanel.add(sellButton);
     controlPanel.add(changeQuantity);
@@ -131,6 +141,7 @@ public class CashierFrame extends GenericFrame {
     controlPanel.add(checkSaleDates);
     controlPanel.add(resetDay);
     controlPanel.add(showStock);
+    controlPanel.add(scanIn);
 
   }
 
