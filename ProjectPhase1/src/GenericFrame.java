@@ -67,7 +67,7 @@ public class GenericFrame {
 
     storeItems.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     storeItems.setSelectedIndex(0);
-    storeItems.setVisibleRowCount(10);
+    storeItems.setVisibleRowCount(15);
     storeItems.setLocation(300, 0);
 
     JScrollPane storeItemsScrollPane = new JScrollPane(storeItems);
