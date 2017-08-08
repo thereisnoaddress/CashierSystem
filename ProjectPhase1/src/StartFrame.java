@@ -15,7 +15,7 @@ public class StartFrame {
 
   private StartFrame() throws IOException, ClassNotFoundException {
 
-    mainFrame = new JFrame("User chooser");
+    mainFrame = new JFrame("User Chooser");
     mainFrame.setSize(300,300);
     mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     mainFrame.setLocationRelativeTo(null);
@@ -72,8 +72,13 @@ public class StartFrame {
               e1.printStackTrace();
             }
           }
+
+          Store.logger.info("A " +userList.getSelectedValue() + " has logged in.");
         }
+
       }
+
+
     });
 
     panel.add(listScroller);

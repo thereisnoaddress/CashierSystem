@@ -131,7 +131,6 @@ public class Store implements Serializable {
           logger.info(getItem(lineList.get(1)).name);
           return;
 
-        // TODO: fix this
         case "2":
           logger.info(getItem(lineList.get(1)).toString());
           return;
@@ -327,7 +326,7 @@ public class Store implements Serializable {
           return;
 
         case "39":
-          logger.info("Sale duration is" + sm.getSaleDuration(lineList.get(1)));
+          logger.info("Sale duration is " + sm.getSaleDuration(lineList.get(1)));
           return;
 
         case "40":

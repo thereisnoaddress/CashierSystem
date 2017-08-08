@@ -27,6 +27,9 @@ public class ManagerFrame extends GenericFrame {
               ((Item) storeItems.getSelectedValue()).pendingOrders);
           JOptionPane.showMessageDialog(null,
               "The pending orders of this item are " + pending);
+          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
+              " has pending orders " + ((Item)storeItems.getSelectedValue()).pendingOrders);
+
         }
       }
     });
@@ -37,6 +40,8 @@ public class ManagerFrame extends GenericFrame {
       public void actionPerformed(ActionEvent e) {
         JOptionPane.showMessageDialog(null, "Today's sales revenue is " +
             s.fm.revenueToday);
+        Store.logger.info("Today's sales revenue is " +  s.fm.revenueToday);
+
       }
     });
 
@@ -47,6 +52,7 @@ public class ManagerFrame extends GenericFrame {
       public void actionPerformed(ActionEvent e) {
         JOptionPane.showMessageDialog(null, "Today's profit is "
             + s.fm.profitToday);
+        Store.logger.info("Today's sales profit is " +  s.fm.profitToday);
       }
     });
 

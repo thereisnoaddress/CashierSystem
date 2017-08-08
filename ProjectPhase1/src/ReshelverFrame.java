@@ -25,6 +25,8 @@ public class ReshelverFrame extends GenericFrame {
         if (storeItems.getSelectedIndex() != -1) {
           JOptionPane.showMessageDialog(null,
               "The item is in aisle " + ((Item) storeItems.getSelectedValue()).aisle);
+          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
+              " is in aisle " + ((Item) storeItems.getSelectedValue()).aisle);
         }
       }
     });
@@ -37,9 +39,11 @@ public class ReshelverFrame extends GenericFrame {
         if (storeItems.getSelectedIndex() != -1) {
 
           String history = ((Item) storeItems.getSelectedValue()).infoToString(
-              ((Item) storeItems.getSelectedValue()).priceHistory);
+              ((Item) storeItems.getSelectedValue()).orderHistory);
           JOptionPane.showMessageDialog(null,
-              "The price history of this item is " + history);
+              "The order history of this item is " + history);
+          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
+              " has order history " + ((Item) storeItems.getSelectedValue()).orderHistory);
         }
       }
     });
@@ -52,6 +56,8 @@ public class ReshelverFrame extends GenericFrame {
           JOptionPane.showMessageDialog(null,
               "There are " + ((Item) storeItems.getSelectedValue()).quantity +
           " of this item.");
+          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
+              " has quantity " + ((Item) storeItems.getSelectedValue()).quantity);
 
         }
       }

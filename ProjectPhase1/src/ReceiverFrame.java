@@ -37,12 +37,17 @@ public class ReceiverFrame extends GenericFrame {
                   JOptionPane.YES_NO_OPTION));
           JOptionPane.showMessageDialog(null, "There are " +
               s.UPCToItem.get(UPC).quantity + " now.");
+          Store.logger.info("There are " +
+              s.UPCToItem.get(UPC).quantity + s.UPCToItem.get(UPC).name + "(s) now.");
+
+
         } else {
           String item = JOptionPane.showInputDialog("It appears that you are trying to add"
                   + " a new item. Please enter its details according to help.txt",
               JOptionPane.YES_NO_OPTION);
           Item i = s.makeNewItem(item);
           JOptionPane.showMessageDialog(null, i.name + " has been added.");
+          Store.logger.info(i.name + " has been added with quantity" + i.quantity);
           ReceiverFrame.super.items.removeAllElements();
           ReceiverFrame.super.addToList();
         }
@@ -56,6 +61,8 @@ public class ReceiverFrame extends GenericFrame {
         if (storeItems.getSelectedIndex() != -1) {
           JOptionPane.showMessageDialog(null,
               "The item is in aisle " + ((Item) storeItems.getSelectedValue()).aisle);
+          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
+              " is in aisle " + ((Item) storeItems.getSelectedValue()).aisle);
         }
       }
     });
@@ -68,6 +75,8 @@ public class ReceiverFrame extends GenericFrame {
           JOptionPane.showMessageDialog(null,
               "The bought price of the item is " +
                   ((Item) storeItems.getSelectedValue()).boughtPrice);
+          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
+              " has bought price " + ((Item) storeItems.getSelectedValue()).boughtPrice);
         }
       }
     });
@@ -82,6 +91,8 @@ public class ReceiverFrame extends GenericFrame {
               ((Item) storeItems.getSelectedValue()).priceHistory);
           JOptionPane.showMessageDialog(null,
               "The price history of this item is " + history);
+          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
+              " has price history " + ((Item) storeItems.getSelectedValue()).priceHistory);
         }
       }
     });
@@ -94,6 +105,8 @@ public class ReceiverFrame extends GenericFrame {
           JOptionPane.showMessageDialog(null,
               "The current price of this item is " +
                   ((Item) storeItems.getSelectedValue()).sellPrice);
+          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
+              " has current price " + ((Item) storeItems.getSelectedValue()).sellPrice);
         }
 
       }

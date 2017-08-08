@@ -40,6 +40,8 @@ public class CashierFrame extends GenericFrame {
         if (storeItems.getSelectedIndex() != -1) {
           JOptionPane.showMessageDialog(null, "There are " +
               ((Item)storeItems.getSelectedValue()).quantity + " in stock.");
+          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
+              " has " + ((Item)storeItems.getSelectedValue()).quantity + " in stock.");
         }
       }
     });
@@ -61,7 +63,8 @@ public class CashierFrame extends GenericFrame {
             JOptionPane.showMessageDialog(null,
                 "You now have " + ((Item) storeItems.getSelectedValue()).quantity
                     + " left over");
-            System.out.println("revenue " + s.fm.revenueToday);
+            Store.logger.info(quantity + " of " + ((Item)storeItems.getSelectedValue()).name
+            + " has been sold.");
           } else {
             JOptionPane.showMessageDialog(null, "You don't "
                 + "have any in stock!");
@@ -81,6 +84,9 @@ public class CashierFrame extends GenericFrame {
                   + "How many do you want to change it to?", JOptionPane.YES_NO_OPTION));
           JOptionPane.showMessageDialog(null, "Now there are " +
               ((Item) storeItems.getSelectedValue()).quantity);
+
+          Store.logger.info(((Item) storeItems.getSelectedValue()) + " now has " +
+              ((Item) storeItems.getSelectedValue()).quantity + " in stock.");
         }
       }
     });
@@ -93,6 +99,7 @@ public class CashierFrame extends GenericFrame {
             price +". Enter paid amount:", JOptionPane.YES_NO_OPTION));
         JOptionPane.showMessageDialog(null, "Your change is " +
             (received - price));
+        Store.logger.info(price + " worth of goods has been sold.");
         price = 0;
         total.setText("0.0");
         selling.removeAllElements();
@@ -106,8 +113,9 @@ public class CashierFrame extends GenericFrame {
       public void actionPerformed(ActionEvent e) {
         if (storeItems.getSelectedIndex() != -1) {
           JOptionPane.showMessageDialog(null, s.sm.getSaleDuration(
-              ((Item) storeItems.getSelectedValue()).UPC
-          ));
+              ((Item) storeItems.getSelectedValue()).UPC));
+          Store.logger.info("Sale duration for " + ((Item) storeItems.getSelectedValue()).name
+           + " is " + s.sm.getSaleDuration(((Item) storeItems.getSelectedValue()).UPC));
         }
       }
     });
@@ -118,7 +126,8 @@ public class CashierFrame extends GenericFrame {
       public void actionPerformed(ActionEvent e) {
         JOptionPane.showMessageDialog(null, "Today's revenue is"
             + s.fm.revenueToday + " and today's profit is " + s.fm.profitToday + ".");
-
+        Store.logger.info("A day has ended with profit " + s.fm.profitToday + ". A new day"
+            + "has begun!");
         s.fm.revenueToday = 0;
         s.fm.profitToday = 0;
 
