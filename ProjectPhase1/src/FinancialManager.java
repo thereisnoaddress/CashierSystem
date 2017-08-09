@@ -33,7 +33,6 @@ class FinancialManager implements Serializable {
     double profit = quantity * (revenue - s.getItem(UPC).ia.boughtPrice);
 
     revenueToday += revenue;
-    System.out.println(revenueToday);
     profitToday += profit;
   }
 }
