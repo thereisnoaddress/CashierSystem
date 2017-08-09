@@ -19,7 +19,6 @@ public class StartFrame {
     mainFrame.setSize(300,300);
     mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     mainFrame.setLocationRelativeTo(null);
-    mainFrame.setVisible(true);
 
     JPanel panel = new JPanel();
     panel.setLayout(new FlowLayout());
@@ -38,6 +37,7 @@ public class StartFrame {
 
     JScrollPane listScroller = new JScrollPane(userList);
     listScroller.setPreferredSize(new Dimension(250, 80));
+    mainFrame.setVisible(true);
 
     goButton.addActionListener(new ActionListener() {
       @Override
