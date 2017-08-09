@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.swing.*;
 
 public class GenericFrame {
@@ -64,7 +67,7 @@ public class GenericFrame {
 
     storeItems.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     storeItems.setSelectedIndex(0);
-    storeItems.setVisibleRowCount(10);
+    storeItems.setVisibleRowCount(15);
     storeItems.setLocation(300, 0);
 
     JScrollPane storeItemsScrollPane = new JScrollPane(storeItems);
@@ -78,6 +81,13 @@ public class GenericFrame {
         items.addElement(i);
       }
     }
+  }
+
+  protected void openScanner() throws ScriptException {
+    String script = "tell application \"Kinoni Barcode Reader\" to launch";
+    ScriptEngineManager mgr = new ScriptEngineManager();
+    ScriptEngine engine = mgr.getEngineByName("AppleScript");
+    engine.eval(script);
   }
 
 
