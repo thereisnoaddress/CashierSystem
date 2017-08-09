@@ -1,9 +1,11 @@
+import java.io.Serializable;
+
 /**
  * This class stores Inventory-related attributes of class Item and should only be instantiated
  * as a part of it
  */
 
-public class ItemInventory {
+public class ItemInventory implements Serializable {
   protected String name;
   String UPC;
   String section;

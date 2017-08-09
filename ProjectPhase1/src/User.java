@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * A class that creates User instances
  */
-public class User {
+public class User implements Serializable {
   String id;
   String password;
   String name;

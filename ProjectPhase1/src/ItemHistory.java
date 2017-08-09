@@ -3,9 +3,11 @@
  * as a part of it
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ItemHistory {
+public class ItemHistory implements Serializable{
+
   ArrayList<String> orderHistory = new ArrayList<>();  //List of orders made (as well as cancellations)
   ArrayList<String> pendingOrders = new ArrayList<>(); //List of pending orders
   ArrayList<String> salesHistory = new ArrayList<>();  // History of units sold

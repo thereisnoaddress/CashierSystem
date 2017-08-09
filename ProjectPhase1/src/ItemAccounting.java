@@ -1,9 +1,11 @@
+import java.io.Serializable;
+
 /**
  * This class stores Accounting-related attributes of class Item and should only be instantiated
  * as a part of it
  */
 
-public class ItemAccounting {
+public class ItemAccounting implements Serializable {
   double boughtPrice;
   double sellPrice;
   boolean saleStatus = false;

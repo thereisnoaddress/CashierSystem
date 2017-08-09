@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * A class that manages user instances
  */
-public class UserManager {
+public class UserManager implements Serializable {
   Store s;
   ArrayList<User> users;
   ArrayList<String> loginHistory;
