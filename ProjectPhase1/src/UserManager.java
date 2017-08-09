@@ -1,5 +1,12 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A class that manages user instances
@@ -8,27 +15,31 @@ public class UserManager implements Serializable {
   TimeManager tm = new TimeManager();
   ArrayList<User> users;
   ArrayList<String> loginHistory;
+  HashMap<String, String> loginID = new HashMap<String, String>();
+  private String filename = "users.ser";
+  UserManager um;
 
-  boolean login(String id, String password) {
-    for (User u : users) {
-      if(u.getId().equals(id) && u.getPassword().equals(password)) {
-        u.loginHistory.add("Login on: " + tm.timeStamp());
-        this.loginHistory.add(u.getId() + " logged in on: " + tm.timeStamp());
-        return true;
-      }
+  void serealize(){
+    // Save the store to store.ser
+    FileOutputStream fos;
+    ObjectOutputStream out;
+    try {
+      fos = new FileOutputStream(filename);
+      out = new ObjectOutputStream(fos);
+      out.writeObject(this);
+      out.close();
+    } catch (Exception ex) {
+      ex.printStackTrace();
     }
-    return false;
-  }
-
-  void logout(User u) {
-    u.loginHistory.add("Logout on: " + tm.timeStamp());
-    this.loginHistory.add(u.getId() + " logged out on: " + tm.timeStamp());
   }
 
   void register(String id, String password) {
-    User u = new User(id, password);
-    users.add(u);
-    login(id, password);
+    loginID.put(id, password);
+
+  }
+
+  public static void main(String[] args) {
+    UserManager um = new UserManager();
   }
 
 }

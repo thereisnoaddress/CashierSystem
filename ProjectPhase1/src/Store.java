@@ -387,12 +387,10 @@ class Store implements Serializable {
           logger.info(stm.getDailyProfits());
           return;
 
-        // How to implement this in the frames?
         case "49":
           logger.info("Employee" + lineList.get(1) + " has signed in.");
           return;
 
-        // How to implement this in the frames?
         case "50":
           logger.info("Employee" + lineList.get(1) + " has signed out.");
           return;

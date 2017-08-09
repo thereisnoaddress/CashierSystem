@@ -30,19 +30,6 @@ public class StartFrame {
     panel.add(goButton);
 
     mainFrame.add(panel);
-    mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-                                  @Override
-                                  public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-
-                                    try {
-                                      LoginFrame lf = new LoginFrame();
-                                    } catch (IOException e) {
-                                      e.printStackTrace();
-                                    } catch (ClassNotFoundException e) {
-                                      e.printStackTrace();
-                                    }
-                                  }
-                                });
 
     String[] users = {"Manager", "Reshelver", "Receiver", "Cashier"};
 
