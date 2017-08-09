@@ -8,16 +8,11 @@ import javax.swing.*;
 
 public class GenericFrame {
 
-  JFrame mainFrame;
-  JPanel controlPanel;
-  DefaultListModel items;
-
-  StoreSimulator ss;
-  protected Store store;
-
-
+  protected JFrame mainFrame;
+  protected JPanel controlPanel;
+  protected DefaultListModel items;
+  protected StoreSimulator ss;
   protected JList storeItems;
-
   protected Store s;
 
   GenericFrame(String title) throws IOException, ClassNotFoundException {
@@ -32,12 +27,8 @@ public class GenericFrame {
   private void startStore() throws IOException, ClassNotFoundException {
     ss = new StoreSimulator();
     s = ss.StoreSimulator();
-    setStoreReference();
   }
 
-  void setStoreReference() {
-    store = s;
-  }
 
   private void prepareGUI() {
 
@@ -80,8 +71,6 @@ public class GenericFrame {
 
     controlPanel.add(storeItemsScrollPane);
   }
-
-
 
   void addToList() {
     for (Item i : s.itemsList) {

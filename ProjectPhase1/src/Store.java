@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 /**
  * The Store class.
  */
-public class Store implements Serializable {
+class Store implements Serializable {
 
   OrderManager om;
   SaleManager sm;

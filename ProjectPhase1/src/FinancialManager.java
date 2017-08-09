@@ -4,6 +4,8 @@ class FinancialManager implements Serializable {
 
   Store s;
   private SaleManager sm;
+  double revenueToday;
+  double profitToday;
 
   FinancialManager(Store store, SaleManager saleManager) {
     s = store;
@@ -22,15 +24,17 @@ class FinancialManager implements Serializable {
   void recordSale(String UPC, int quantity) {
     Item item = s.getItem(UPC);
     double price;
-    if (sm.checkSale(UPC)) {
+    if (item.ia.saleStatus) {
       price = s.getItem(UPC).ia.salePrice;
     } else {
       price = s.getItem(UPC).ia.sellPrice;
     }
     double revenue = quantity * price;
-    double profit = quantity * (revenue - s.getItem(UPC).getBoughtPrice());
-    item.ia.revenueToday += revenue;
-    item.ia.profitToday += profit;
+    double profit = quantity * (revenue - s.getItem(UPC).ia.boughtPrice);
+
+    revenueToday += revenue;
+    System.out.println(revenueToday);
+    profitToday += profit;
   }
 }
 

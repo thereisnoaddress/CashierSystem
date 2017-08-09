@@ -15,7 +15,8 @@ public class SaleManager implements Serializable {
    */
   boolean checkSale(String UPC) {
     Item item = s.getItem(UPC);
-    if (tm.after(item.ia.saleStart) && tm.before(item.ia.saleEnd)) {
+    if ((item.ia.saleStart == null) ||
+    (tm.after(item.ia.saleStart) && tm.before(item.ia.saleEnd)) ){
       if (!item.ia.saleStatus) {
         setSaleStatusOn(UPC);
       }

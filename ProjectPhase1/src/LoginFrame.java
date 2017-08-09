@@ -20,10 +20,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
-public class LoginFrame extends GenericFrame {
-  LoginFrame() throws IOException, ClassNotFoundException {
+public class LoginFrame  {
+  UserManager um;
 
-    super("LoginFrame");
+  LoginFrame() throws IOException, ClassNotFoundException {
+    UserManager um = new UserManager();
+    prepGUI();
+  }
+
+
+  void prepGUI() {
     JFrame mainFrame;
 
     // Default for all
@@ -80,7 +86,6 @@ public class LoginFrame extends GenericFrame {
     JPasswordField registrationPassword = new JPasswordField(10);
     JButton registerButton = new JButton("Register");
 
-
     gc.gridx = 1;
     gc.gridy = 6;
     panel.add(registrationTitle, gc);
@@ -112,20 +117,21 @@ public class LoginFrame extends GenericFrame {
 
     // Listener1
     loginButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        // Access the input
-        String loginText = login.getText();
-        String loginPasswordText = loginPassword.getText();
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          // Access the input
+          String loginText = login.getText();
+          String loginPasswordText = loginPassword.getText();
 
-        if (loginText.equals("") || loginPasswordText.equals("")) {
-          JOptionPane.showMessageDialog(mainFrame, "Please enter the id and password!");
-        } else {
+          if (loginText.equals("") || loginPasswordText.equals("")) {
+            JOptionPane.showMessageDialog(mainFrame, "Please enter the id and password!");
+          } else {
             try {
               mainFrame.setVisible(false);
-              if (s.um.login(loginText, loginPasswordText)) {
+              if (um.login(loginText, loginPasswordText)) {
                 StartFrame sf = new StartFrame();
-                Store.logger.info(loginText + " has logged in.");
+                mainFrame.setVisible(false);
+
               }
             } catch (IOException | ClassNotFoundException el) {
               JOptionPane.showMessageDialog(mainFrame, "Invalid id or password!");
@@ -147,11 +153,11 @@ public class LoginFrame extends GenericFrame {
         if (registrationText.equals("") || registrationPasswordText.equals("")) {
           JOptionPane.showMessageDialog(mainFrame, "Please enter the id and password!");
         } else {
-          //s.um.register(registrationText, registrationPasswordText);
-          mainFrame.setVisible(false);
-          Store.logger.info(registrationText + " has logged in.");
           try {
             StartFrame sf = new StartFrame();
+//            Store.logger.info("logging some info");
+            mainFrame.setVisible(false);
+
           } catch (IOException | ClassNotFoundException el) {
             JOptionPane.showMessageDialog(mainFrame, "Cannot open StartFrame!");
           }
