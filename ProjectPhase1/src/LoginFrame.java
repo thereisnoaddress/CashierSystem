@@ -22,10 +22,12 @@ import javax.swing.ListSelectionModel;
 
 public class LoginFrame  {
   UserManager um;
+  private JFrame mainFrame;
 
   LoginFrame() throws IOException, ClassNotFoundException {
-    UserManager um = new UserManager();
+    //UserManager um = new UserManager();
     prepGUI();
+
   }
 
 

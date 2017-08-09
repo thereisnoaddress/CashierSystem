@@ -43,7 +43,13 @@ public class GenericFrame {
       public void windowClosing(java.awt.event.WindowEvent windowEvent) {
         ss.saveStore();
         Store.logger.info(mainFrame.getTitle() + " has logged out and the store has been saved.");
-        System.exit(0);
+        try {
+          StartFrame sf = new StartFrame();
+        } catch (IOException e) {
+          e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+          e.printStackTrace();
+        }
       }
     });
 
