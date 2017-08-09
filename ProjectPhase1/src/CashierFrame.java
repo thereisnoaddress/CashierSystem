@@ -56,13 +56,12 @@ public class CashierFrame extends GenericFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         if (storeItems.getSelectedIndex() != -1) {
+          if (((Item) storeItems.getSelectedValue()).getQuantity() > 0) {
           int quantity = Integer.parseInt(JOptionPane.showInputDialog(
               "How many do you want to sell?",
               JOptionPane.YES_NO_OPTION));
-          if (((Item) storeItems.getSelectedValue()).getQuantity() > 0) {
-            s.is.sell(((Item) storeItems.getSelectedValue()).getUPC());
-            if (((Item) storeItems.getSelectedValue()).getQuantity() > 0) {
-              selling.addElement(((Item) storeItems.getSelectedValue()).getName());
+            s.is.sell(((Item) storeItems.getSelectedValue()).getUPC(), quantity);
+              selling.addElement(quantity + " x " + ((Item) storeItems.getSelectedValue()).getName());
               price += ((Item) storeItems.getSelectedValue()).getSellPrice();
               total.setText("Total:" + Double.toString(price));
               JOptionPane.showMessageDialog(null,
@@ -74,7 +73,6 @@ public class CashierFrame extends GenericFrame {
               JOptionPane.showMessageDialog(null, "You don't "
                   + "have any in stock!");
             }
-          }
         }
       }
     });

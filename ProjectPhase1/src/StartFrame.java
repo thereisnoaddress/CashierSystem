@@ -10,17 +10,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
-public class StartFrame extends GenericFrame {
+public class StartFrame {
+
+  private JFrame mainFrame;
 
   StartFrame() throws IOException, ClassNotFoundException {
 
-    super("StartFrame");
-    JFrame mainFrame;
-
-    mainFrame = new JFrame("Select your function");
+    mainFrame = new JFrame("User Chooser");
     mainFrame.setSize(300,300);
     mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     mainFrame.setLocationRelativeTo(null);
+    mainFrame.setVisible(true);
 
     JPanel panel = new JPanel();
     panel.setLayout(new FlowLayout());
@@ -39,7 +39,6 @@ public class StartFrame extends GenericFrame {
 
     JScrollPane listScroller = new JScrollPane(userList);
     listScroller.setPreferredSize(new Dimension(250, 80));
-    mainFrame.setVisible(true);
 
     goButton.addActionListener(new ActionListener() {
       @Override
@@ -75,7 +74,7 @@ public class StartFrame extends GenericFrame {
             }
           }
 
-          Store.logger.info("A " + userList.getSelectedValue() + " has logged in.");
+          Store.logger.info("A " +userList.getSelectedValue() + " has logged in.");
         }
 
       }
