@@ -16,9 +16,11 @@ public class GenericFrame {
   protected Store s;
 
   GenericFrame(String title) throws IOException, ClassNotFoundException {
-    prepareGUI();
+
     startStore();
+    prepareGUI();
     showList();
+
 
     mainFrame.setTitle(title);
     mainFrame.setVisible(true);

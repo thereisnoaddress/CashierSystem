@@ -1,3 +1,6 @@
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,12 +16,19 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  * A class that simulates a store.
  */
 class StoreSimulator implements Serializable {
 
+  private JFrame mainFrame;
+  private JPanel controlPanel;
+  private JButton okBUtton;
   private static final Logger logger = Logger.getLogger(Store.class.getName());
   private static final Handler consoleHandler = new ConsoleHandler();
   private Store s;
@@ -41,7 +51,8 @@ class StoreSimulator implements Serializable {
       Store.logger = logger;
 
     } catch (FileNotFoundException ex) {
-      s = initialStoreCreation();
+      String path = getPath();
+      s = initialStoreCreation(path);
     }
 
 
@@ -91,7 +102,14 @@ class StoreSimulator implements Serializable {
     }
   }
 
-  private static Store initialStoreCreation() throws IOException, ClassNotFoundException {
+  String getPath(){
+    return JOptionPane.showInputDialog("This is the first time you're initializing a store. "
+        + "Please enter the path to storeItems.txt.");
+
+  }
+
+
+  private static Store initialStoreCreation(String path) throws IOException, ClassNotFoundException {
 
     // Initialize a FileHandler, a consoleHandler, and a logger to output
     // to log.txt
@@ -104,14 +122,12 @@ class StoreSimulator implements Serializable {
 
     // Ask the user for a file path for StoreItems.txt so that a Store can be
     // created with the file's items.
-    BufferedReader kbd = new BufferedReader(new InputStreamReader(System.in));
-    System.out.println("This is the first time you are creating a store. "
-        + "Please enter a file path for StoreItems.txt: ");
-    String fileName = kbd.readLine();
-    Store s = new Store(fileName, logger);
+
+    Store s = new Store(path, logger);
     logger.info("A new store has been created.");
     return s;
   }
+
 
 
 }
