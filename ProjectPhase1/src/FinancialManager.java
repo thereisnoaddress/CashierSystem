@@ -28,17 +28,9 @@ class FinancialManager implements Serializable {
       price = s.getItem(UPC).ia.sellPrice;
     }
     double revenue = quantity * price;
-<<<<<<< HEAD
     double profit = quantity * (revenue - s.getItem(UPC).getBoughtPrice());
     item.ia.revenueToday += revenue;
     item.ia.profitToday += profit;
-=======
-    double profit = quantity * (revenue - s.getItem(UPC).boughtPrice);
-
-    revenueToday += revenue;
-    System.out.println(revenueToday);
-    profitToday += profit;
->>>>>>> 2f9d7dece60509ffb3f0237848879205ebbd5001
   }
 }
 
