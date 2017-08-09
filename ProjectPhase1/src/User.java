@@ -16,6 +16,4 @@ public class User implements Serializable {
 
   String getId() { return this.id; }
   String getPassword() { return this.password; }
-
-  void setPassword(String password) { this.password = password; }
 }

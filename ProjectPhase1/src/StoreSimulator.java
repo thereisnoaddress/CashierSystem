@@ -17,7 +17,7 @@ import java.util.logging.SimpleFormatter;
 /**
  * A class that simulates a store.
  */
-public class StoreSimulator implements Serializable {
+class StoreSimulator implements Serializable {
 
 
   private static final Logger logger = Logger.getLogger(Store.class.getName());
@@ -26,7 +26,7 @@ public class StoreSimulator implements Serializable {
   private String filename;
 
 
-  public Store StoreSimulator()
+  Store StoreSimulator()
       throws IOException, ClassNotFoundException {
     filename = "store.ser";
 
@@ -78,7 +78,7 @@ public class StoreSimulator implements Serializable {
   }
 
 
-  protected void saveStore(){
+  void saveStore(){
     // Save the store to store.ser
     FileOutputStream fos;
     ObjectOutputStream out;

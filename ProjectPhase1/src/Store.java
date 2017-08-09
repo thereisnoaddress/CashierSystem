@@ -35,7 +35,7 @@ public class Store implements Serializable {
     is = new ItemScanner(this, om, fm);
     im = new ItemManager(this);
     tm = new TimeManager();
-    um = new UserManager(this);
+    um = new UserManager();
 
     Store.logger = logger;
 

@@ -11,8 +11,9 @@ public class GenericFrame {
   JFrame mainFrame;
   JPanel controlPanel;
   DefaultListModel items;
-  UserManager um;
+
   StoreSimulator ss;
+  protected Store store;
 
 
   protected JList storeItems;
@@ -31,8 +32,12 @@ public class GenericFrame {
   private void startStore() throws IOException, ClassNotFoundException {
     ss = new StoreSimulator();
     s = ss.StoreSimulator();
+    setStoreReference();
   }
 
+  void setStoreReference() {
+    store = s;
+  }
 
   private void prepareGUI() {
 
@@ -75,6 +80,8 @@ public class GenericFrame {
 
     controlPanel.add(storeItemsScrollPane);
   }
+
+
 
   void addToList() {
     for (Item i : s.itemsList) {

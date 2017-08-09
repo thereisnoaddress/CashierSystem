@@ -121,11 +121,12 @@ public class LoginFrame extends GenericFrame {
         if (loginText.equals("") || loginPasswordText.equals("")) {
           JOptionPane.showMessageDialog(mainFrame, "Please enter the id and password!");
         } else {
-          if (s.um.login(loginText, loginPasswordText)) {
             try {
               mainFrame.setVisible(false);
-              StartFrame sf = new StartFrame();
-              Store.logger.info(loginText + " has logged in.");
+              if (s.um.login(loginText, loginPasswordText)) {
+                StartFrame sf = new StartFrame();
+                Store.logger.info(loginText + " has logged in.");
+              }
             } catch (IOException | ClassNotFoundException el) {
               JOptionPane.showMessageDialog(mainFrame, "Invalid id or password!");
             }
@@ -134,7 +135,7 @@ public class LoginFrame extends GenericFrame {
           }
         }
       }
-    });
+    );
 
     registerButton.addActionListener(new ActionListener() {
       @Override
@@ -146,7 +147,7 @@ public class LoginFrame extends GenericFrame {
         if (registrationText.equals("") || registrationPasswordText.equals("")) {
           JOptionPane.showMessageDialog(mainFrame, "Please enter the id and password!");
         } else {
-          s.um.register(registrationText, registrationPasswordText);
+          //s.um.register(registrationText, registrationPasswordText);
           mainFrame.setVisible(false);
           Store.logger.info(registrationText + " has logged in.");
           try {
