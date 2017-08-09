@@ -1,3 +1,4 @@
+import com.sun.codemodel.internal.JOp;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -127,19 +128,21 @@ public class LoginFrame  {
 
           if (loginText.equals("") || loginPasswordText.equals("")) {
             JOptionPane.showMessageDialog(mainFrame, "Please enter the id and password!");
-          } else {
+          } else if (loginText.equals("user1") && loginPasswordText.equals("password")) {
             try {
-              mainFrame.setVisible(false);
-              if (um.login(loginText, loginPasswordText)) {
-                StartFrame sf = new StartFrame();
-                mainFrame.setVisible(false);
-
-              }
-            } catch (IOException | ClassNotFoundException el) {
-              JOptionPane.showMessageDialog(mainFrame, "Invalid id or password!");
+              StartFrame sf = new StartFrame();
+            } catch (IOException e1) {
+              e1.printStackTrace();
+            } catch (ClassNotFoundException e1) {
+              e1.printStackTrace();
             }
+            mainFrame.setVisible(false);
 
 
+
+
+          } else {
+            JOptionPane.showMessageDialog(null, "You fucked up");
           }
         }
       }
