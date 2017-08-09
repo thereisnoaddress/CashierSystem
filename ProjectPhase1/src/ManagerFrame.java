@@ -10,9 +10,9 @@ public class ManagerFrame extends GenericFrame {
     prepareButtons();
   }
 
-  protected JButton pendingOrders;
-  protected JButton dailySales;
-  protected JButton dailyProfit;
+  JButton pendingOrders;
+  JButton dailySales;
+  JButton dailyProfit;
 
 
   private void prepareButtons(){

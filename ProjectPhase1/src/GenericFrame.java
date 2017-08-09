@@ -8,10 +8,11 @@ import javax.swing.*;
 
 public class GenericFrame {
 
-  protected JFrame mainFrame;
-  protected JPanel controlPanel;
-  protected DefaultListModel items;
-  protected StoreSimulator ss;
+  JFrame mainFrame;
+  JPanel controlPanel;
+  DefaultListModel items;
+  UserManager um;
+  StoreSimulator ss;
 
 
   protected JList storeItems;

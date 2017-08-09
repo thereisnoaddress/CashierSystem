@@ -17,7 +17,7 @@ public class UserManager implements Serializable {
     for (User u : users) {
       if(u.getId().equals(id) && u.getPassword().equals(password)) {
         u.loginHistory.add("Login on: " + s.tm.timeStamp());
-        this.loginHistory.add(u.getName() + " logged in on: " + s.tm.timeStamp());
+        this.loginHistory.add(u.getId() + " logged in on: " + s.tm.timeStamp());
         return true;
       }
     }
@@ -26,7 +26,13 @@ public class UserManager implements Serializable {
 
   void logout(User u) {
     u.loginHistory.add("Logout on: " + s.tm.timeStamp());
-    this.loginHistory.add(u.getName() + " logged out on: " + s.tm.timeStamp());
+    this.loginHistory.add(u.getId() + " logged out on: " + s.tm.timeStamp());
+  }
+
+  void register(String id, String password) {
+    User u = new User(id, password);
+    users.add(u);
+    login(id, password);
   }
 
 }

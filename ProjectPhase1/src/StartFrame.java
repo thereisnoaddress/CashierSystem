@@ -10,12 +10,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
-public class StartFrame {
-    private JFrame mainFrame;
+public class StartFrame extends GenericFrame {
 
-  private StartFrame() throws IOException, ClassNotFoundException {
+  StartFrame() throws IOException, ClassNotFoundException {
 
-    mainFrame = new JFrame("User Chooser");
+    super("StartFrame");
+    JFrame mainFrame;
+
+    mainFrame = new JFrame("Select your function");
     mainFrame.setSize(300,300);
     mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     mainFrame.setLocationRelativeTo(null);
@@ -73,7 +75,7 @@ public class StartFrame {
             }
           }
 
-          Store.logger.info("A " +userList.getSelectedValue() + " has logged in.");
+          Store.logger.info("A " + userList.getSelectedValue() + " has logged in.");
         }
 
       }
