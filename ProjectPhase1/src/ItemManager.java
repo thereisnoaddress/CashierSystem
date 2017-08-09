@@ -17,8 +17,7 @@ public class ItemManager implements Serializable {
    */
   void setSection(String UPC, String section) {
     Item item = s.getItem(UPC);
-    item.section = section;
-    s.logger.info("The section of " + s.getItem(UPC).name + " has been changed to " + section);
+    item.iv.section = section;
   }
 
   /**
@@ -30,9 +29,7 @@ public class ItemManager implements Serializable {
    */
   void setSubsection(String UPC, String subsection) {
     Item item = s.getItem(UPC);
-    item.subsection = subsection;
-    s.logger.info("The subsection of " + s.getItem(UPC).name +
-        " has been changed to " + subsection);
+    item.iv.subsection = subsection;
   }
 
   /**
@@ -44,8 +41,7 @@ public class ItemManager implements Serializable {
    */
   void setAisle(String UPC, int aisle) {
     Item item = s.getItem(UPC);
-    item.aisle = aisle;
-    s.logger.info("The aisle of " + s.getItem(UPC).name + " has been changed to " + aisle);
+    item.iv.aisle = aisle;
   }
 
   /**
@@ -57,9 +53,7 @@ public class ItemManager implements Serializable {
    */
   void setBoughtPrice(String UPC, double price) {
     Item item = s.getItem(UPC);
-    item.boughtPrice = price;
-    s.logger.info("The boughtPrice of " + s.getItem(UPC).name +
-        " has been changed to " + price);
+    item.ia.boughtPrice = price;
   }
 
   /**
@@ -70,10 +64,8 @@ public class ItemManager implements Serializable {
    */
   void setSellPrice(String UPC, double price) {
     Item item = s.getItem(UPC);
-    item.sellPrice = price;
-    item.priceHistory.add(price + "replace this String with a timestamp");
-    s.logger.info("The sellPrice of " + s.getItem(UPC).name +
-        " has been changed to " + price);
+    item.ia.sellPrice = price;
+    item.ih.priceHistory.add(price + "replace this String with a timestamp");
   }
 
   /**
@@ -86,9 +78,7 @@ public class ItemManager implements Serializable {
    */
   void setQuantity(String UPC, int quantity) {
     Item item = s.getItem(UPC);
-    item.quantity = quantity;
-    s.logger.info("The quantity of " + s.getItem(UPC).name +
-        " has been changed to " + quantity);
+    item.iv.quantity = quantity;
   }
 
   /**
@@ -102,9 +92,7 @@ public class ItemManager implements Serializable {
    */
   void setThreshold(String UPC, int threshold) {
     Item item = s.getItem(UPC);
-    item.threshold = threshold;
-    item.orderSize = threshold * 3;
-    s.logger.info("The threshold of " + s.getItem(UPC).name +
-        " has been changed to " + threshold);
+    item.iv.threshold = threshold;
+    item.iv.orderSize = threshold * 3;
   }
 }

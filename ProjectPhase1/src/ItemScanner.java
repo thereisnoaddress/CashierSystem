@@ -15,18 +15,6 @@ class ItemScanner implements Serializable {
   }
 
   /**
-   * This method takes a UPC, and then returns the formatted String of the
-   * corresponding Item
-   *
-   * @param UPC The UPC of the Item we would like to look up
-   * @return The formatted String that shows the key attributes of the Item
-   */
-  protected String UPCLookup(String UPC) {  // We are keeping this method for Phase 2
-    s.logger.info("You have looked up UPC " + UPC);
-    return s.getItem(UPC).toString();
-  }
-
-  /**
    * This method checks how much of the Item with the specified
    * UPC is in stock, and then returns that quantity.
    *
@@ -34,22 +22,21 @@ class ItemScanner implements Serializable {
    * @return The quantity of the Item
    */
   int checkInStock(String UPC) {
-    s.logger.info("You have checked if UPC " + UPC + " is in stock.");
-    return s.getItem(UPC).quantity;
+    return s.getItem(UPC).getQuantity();
   }
 
   /**
-   * This method checks the sellPrice of the item with the specified UPC,
-   * and then returns it. Useful when an employee wants to check the price
+   * This method gives the location of the Item with the corresponding UPC. Useful
+   * for stockers to find out where the item should go.
    *
-   * @param UPC The UPC of the Item whose price we'd like to check
-   * @return The sellPrice of the Item
+   * @param UPC The UPC of the Item whose location we want
+   * @return The formatted String location
    */
-  protected double getSellPrice(String UPC) {  // We are keeping this for Phase 2
-    s.logger.info("You have cheked the sell price of " + UPC);
-    return s.getItem(UPC).sellPrice;
+  String getLocation(String UPC) {
+    Item item = s.getItem(UPC);
+    return "Aisle: " + item.getAisle() + ", Section: " + item.getSection() + ", Subsection: "
+        + item.getSubsection();
   }
-
 
   /**
    * This method scans in the specified quantity to the Item
@@ -65,11 +52,10 @@ class ItemScanner implements Serializable {
   void scanIn(String UPC, int quantity) {
     Item item = s.getItem(UPC);
     if (item != null) {
-      item.quantity += quantity;
-      item.unshelvedQuantity = true;
+      item.iv.quantity += quantity;
+      item.iv.unshelvedQuantity = true;
       om.cancelPendingOrder(UPC, quantity);
       addOrderHistory(UPC, quantity);
-      s.logger.info(quantity + " item(s) of " + item + " have been scanned in.");
     } else {
       System.out.println("This UPC is not associated with any item in store!");
     }
@@ -89,7 +75,7 @@ class ItemScanner implements Serializable {
    */
   private void addOrderHistory(String UPC, int quantity) {
     Item item = s.getItem(UPC);
-    item.orderHistory.add(quantity + " items were added on " + tm.timeStamp());
+    item.ih.orderHistory.add(quantity + " items were added on " + tm.timeStamp());
   }
 
   /**
@@ -103,20 +89,16 @@ class ItemScanner implements Serializable {
    */
    void sell(String UPC, int quantity) {
     Item item = s.getItem(UPC);
-    if (item.quantity < item.threshold) {
+    if (item.iv.quantity < item.iv.threshold) {
       om.autoOrder(UPC);
     }
-    if (item.quantity >= quantity) {
-      item.quantity -= quantity;
-      item.soldToday += quantity;
-      item.salesHistory.add(quantity + " units sold of " + item.name);
+    if (item.iv.quantity >= quantity) {
+      item.iv.quantity -= quantity;
+      item.ia.soldToday += quantity;
+      item.ih.salesHistory.add(quantity + " units sold of " + item.getName());
       fm.recordSale(UPC, quantity);
-      s.logger.info(quantity + " item(s) of " + item.name +
-          " have been sold.");
     } else {
       System.out.println("Don't have this much inventory to scan out!");
-      s.logger.info("Error: insufficient quantity of " + item.name +
-          ". Scan was rejected.");
     }
   }
 
@@ -135,25 +117,13 @@ class ItemScanner implements Serializable {
   void returnItem(String UPC, int quantity) {
     Item item = s.getItem(UPC);
 
-    item.quantity += quantity;
-    item.soldToday -= quantity;
-    item.salesHistory.add(quantity + "unit(s) of " + item.name + " were returned on "
+    item.iv.quantity += quantity;
+    item.ia.soldToday -= quantity;
+    item.ih.salesHistory.add(quantity + "unit(s) of " + item.getName() + " were returned on "
         + tm.timeStamp());
-    s.logger.info(quantity + "unit(s) of " + item.name + " were returned.");
     fm.recordSale(UPC, -quantity);
   }
 
-  /**
-   * This method gives the location of the Item with the corresponding UPC. Useful
-   * for stockers to find out where the item should go.
-   *
-   * @param UPC The UPC of the Item whose location we want
-   * @return The formatted String location
-   */
-  String getLocation(String UPC) {
-    Item item = s.getItem(UPC);
-    return "Aisle: " + item.aisle + ", Section: " + item.section + ", Subsection: "
-        + item.subsection;
-  }
+
 }
 

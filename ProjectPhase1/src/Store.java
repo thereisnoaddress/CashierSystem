@@ -14,32 +14,32 @@ import java.util.logging.Logger;
  */
 public class Store implements Serializable {
 
-  protected OrderManager om;
-  protected SaleManager sm;
-  protected FinancialManager fm;
-  protected ItemScanner is;
-  protected ItemManager im;
-  protected TimeManager tm ;
-  protected ArrayList<Item> itemsList = new ArrayList<>();
-  private ArrayList<String> dailyProfits = new ArrayList<>();
-  private ArrayList<String> pendingOrders = new ArrayList<>();
-  protected double revenue;
+  OrderManager om;
+  SaleManager sm;
+  FinancialManager fm;
+  ItemScanner is;
+  ItemManager im;
+  TimeManager tm ;
+  StoreManager stm;
+  UserManager um;
+  ArrayList<Item> itemsList = new ArrayList<>();
+  ArrayList<String> dailyProfits = new ArrayList<>();
+  ArrayList<String> pendingOrders = new ArrayList<>();
   static Logger logger;
-  protected HashMap<String, Item> UPCToItem = new HashMap<String, Item>();
+  HashMap<String, Item> UPCToItem = new HashMap<String, Item>();
 
   Store(String DataFileName, Logger logger) throws ClassNotFoundException, IOException {
-    // Store constructor.
-
     om = new OrderManager(this);
     sm = new SaleManager(this);
     fm = new FinancialManager(this, sm);
     is = new ItemScanner(this, om, fm);
     im = new ItemManager(this);
     tm = new TimeManager();
-
+    um = new UserManager(this);
 
     Store.logger = logger;
 
+    //
     File data = new File(DataFileName);
     if (data.exists()) {
       processData(DataFileName);
@@ -63,9 +63,13 @@ public class Store implements Serializable {
     return null;
   }
 
-
-  // A method that is called during the initializing of the store.
-  // Takes StoreItems.txt and converts every line into an Item.
+  /**
+   * This method is called during the initialization of the store. It takes
+   * StoreItems.txt and converts every line into an Item
+   *
+   * @param fileName      A String of the file that contains the items list
+   * @throws IOException  Throws an exception if file not found
+   */
   private void processData(String fileName) throws IOException {
 
     try {
@@ -77,29 +81,40 @@ public class Store implements Serializable {
         Item i = makeNewItem(line);
 
         line = fileInput.readLine();
-        logger.info(i.name + " has been added to the store.");
+        logger.info(i.getName() + " has been added to the store.");
       }
     } catch (IOException e) {
       logger.log(Level.SEVERE, "Cannot read from input.", e);
     }
   }
 
-  public Item makeNewItem(String itemInfo){
+  /**
+   * This method takes a string of the specified format from help.txt, and then parses
+   * it to create a new Item object.
+   *
+   * @param itemInfo  A String of the format specified in help.txt
+   * @return          A new Item
+   */
+  Item makeNewItem(String itemInfo){
     String[] data = itemInfo.split(",");
 
     // Divide this up into different constructors.
-    Item temp = new Item(data[0], data[1], data[2], data[3],
-        Integer.parseInt(data[4]), Double.parseDouble(data[5]), Double.parseDouble(data[6]),
-        Integer.parseInt(data[7]), Integer.parseInt(data[8]), data[9]);
-
+    Item temp = new Item(new ItemInventory(data[0], data[1], data[2], data[3], Integer.parseInt(data[4]), Integer.parseInt(data[7]), Integer.parseInt(data[8]), data[9]), new ItemAccounting(Double.parseDouble(data[5]), Double.parseDouble(data[6])), new ItemHistory());
     itemsList.add(temp);
-    UPCToItem.put(temp.UPC, temp);
+    UPCToItem.put(temp.iv.UPC, temp);
     return temp;
   }
 
   // A method that takes the entire Events.txt file and calls it line by line,
   // sending every line to processEvent.
 
+  /**
+   * This method takes the events.txt and calls it line-by-line. It then executes
+   * each line by sending it to processEvent()
+   *
+   * @param eventsFileName``A string path for events.txt
+   * @throws IOException    Throws an exception if filepath is incorrect
+   */
   void processEvents(String eventsFileName) throws IOException {
 
     try {
@@ -114,9 +129,13 @@ public class Store implements Serializable {
     }
   }
 
-
-  // A method that reads every line of Events.txt and processes the user's command.
-  public void processEvent(String instruction) throws NullPointerException {
+  /**
+   * This method reads the command from Events.txt, and then executes the relevant case.
+   *
+   * @param instruction             The instruction that is to be executed
+   * @throws NullPointerException   This occurs if the specified instruction does not exist
+   */
+  void processEvent(String instruction) throws NullPointerException {
 
     ArrayList<String> lineList = new ArrayList<>(Arrays.asList(instruction.split(",")));
     try {
@@ -124,11 +143,11 @@ public class Store implements Serializable {
         // 0 closes out the daily values and maps them to daily revenues and daily profits.
         case "0":
           logger.info("Session saved.");
-          closeDailyTotals();
+          stm.closeDailyTotals();
           break;
 
         case "1":
-          logger.info(getItem(lineList.get(1)).name);
+          logger.info(getItem(lineList.get(1)).getName());
           return;
 
         case "2":
@@ -136,72 +155,72 @@ public class Store implements Serializable {
           return;
 
         case "3":
-          logger.info(Double.toString(getItem(lineList.get(1)).boughtPrice));
+          logger.info(Double.toString(getItem(lineList.get(1)).getBoughtPrice()));
           return;
 
         case "4":
-          logger.info(Double.toString(getItem(lineList.get(1)).sellPrice));
+          logger.info(Double.toString(getItem(lineList.get(1)).getSellPrice()));
           return;
 
         case "5":
-          logger.info(Boolean.toString(getItem(lineList.get(1)).unshelvedQuantity));
+          logger.info(Boolean.toString(getItem(lineList.get(1)).getUnshelvedQuantity()));
           return;
 
         case "6":
-          logger.info(Integer.toString(getItem(lineList.get(1)).threshold));
+          logger.info(Integer.toString(getItem(lineList.get(1)).getThreshold()));
           return;
 
         case "7":
-          logger.info(Integer.toString(getItem(lineList.get(1)).orderSize));
+          logger.info(Integer.toString(getItem(lineList.get(1)).getOrderSize()));
           return;
 
         case "8":
-          logger.info(Boolean.toString(getItem(lineList.get(1)).saleStatus));
+          logger.info(Boolean.toString(getItem(lineList.get(1)).ia.saleStatus));
           return;
 
         case "9":
-          logger.info(Double.toString(getItem(lineList.get(1)).salePrice));
+          logger.info(Double.toString(getItem(lineList.get(1)).ia.salePrice));
           return;
 
         case "10":
-          logger.info(getItem(lineList.get(1)).saleStart);
+          logger.info(getItem(lineList.get(1)).ia.saleStart);
           return;
 
         case "11":
-          logger.info(getItem(lineList.get(1)).saleEnd);
+          logger.info(getItem(lineList.get(1)).ia.saleEnd);
           return;
 
         case "12":
-          logger.info(getItem(lineList.get(1)).supplier);
+          logger.info(getItem(lineList.get(1)).getSupplier());
           return;
 
         case "13":
-          logger.info(Integer.toString(getItem(lineList.get(1)).soldToday));
+          logger.info(Integer.toString(getItem(lineList.get(1)).ia.soldToday));
           return;
 
         case "14":
-          logger.info(Double.toString(getItem(lineList.get(1)).revenueToday));
+          logger.info(Double.toString(getItem(lineList.get(1)).ia.revenueToday));
           return;
 
         case "15":
-          logger.info(Double.toString(getItem(lineList.get(1)).profitToday));
+          logger.info(Double.toString(getItem(lineList.get(1)).ia.profitToday));
           return;
 
         case "16":
-          logger.info(getItem(lineList.get(1)).infoToString(getItem(lineList.get(1)).orderHistory));
+          logger.info(getItem(lineList.get(1)).infoToString(getItem(lineList.get(1)).ih.orderHistory));
           return;
 
         case "17":
           logger
-              .info(getItem(lineList.get(1)).infoToString(getItem(lineList.get(1)).pendingOrders));
+              .info(getItem(lineList.get(1)).infoToString(getItem(lineList.get(1)).ih.pendingOrders));
           return;
 
         case "18":
-          logger.info(getItem(lineList.get(1)).infoToString(getItem(lineList.get(1)).salesHistory));
+          logger.info(getItem(lineList.get(1)).infoToString(getItem(lineList.get(1)).ih.salesHistory));
           return;
 
         case "19":
-          logger.info(getItem(lineList.get(1)).infoToString(getItem(lineList.get(1)).priceHistory));
+          logger.info(getItem(lineList.get(1)).infoToString(getItem(lineList.get(1)).ih.priceHistory));
           return;
 
         case "20":
@@ -211,85 +230,85 @@ public class Store implements Serializable {
         case "21":
           im.setSection(lineList.get(1), lineList.get(2));
           logger.info(
-              "I have set " + getItem(lineList.get(1)).name + " to section: " + lineList.get(2));
+              "I have set " + getItem(lineList.get(1)).getName() + " to section: " + lineList.get(2));
           return;
 
         case "22":
           im.setSubsection(lineList.get(1), lineList.get(2));
           logger.info(
-              "I have set " + getItem(lineList.get(1)).name + " to subsection: " + lineList.get(2));
+              "I have set " + getItem(lineList.get(1)).getName() + " to subsection: " + lineList.get(2));
           return;
 
         case "23":
           im.setAisle(lineList.get(1), Integer.parseInt(lineList.get(2)));
           logger.info(
-              "I have set " + getItem(lineList.get(1)).name + " to aisle number: " + lineList
+              "I have set " + getItem(lineList.get(1)).getName() + " to aisle number: " + lineList
                   .get(2));
           return;
 
         case "24":
           im.setBoughtPrice(lineList.get(1), Double.parseDouble(lineList.get(2)));
           logger.info(
-              "I have set the bought price of " + getItem(lineList.get(1)).name + " to: " + lineList
+              "I have set the bought price of " + getItem(lineList.get(1)).getName() + " to: " + lineList
                   .get(2));
           return;
 
         case "25":
           im.setSellPrice(lineList.get(1), Double.parseDouble(lineList.get(2)));
           logger.info(
-              "I have set the sell price of " + getItem(lineList.get(1)).name + " to: " + lineList
+              "I have set the sell price of " + getItem(lineList.get(1)).getName() + " to: " + lineList
                   .get(2));
           return;
 
         case "26":
           im.setQuantity(lineList.get(1), Integer.parseInt(lineList.get(2)));
           logger.info(
-              "I have set the quantity of " + getItem(lineList.get(1)).name + " to: " + lineList
+              "I have set the quantity of " + getItem(lineList.get(1)).getName() + " to: " + lineList
                   .get(2));
           return;
 
         case "27":
           im.setThreshold(lineList.get(1), Integer.parseInt(lineList.get(2)));
           logger.info(
-              "I have set the threshold of " + getItem(lineList.get(1)).name + " to: " + lineList
+              "I have set the threshold of " + getItem(lineList.get(1)).getName() + " to: " + lineList
                   .get(2));
           return;
 
         case "28":
           is.scanIn(lineList.get(1), Integer.parseInt(lineList.get(2)));
           logger.info(
-              "I have scanned in" + lineList.get(2) + getItem(lineList.get(1)).name
+              "I have scanned in" + lineList.get(2) + getItem(lineList.get(1)).getName()
                   + "to the store");
           return;
 
         case "29":
           is.sell(lineList.get(1));
-          logger.info(getItem(lineList.get(1)).name + "is sold");
+          logger.info(getItem(lineList.get(1)).getName() + "is sold");
           return;
 
         case "30":
           is.returnItem(lineList.get(1), Integer.parseInt(lineList.get(2)));
           logger
               .info(
-                  lineList.get(2) + getItem(lineList.get(1)).name + "have been returned to store");
+                  lineList.get(2) + getItem(lineList.get(1)).getName() + "have been returned to store");
           return;
 
         case "31":
-          om.setSupplier(lineList.get(1), lineList.get(2));
+          getItem(lineList.get(1)).setSupplier(lineList.get(2));
           logger.info(
-              "I have set " + getItem(lineList.get(1)).name + " to supplier: " + lineList.get(2));
+              "I have set " + getItem(lineList.get(1)).getName() + " to supplier: " + lineList.get(2));
           return;
 
         case "32":
           om.customOrder(lineList.get(1), Integer.parseInt(lineList.get(2)));
           logger.info(
-              lineList.get(2) + " units of " + getItem(lineList.get(1)).name
+              lineList.get(2) + " units of " + getItem(lineList.get(1)).getName()
                   + " have been ordered ");
           return;
 
         case "33":
           om.cancelPendingOrder(lineList.get(1), Integer.parseInt(lineList.get(2)));
-          logger.info(lineList.get(2) + " units of " + getItem(lineList.get(1)).name
+          logger.info(lineList.get(2) + " units of " + getItem(lineList.get(1)).getName()
               + " have been canceled ");
           return;
 
@@ -304,7 +323,7 @@ public class Store implements Serializable {
         case "36":
           sm.setSalePrice(lineList.get(1), Double.parseDouble(lineList.get(2)));
           logger.info(
-              "I have set the sale price of " + getItem(lineList.get(1)).name + " to: " + lineList
+              "I have set the sale price of " + getItem(lineList.get(1)).getName() + " to: " + lineList
                   .get(2));
           return;
 
@@ -312,7 +331,7 @@ public class Store implements Serializable {
           sm.addSale(lineList.get(1), lineList.get(2), lineList.get(3),
               Double.parseDouble(lineList.get(4)));
           logger.info(
-              "I have set the " + getItem(lineList.get(1)).name + " to be on sale from " + lineList
+              "I have set the " + getItem(lineList.get(1)).getName() + " to be on sale from " + lineList
                   .get(2) + " to" + lineList.get(3) +
                   " with sale price:" + lineList.get(4) + " on " + tm.timeStamp());
           return;
@@ -320,7 +339,7 @@ public class Store implements Serializable {
         case "38":
           sm.removeSale(lineList.get(1), lineList.get(2), lineList.get(3));
           logger.info(
-              "The sale for " + getItem(lineList.get(1)).name + " from " + lineList.get(2) + " to "
+              "The sale for " + getItem(lineList.get(1)).getName() + " from " + lineList.get(2) + " to "
                   + lineList.get(3) + " has been removed on"
                   + tm.timeStamp());
           return;
@@ -331,21 +350,21 @@ public class Store implements Serializable {
 
         case "40":
           sm.setSaleStatusOff(lineList.get(1));
-          logger.info(getItem(lineList.get(1)).name + "is no longer on sale on " + tm.timeStamp());
+          logger.info(getItem(lineList.get(1)).getName() + "is no longer on sale on " + tm.timeStamp());
 
         case "41":
-          logger.info(getItem(lineList.get(1)).name + " is on aisle " +
-              Integer.toString(getItem(lineList.get(1)).aisle));
+          logger.info(getItem(lineList.get(1)).getName() + " is on aisle " +
+              Integer.toString(getItem(lineList.get(1)).getAisle()));
           return;
 
         case "42":
-          logger.info(getItem(lineList.get(1)).name + " belongs to section " +
-              getItem(lineList.get(1)).section);
+          logger.info(getItem(lineList.get(1)).getName() + " belongs to section " +
+              getItem(lineList.get(1)).getSection());
           return;
 
         case "43":
-          logger.info(getItem(lineList.get(1)).name + " belongs to subsection " +
-              getItem(lineList.get(1)).subsection);
+          logger.info(getItem(lineList.get(1)).getName() + " belongs to subsection " +
+              getItem(lineList.get(1)).getSubsection());
           return;
 
         case "44":
@@ -353,25 +372,27 @@ public class Store implements Serializable {
           return;
 
         case "45":
-          logger.info(this.getItemsList());
+          logger.info(stm.getItemsList());
           return;
 
         case "46":
-          logger.info(this.getUnshelvedItemsList());
+          logger.info(stm.getUnshelvedItemsList());
           return;
 
         case "47":
-          logger.info(this.getPendingOrders());
+          logger.info(stm.getPendingOrders());
           return;
 
         case "48":
-          logger.info(this.getDailyProfits());
+          logger.info(stm.getDailyProfits());
           return;
 
+        // How to implement this in the frames?
         case "49":
           logger.info("Employee" + lineList.get(1) + " has signed in.");
           return;
 
+        // How to implement this in the frames?
         case "50":
           logger.info("Employee" + lineList.get(1) + " has signed out.");
           return;
@@ -386,88 +407,5 @@ public class Store implements Serializable {
       System.out.println("Item " + lineList.get(1) + " does not exist!");
       System.out.println("Please enter a command in proper format, as stated in events codes.");
     }
-  }
-
-
-  /**
-   * This method sums up the revenues and profits for each Item in the store.
-   * It adds them up, and creates an entry in dailyProfits. Once this is done,
-   * it sets the revenueToday and profitToday attributes for each item back to 0.0
-   */
-  private void closeDailyTotals() {
-    String date = tm.toString();
-    Double revenue = 0.0;
-    Double profit = 0.0;
-
-    for (Item i : itemsList) {
-      revenue += i.revenueToday;
-      profit += i.profitToday;
-      i.revenueToday = 0.0;
-      i.profitToday = 0.0;
-    }
-    String entry = "Revenue: " + revenue + ", Profit: " + profit;
-    dailyProfits.add(date + " " + entry);
-    logger.info("All of the daily revenues and profits have been closed out.");
-  }
-
-  /**
-   * This method returns a formatted list of all the Items in Store.
-   *
-   * @return A formatted String of all the items.
-   */
-  private String getItemsList() {
-    StringBuilder sb = new StringBuilder();
-    for (Item i : itemsList) {
-      sb.append(i.toString());
-      sb.append(System.lineSeparator());
-    }
-    return sb.toString();
-  }
-
-  /**
-   * This method returns a formatted list of all the Items with unshelvedQuantity
-   * in Store.
-   *
-   * @return A formatted String of all the unshelved Items.
-   */
-  private String getUnshelvedItemsList() {
-    StringBuilder sb = new StringBuilder();
-    for (Item i : itemsList) {
-      if (i.unshelvedQuantity) {
-        sb.append(i.toString());
-        sb.append(System.lineSeparator());
-      }
-    }
-    return sb.toString();
-  }
-
-  /**
-   * This method returns a formatted list of all the Items in
-   * Store that have pendingOrders.
-   *
-   * @return A formatted String of all Items in pendingOrders.
-   */
-  private String getPendingOrders() {
-    StringBuilder sb = new StringBuilder();
-    for (String s : pendingOrders) {
-      sb.append(s);
-      sb.append(System.lineSeparator());
-    }
-    return sb.toString();
-  }
-
-  /**
-   * This method returns a formatted list of the dailyProfits history of the store,
-   * by date.
-   *
-   * @return A formatted String that lists all the dailyProfits in the Store's history.
-   */
-  private String getDailyProfits() {
-    StringBuilder sb = new StringBuilder();
-    for (String s : dailyProfits) {
-      sb.append(s);
-      sb.append(System.lineSeparator());
-    }
-    return sb.toString();
   }
 }

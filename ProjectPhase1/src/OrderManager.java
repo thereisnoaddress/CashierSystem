@@ -9,12 +9,6 @@ public class OrderManager implements Serializable {
     s = store;
   }
 
-  void setSupplier(String UPC, String supplier) {
-    Item item = s.getItem(UPC);
-    item.supplier = supplier;
-    s.logger.info("The new supplier of " + s.getItem(UPC).name + " is " + supplier);
-  }
-
   /**
    * This method is whenever the ItemScanner detects that the quantity of
    * the Item with the given UPC has fallen below the threshold quantity.
@@ -24,10 +18,10 @@ public class OrderManager implements Serializable {
    */
   void autoOrder(String UPC) {
     Item item = s.getItem(UPC);
-    String order = item.threshold * 3 + " units of " + item.name +
+    String order = item.getThreshold() * 3 + " units of " + item.getName() +
         " have been ordered on " + tm.timeStamp();
-    item.pendingOrders.add(order);
-    s.logger.info("" + item.orderSize + " of " + item.name + " have been auto-ordered.");
+    item.ih.pendingOrders.add(order);
+    s.pendingOrders.add(order);
   }
 
   /**
@@ -39,8 +33,9 @@ public class OrderManager implements Serializable {
    */
   void customOrder(String UPC, int quantity) {  // String date should be automatically
     Item item = s.getItem(UPC);
-    String order = quantity + " units of " + item.name + " have been ordered on " + "timestamp";
-    item.pendingOrders.add(order);
+    String order = quantity + " units of " + item.getName() + " have been ordered on " + "timestamp";
+    item.ih.pendingOrders.add(order);
+    s.pendingOrders.add(order);
   }
 
   /**
@@ -53,11 +48,11 @@ public class OrderManager implements Serializable {
    */
   void cancelPendingOrder(String UPC, int quantity) {
     Item item = s.getItem(UPC);
-    for (String st : item.pendingOrders) {
+    for (String st : item.ih.pendingOrders) {
       String[] temp = st.split(",");
       if (Integer.parseInt(temp[0]) == quantity) {
-        item.pendingOrders.remove(st);
-        s.logger.info("Order of " + quantity + " of " + UPC + " has been cancelled.");
+        item.ih.pendingOrders.remove(st);
+        s.pendingOrders.remove(st);
       }
     }
   }
@@ -69,10 +64,10 @@ public class OrderManager implements Serializable {
    * @param UPC The UPC of the Item whose pendingOrders we'd like to see
    * @return The formatted String of pendingOrders
    */
-  String viewPendingOrders(String UPC) {
+  String viewPendingOrders(String UPC) {  // use infoToString
     Item item = s.getItem(UPC);
     StringBuilder sb = new StringBuilder();
-    for (String s : item.pendingOrders) {
+    for (String s : item.ih.pendingOrders) {
       sb.append(s);
       sb.append(System.lineSeparator());
     }

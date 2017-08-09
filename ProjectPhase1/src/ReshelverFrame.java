@@ -24,9 +24,9 @@ public class ReshelverFrame extends GenericFrame {
       public void actionPerformed(ActionEvent e) {
         if (storeItems.getSelectedIndex() != -1) {
           JOptionPane.showMessageDialog(null,
-              "The item is in aisle " + ((Item) storeItems.getSelectedValue()).aisle);
-          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
-              " is in aisle " + ((Item) storeItems.getSelectedValue()).aisle);
+              "The item is in aisle " + ((Item) storeItems.getSelectedValue()).getAisle());
+          Store.logger.info(((Item) storeItems.getSelectedValue()).getName() +
+              " is in aisle " + ((Item) storeItems.getSelectedValue()).getAisle());
         }
       }
     });
@@ -39,11 +39,11 @@ public class ReshelverFrame extends GenericFrame {
         if (storeItems.getSelectedIndex() != -1) {
 
           String history = ((Item) storeItems.getSelectedValue()).infoToString(
-              ((Item) storeItems.getSelectedValue()).orderHistory);
+              ((Item) storeItems.getSelectedValue()).ih.orderHistory);
           JOptionPane.showMessageDialog(null,
               "The order history of this item is " + history);
-          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
-              " has order history " + ((Item) storeItems.getSelectedValue()).orderHistory);
+          Store.logger.info(((Item) storeItems.getSelectedValue()).getName() +
+              " has order history " + ((Item) storeItems.getSelectedValue()).ih.orderHistory);
         }
       }
     });
@@ -54,10 +54,10 @@ public class ReshelverFrame extends GenericFrame {
       public void actionPerformed(ActionEvent e) {
         if (storeItems.getSelectedIndex() != -1) {
           JOptionPane.showMessageDialog(null,
-              "There are " + ((Item) storeItems.getSelectedValue()).quantity +
+              "There are " + ((Item) storeItems.getSelectedValue()).getQuantity() +
           " of this item.");
-          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
-              " has quantity " + ((Item) storeItems.getSelectedValue()).quantity);
+          Store.logger.info(((Item) storeItems.getSelectedValue()).getName() +
+              " has quantity " + ((Item) storeItems.getSelectedValue()).getQuantity());
 
         }
       }

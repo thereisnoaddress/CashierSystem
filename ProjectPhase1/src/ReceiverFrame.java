@@ -32,13 +32,13 @@ public class ReceiverFrame extends GenericFrame {
         String UPC = JOptionPane.showInputDialog("Enter the UPC of the item "
             + "you want to scan in.", JOptionPane.YES_NO_OPTION);
         if (s.UPCToItem.containsKey(UPC)) {
-          s.UPCToItem.get(UPC).quantity += Integer.parseInt(
+          s.UPCToItem.get(UPC).iv.quantity += Integer.parseInt(
               JOptionPane.showInputDialog("How many do you want to scan in?",
                   JOptionPane.YES_NO_OPTION));
           JOptionPane.showMessageDialog(null, "There are " +
-              s.UPCToItem.get(UPC).quantity + " now.");
+              s.UPCToItem.get(UPC).iv.quantity + " now.");
           Store.logger.info("There are " +
-              s.UPCToItem.get(UPC).quantity + s.UPCToItem.get(UPC).name + "(s) now.");
+              s.UPCToItem.get(UPC).iv.quantity + s.UPCToItem.get(UPC).iv.name + "(s) now.");
 
 
         } else {
@@ -46,8 +46,8 @@ public class ReceiverFrame extends GenericFrame {
                   + " a new item. Please enter its details according to help.txt",
               JOptionPane.YES_NO_OPTION);
           Item i = s.makeNewItem(item);
-          JOptionPane.showMessageDialog(null, i.name + " has been added.");
-          Store.logger.info(i.name + " has been added with quantity" + i.quantity);
+          JOptionPane.showMessageDialog(null, i.iv.name + " has been added.");
+          Store.logger.info(i.iv.name + " has been added with quantity" + i.iv.quantity);
           ReceiverFrame.super.items.removeAllElements();
           ReceiverFrame.super.addToList();
         }
@@ -60,9 +60,9 @@ public class ReceiverFrame extends GenericFrame {
       public void actionPerformed(ActionEvent e) {
         if (storeItems.getSelectedIndex() != -1) {
           JOptionPane.showMessageDialog(null,
-              "The item is in aisle " + ((Item) storeItems.getSelectedValue()).aisle);
-          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
-              " is in aisle " + ((Item) storeItems.getSelectedValue()).aisle);
+              "The item is in aisle " + ((Item) storeItems.getSelectedValue()).iv.aisle);
+          Store.logger.info(((Item) storeItems.getSelectedValue()).iv.name +
+              " is in aisle " + ((Item) storeItems.getSelectedValue()).iv.aisle);
         }
       }
     });
@@ -74,9 +74,9 @@ public class ReceiverFrame extends GenericFrame {
         if (storeItems.getSelectedIndex() != -1) {
           JOptionPane.showMessageDialog(null,
               "The bought price of the item is " +
-                  ((Item) storeItems.getSelectedValue()).boughtPrice);
-          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
-              " has bought price " + ((Item) storeItems.getSelectedValue()).boughtPrice);
+                  ((Item) storeItems.getSelectedValue()).ia.boughtPrice);
+          Store.logger.info(((Item) storeItems.getSelectedValue()).iv.name +
+              " has bought price " + ((Item) storeItems.getSelectedValue()).ia.boughtPrice);
         }
       }
     });
@@ -88,11 +88,11 @@ public class ReceiverFrame extends GenericFrame {
         if (storeItems.getSelectedIndex() != -1) {
 
           String history = ((Item) storeItems.getSelectedValue()).infoToString(
-              ((Item) storeItems.getSelectedValue()).priceHistory);
+              ((Item) storeItems.getSelectedValue()).ih.priceHistory);
           JOptionPane.showMessageDialog(null,
               "The price history of this item is " + history);
-          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
-              " has price history " + ((Item) storeItems.getSelectedValue()).priceHistory);
+          Store.logger.info(((Item) storeItems.getSelectedValue()).iv.name +
+              " has price history " + ((Item) storeItems.getSelectedValue()).ih.priceHistory);
         }
       }
     });
@@ -104,9 +104,9 @@ public class ReceiverFrame extends GenericFrame {
         if (storeItems.getSelectedIndex() != -1){
           JOptionPane.showMessageDialog(null,
               "The current price of this item is " +
-                  ((Item) storeItems.getSelectedValue()).sellPrice);
-          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
-              " has current price " + ((Item) storeItems.getSelectedValue()).sellPrice);
+                  ((Item) storeItems.getSelectedValue()).ia.sellPrice);
+          Store.logger.info(((Item) storeItems.getSelectedValue()).iv.name +
+              " has current price " + ((Item) storeItems.getSelectedValue()).ia.sellPrice);
         }
 
       }

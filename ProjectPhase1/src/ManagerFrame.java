@@ -24,11 +24,11 @@ public class ManagerFrame extends GenericFrame {
         if (storeItems.getSelectedIndex() != -1) {
 
           String pending = ((Item) storeItems.getSelectedValue()).infoToString(
-              ((Item) storeItems.getSelectedValue()).pendingOrders);
+              ((Item) storeItems.getSelectedValue()).ih.pendingOrders);
           JOptionPane.showMessageDialog(null,
               "The pending orders of this item are " + pending);
-          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
-              " has pending orders " + ((Item)storeItems.getSelectedValue()).pendingOrders);
+          Store.logger.info(((Item) storeItems.getSelectedValue()).getName() +
+              " has pending orders " + ((Item)storeItems.getSelectedValue()).ih.pendingOrders);
 
         }
       }
@@ -38,9 +38,9 @@ public class ManagerFrame extends GenericFrame {
     dailySales.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        JOptionPane.showMessageDialog(null, "Today's sales revenue is " +
-            s.fm.revenueToday);
-        Store.logger.info("Today's sales revenue is " +  s.fm.revenueToday);
+        JOptionPane.showMessageDialog(null, "Today's financials are " +
+            s.dailyProfits.get(-1));
+        Store.logger.info("Today's financials are " +  s.dailyProfits.get(-1));
 
       }
     });
@@ -50,9 +50,9 @@ public class ManagerFrame extends GenericFrame {
     dailyProfit.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        JOptionPane.showMessageDialog(null, "Today's profit is "
-            + s.fm.profitToday);
-        Store.logger.info("Today's sales profit is " +  s.fm.profitToday);
+        JOptionPane.showMessageDialog(null, "Today's financials are "
+            + s.dailyProfits.get(-1));
+        Store.logger.info("Today's financials are " +  s.dailyProfits.get(-1));
       }
     });
 

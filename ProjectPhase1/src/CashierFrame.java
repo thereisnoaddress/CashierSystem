@@ -1,4 +1,4 @@
-import com.sun.codemodel.internal.JOp;
+//import com.sun.codemodel.internal.JOp;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -39,9 +39,9 @@ public class CashierFrame extends GenericFrame {
       public void actionPerformed(ActionEvent e) {
         if (storeItems.getSelectedIndex() != -1) {
           JOptionPane.showMessageDialog(null, "There are " +
-              ((Item)storeItems.getSelectedValue()).quantity + " in stock.");
-          Store.logger.info(((Item) storeItems.getSelectedValue()).name +
-              " has " + ((Item)storeItems.getSelectedValue()).quantity + " in stock.");
+              ((Item)storeItems.getSelectedValue()).getQuantity() + " in stock.");
+          Store.logger.info(((Item) storeItems.getSelectedValue()).getName() +
+              " has " + ((Item)storeItems.getSelectedValue()).getQuantity() + " in stock.");
         }
       }
     });
@@ -54,16 +54,16 @@ public class CashierFrame extends GenericFrame {
           int quantity = Integer.parseInt(JOptionPane.showInputDialog(
               "How many do you want to sell?",
               JOptionPane.YES_NO_OPTION));
-          if (((Item)storeItems.getSelectedValue()).quantity > 0) {
-            s.is.sell(((Item) storeItems.getSelectedValue()).UPC,
+          if (((Item)storeItems.getSelectedValue()).getQuantity() > 0) {
+            s.is.sell(((Item) storeItems.getSelectedValue()).getUPC(),
                 quantity);
-            selling.addElement(((Item) storeItems.getSelectedValue()).name);
-            price += ((Item) storeItems.getSelectedValue()).sellPrice;
+            selling.addElement(((Item) storeItems.getSelectedValue()).getName());
+            price += ((Item) storeItems.getSelectedValue()).getSellPrice();
             total.setText("Total:" + Double.toString(price));
             JOptionPane.showMessageDialog(null,
-                "You now have " + ((Item) storeItems.getSelectedValue()).quantity
+                "You now have " + ((Item) storeItems.getSelectedValue()).getQuantity()
                     + " left over");
-            Store.logger.info(quantity + " of " + ((Item)storeItems.getSelectedValue()).name
+            Store.logger.info(quantity + " of " + ((Item)storeItems.getSelectedValue()).getName()
             + " has been sold.");
           } else {
             JOptionPane.showMessageDialog(null, "You don't "
@@ -78,15 +78,15 @@ public class CashierFrame extends GenericFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         if (storeItems.getSelectedIndex() != -1) {
-          ((Item) storeItems.getSelectedValue()).quantity = Integer.parseInt(
+          ((Item) storeItems.getSelectedValue()).iv.quantity = Integer.parseInt(
               JOptionPane.showInputDialog("There are currently " +
-                      ((Item) storeItems.getSelectedValue()).quantity + " of this item."
+                      ((Item) storeItems.getSelectedValue()).getQuantity() + " of this item."
                   + "How many do you want to change it to?", JOptionPane.YES_NO_OPTION));
           JOptionPane.showMessageDialog(null, "Now there are " +
-              ((Item) storeItems.getSelectedValue()).quantity);
+              ((Item) storeItems.getSelectedValue()).getQuantity());
 
           Store.logger.info(((Item) storeItems.getSelectedValue()) + " now has " +
-              ((Item) storeItems.getSelectedValue()).quantity + " in stock.");
+              ((Item) storeItems.getSelectedValue()).getQuantity() + " in stock.");
         }
       }
     });
@@ -113,9 +113,9 @@ public class CashierFrame extends GenericFrame {
       public void actionPerformed(ActionEvent e) {
         if (storeItems.getSelectedIndex() != -1) {
           JOptionPane.showMessageDialog(null, s.sm.getSaleDuration(
-              ((Item) storeItems.getSelectedValue()).UPC));
-          Store.logger.info("Sale duration for " + ((Item) storeItems.getSelectedValue()).name
-           + " is " + s.sm.getSaleDuration(((Item) storeItems.getSelectedValue()).UPC));
+              ((Item) storeItems.getSelectedValue()).getUPC()));
+          Store.logger.info("Sale duration for " + ((Item) storeItems.getSelectedValue()).getName()
+           + " is " + s.sm.getSaleDuration(((Item) storeItems.getSelectedValue()).getUPC()));
         }
       }
     });
@@ -124,13 +124,10 @@ public class CashierFrame extends GenericFrame {
     resetDay.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        JOptionPane.showMessageDialog(null, "Today's revenue is"
-            + s.fm.revenueToday + " and today's profit is " + s.fm.profitToday + ".");
-        Store.logger.info("A day has ended with profit " + s.fm.profitToday + ". A new day"
+        JOptionPane.showMessageDialog(null, "Today's financials are: "
+            + s.dailyProfits.get(-1) + ".");
+        Store.logger.info("A day has ended with financials of: " + s.dailyProfits.get(-1) + ". A new day"
             + "has begun!");
-        s.fm.revenueToday = 0;
-        s.fm.profitToday = 0;
-
       }
     });
 

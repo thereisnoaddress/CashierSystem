@@ -74,7 +74,7 @@ public class GenericFrame {
 
   void addToList() {
     for (Item i : s.itemsList) {
-      if (i.quantity > 0) {
+      if (i.getQuantity() > 0) {
         items.addElement(i);
       }
     }
