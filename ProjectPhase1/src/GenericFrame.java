@@ -21,7 +21,7 @@ public class GenericFrame {
     showList();
 
     mainFrame.setTitle(title);
-
+    mainFrame.setVisible(true);
   }
 
   private void startStore() throws IOException, ClassNotFoundException {
@@ -50,7 +50,7 @@ public class GenericFrame {
     controlPanel.setSize(mainFrame.getWidth(), mainFrame.getHeight());
 
     mainFrame.add(controlPanel);
-    mainFrame.setVisible(true);
+
   }
 
 

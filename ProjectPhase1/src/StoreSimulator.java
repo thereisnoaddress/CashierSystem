@@ -19,7 +19,6 @@ import java.util.logging.SimpleFormatter;
  */
 class StoreSimulator implements Serializable {
 
-
   private static final Logger logger = Logger.getLogger(Store.class.getName());
   private static final Handler consoleHandler = new ConsoleHandler();
   private Store s;

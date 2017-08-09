@@ -183,6 +183,8 @@ public class CashierFrame extends GenericFrame {
     controlPanel.add(showStock);
     controlPanel.add(scanOut);
 
+
+
   }
 
 
