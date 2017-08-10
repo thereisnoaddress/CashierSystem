@@ -28,7 +28,7 @@ public class StoreManager implements Serializable {
       i.ia.profitToday = 0.0;
     }
     String entry = "Revenue: " + revenue + ", Profit: " + profit;
-    s.dailyProfits.add(date + " " + entry);
+    s.dailyProfits.add(date + " " + entry + System.lineSeparator());
   }
 
   /**
