@@ -1,4 +1,5 @@
 
+import com.sun.codemodel.internal.JOp;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -112,12 +113,17 @@ public class CashierFrame extends GenericFrame {
       public void actionPerformed(ActionEvent e) {
         Double received = Double.parseDouble(JOptionPane.showInputDialog("Your total is " +
             price + ". Enter paid amount:", JOptionPane.YES_NO_OPTION));
-        JOptionPane.showMessageDialog(null, "Your change is " +
-            (received - price));
-        Store.logger.info(price + " worth of goods has been sold.");
-        price = 0;
-        total.setText("0.0");
-        selling.removeAllElements();
+        if (received >= price) {
+          JOptionPane.showMessageDialog(null, "Your change is " +
+              (received - price));
+          Store.logger.info(price + " worth of goods has been sold.");
+          price = 0;
+          total.setText("0.0");
+          selling.removeAllElements();
+        } else {
+          JOptionPane.showMessageDialog(null, "not enough money! "
+              + "Try again.");
+        }
       }
     });
 
