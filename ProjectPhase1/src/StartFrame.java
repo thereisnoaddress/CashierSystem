@@ -9,6 +9,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 
 public class StartFrame {
 
@@ -18,7 +19,7 @@ public class StartFrame {
 
     mainFrame = new JFrame("User Chooser");
     mainFrame.setSize(300,300);
-    mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     mainFrame.setLocationRelativeTo(null);
     mainFrame.setVisible(true);
 

@@ -9,21 +9,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * A class that manages user instances
+ * A class that manages users and their passwords (user logins) and serializes all of them as
+ * a hashmap.
  */
-public class UserManager implements Serializable {
-  TimeManager tm = new TimeManager();
-  ArrayList<User> users;
-  ArrayList<String> loginHistory;
-  HashMap<String, String> loginID = new HashMap<String, String>();
-  private String filename = "users.ser";
-  UserManager um;
+
+class UserManager implements Serializable {
+
+  // Hashmap that stores users to their passwords
+
+  HashMap<String, String> loginID = new HashMap<>();
 
   void serealize(){
-    // Save the store to store.ser
+    // Save the UserManager to store.ser
     FileOutputStream fos;
     ObjectOutputStream out;
     try {
+      String filename = "users.ser";
       fos = new FileOutputStream(filename);
       out = new ObjectOutputStream(fos);
       out.writeObject(this);
@@ -38,8 +39,5 @@ public class UserManager implements Serializable {
 
   }
 
-  public static void main(String[] args) {
-    UserManager um = new UserManager();
-  }
 
 }

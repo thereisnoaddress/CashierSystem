@@ -3,37 +3,6 @@ import java.util.Date;
 
 public class TimeManager implements Serializable {
 
-  /**
-   * Return the Date object corresponding to the Date instance at which this method is called.
-   *
-   * @return The Date object for this instant.
-   */
-  protected Date getDate() {
-    return new Date();
-  }  // Will be used in Phase 2
-
-  /**
-   * return the String of today's date, but does not include the time.
-   *
-   * @return Formatted String of today's date
-   */
-  protected String getTodaysDate() {  // It is used, but IntelliJ doesn't recognize it
-    Date d = new Date();
-    String[] values = d.toString().split(" ");
-    return values[0] + values[1] + values[2] + values[5];
-  }
-
-  /**
-   * This method checks if the current instant is one a different date
-   * than the instance defined in the parameter
-   *
-   * @param reference The string date we wish to compare to. The format is: www mmm dd hh:mm:ss TMZ
-   * yyyy for example: Sat Jul 22 18:27:06 EDT 2017
-   * @return Returns whether the current date and specified date are different
-   */
-  protected boolean checkDifferentDates(String reference) {
-    return before(reference) || after(reference);
-  }
 
   /**
    * Return the formatted String of the current Date instant.

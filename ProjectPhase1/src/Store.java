@@ -14,19 +14,18 @@ import java.util.logging.Logger;
  */
 class Store implements Serializable {
 
-  OrderManager om;
+  private OrderManager om;
   SaleManager sm;
   FinancialManager fm;
   ItemScanner is;
-  ItemManager im;
+  private ItemManager im;
   TimeManager tm ;
-  StoreManager stm;
-  UserManager um;
+  private StoreManager stm;
   ArrayList<Item> itemsList = new ArrayList<>();
   ArrayList<String> dailyProfits = new ArrayList<>();
   ArrayList<String> pendingOrders = new ArrayList<>();
   static Logger logger;
-  HashMap<String, Item> UPCToItem = new HashMap<String, Item>();
+  HashMap<String, Item> UPCToItem = new HashMap<>();
 
   Store(String DataFileName, Logger logger) throws ClassNotFoundException, IOException {
     om = new OrderManager(this);
@@ -35,7 +34,8 @@ class Store implements Serializable {
     is = new ItemScanner(this, om, fm);
     im = new ItemManager(this);
     tm = new TimeManager();
-    um = new UserManager();
+    stm = new StoreManager(this);
+
 
     Store.logger = logger;
 
@@ -135,7 +135,7 @@ class Store implements Serializable {
    * @param instruction             The instruction that is to be executed
    * @throws NullPointerException   This occurs if the specified instruction does not exist
    */
-  void processEvent(String instruction) throws NullPointerException {
+  private void processEvent(String instruction) throws NullPointerException {
 
     ArrayList<String> lineList = new ArrayList<>(Arrays.asList(instruction.split(",")));
     try {
