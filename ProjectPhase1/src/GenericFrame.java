@@ -35,7 +35,7 @@ public class GenericFrame {
   private void prepareGUI() {
 
     mainFrame = new JFrame("Generic Frame");
-    mainFrame.setSize(300, 500);
+    mainFrame.setSize(300, 600);
     mainFrame.setLocationRelativeTo(null);
     mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
       @Override
