@@ -39,7 +39,7 @@ class Store implements Serializable {
 
     Store.logger = logger;
 
-    //
+
     File data = new File(DataFileName);
     if (data.exists()) {
       processData(DataFileName);
