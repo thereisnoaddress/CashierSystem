@@ -23,6 +23,44 @@ public class ReceiverFrame extends GenericFrame {
 
   private void prepareButtons() {
 
+    JButton typeIn = new JButton("Add item");
+    typeIn.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        String UPC = JOptionPane.showInputDialog("Enter the UPC of the item "
+            + "you want to scan in.", JOptionPane.YES_NO_OPTION);
+        if (s.UPCToItem.containsKey(UPC)) {
+          s.UPCToItem.get(UPC).iv.quantity += Integer.parseInt(
+              JOptionPane.showInputDialog("How many do you want to scan in?",
+                  JOptionPane.YES_NO_OPTION));
+          JOptionPane.showMessageDialog(null, "There are " +
+              s.UPCToItem.get(UPC).iv.quantity + " now.");
+          Store.logger.info("There are " +
+              s.UPCToItem.get(UPC).iv.quantity + s.UPCToItem.get(UPC).iv.name + "(s) now.");
+
+        } else {
+          String name = JOptionPane.showInputDialog("It appears that you are trying to add"
+                  + " a new item with UPC " + UPC + ". What is its name?" ,
+              JOptionPane.YES_NO_OPTION);
+          String section = JOptionPane.showInputDialog("What section is " + name + " in?");
+          String subsection = JOptionPane.showInputDialog("What subsection is " + name + " in?");
+          String aisle = JOptionPane.showInputDialog("Which aisle is " + name + " in?");
+          String boughtPrice = JOptionPane.showInputDialog("What is" + name + "'s bought price?");
+          String sellPrice = JOptionPane.showInputDialog("What is " + name + "'s sell price?");
+          String quantity = JOptionPane.showInputDialog("How many are there?");
+          String threshold = JOptionPane.showInputDialog("What is " + name + "'s threshold?");
+          String supplier = JOptionPane.showInputDialog("Who is " + name + "'s supplier?");
+          String item = UPC + "," + name + "," + section + "," + subsection + "," + aisle + ","
+              + boughtPrice + "," + sellPrice + "," + quantity + "," + threshold + "," + supplier;
+          Item i = s.makeNewItem(item);
+          JOptionPane.showMessageDialog(null, i.iv.name + " has been added.");
+          Store.logger.info(i.iv.name + " has been added with quantity" + i.iv.quantity);
+          ReceiverFrame.super.items.removeAllElements();
+          ReceiverFrame.super.addToList();
+        }
+      }
+    });
+
     add = new JButton("Scan in");
     add.addActionListener(new ActionListener() {
       @Override
@@ -117,6 +155,7 @@ public class ReceiverFrame extends GenericFrame {
     controlPanel.add(cost);
     controlPanel.add(priceHistory);
     controlPanel.add(curPrice);
+    controlPanel.add(typeIn);
   }
 
 
