@@ -145,6 +145,8 @@ public class LoginFrame {
         } else {
           JOptionPane.showMessageDialog(null, "You messed up");
         }
+      } else {
+        JOptionPane.showMessageDialog(null, "You messed up");
       }
     });
 
