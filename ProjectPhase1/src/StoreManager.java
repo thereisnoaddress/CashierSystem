@@ -17,7 +17,7 @@ public class StoreManager implements Serializable {
    * it sets the revenueToday and profitToday attributes for each item back to 0.0
    */
   void closeDailyTotals() {
-    String date = s.tm.toString();
+    String date = s.tm.timeStamp();
     Double revenue = 0.0;
     Double profit = 0.0;
 
