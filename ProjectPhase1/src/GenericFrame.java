@@ -8,11 +8,11 @@ import javax.swing.*;
 
 public class GenericFrame {
 
-  protected JFrame mainFrame;
-  protected JPanel controlPanel;
-  protected DefaultListModel items;
-  protected StoreSimulator ss;
-  protected JList storeItems;
+  private JFrame mainFrame;
+  JPanel controlPanel;
+  DefaultListModel items;
+  private StoreSimulator ss;
+  JList storeItems;
   protected Store s;
 
   GenericFrame(String title) throws IOException, ClassNotFoundException {
@@ -36,7 +36,6 @@ public class GenericFrame {
 
     mainFrame = new JFrame("Generic Frame");
     mainFrame.setSize(300, 500);
-    //mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     mainFrame.setLocationRelativeTo(null);
     mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
       @Override
@@ -45,9 +44,7 @@ public class GenericFrame {
         Store.logger.info(mainFrame.getTitle() + " has logged out and the store has been saved.");
         try {
           StartFrame sf = new StartFrame();
-        } catch (IOException e) {
-          e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
           e.printStackTrace();
         }
       }
@@ -88,7 +85,7 @@ public class GenericFrame {
     }
   }
 
-  protected void openScanner() throws ScriptException {
+  void openScanner() throws ScriptException {
     String script = "tell application \"Kinoni Barcode Reader\" to launch";
     ScriptEngineManager mgr = new ScriptEngineManager();
     ScriptEngine engine = mgr.getEngineByName("AppleScript");
