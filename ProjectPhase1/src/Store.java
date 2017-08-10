@@ -14,13 +14,13 @@ import java.util.logging.Logger;
  */
 class Store implements Serializable {
 
-  private OrderManager om;
+  OrderManager om;
   SaleManager sm;
   FinancialManager fm;
   ItemScanner is;
-  private ItemManager im;
+  ItemManager im;
   TimeManager tm ;
-  private StoreManager stm;
+  StoreManager stm;
   ArrayList<Item> itemsList = new ArrayList<>();
   ArrayList<String> dailyProfits = new ArrayList<>();
   ArrayList<String> pendingOrders = new ArrayList<>();
