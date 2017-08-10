@@ -5,7 +5,7 @@ import java.io.Serializable;
  * as a part of it
  */
 
-public class ItemAccounting implements Serializable {
+class ItemAccounting implements Serializable {
   double boughtPrice;
   double sellPrice;
   boolean saleStatus = false;
@@ -16,7 +16,7 @@ public class ItemAccounting implements Serializable {
   double revenueToday = 0.0;  // I have tp reset this, soldToday and profitToday daily somehow
   double profitToday = 0.0;
 
-  protected ItemAccounting(double boughtPrice, double sellPrice) {
+  ItemAccounting(double boughtPrice, double sellPrice) {
 
     this.boughtPrice = boughtPrice;
     this.sellPrice = sellPrice;

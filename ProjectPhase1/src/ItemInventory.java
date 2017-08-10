@@ -5,8 +5,8 @@ import java.io.Serializable;
  * as a part of it
  */
 
-public class ItemInventory implements Serializable {
-  protected String name;
+class ItemInventory implements Serializable {
+  String name;
   String UPC;
   String section;
   String subsection;
@@ -17,9 +17,8 @@ public class ItemInventory implements Serializable {
   int orderSize;
   String supplier;
 
-  protected ItemInventory(String UPC, String name, String section, String subsection, int aisle,
+  ItemInventory(String UPC, String name, String section, String subsection, int aisle,
       int quantity, int threshold, String supplier) {
-
     this.name = name;
     this.UPC = UPC;
     this.section = section;

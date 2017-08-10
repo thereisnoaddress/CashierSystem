@@ -63,7 +63,7 @@ class ItemScanner implements Serializable {
 
   void scanIn(String UPC) {
     scanIn(UPC, 1);
-  }  // Kept for Phase 2
+  }
 
   /**
    * This method takes the Item with the corresponding UPC, and
