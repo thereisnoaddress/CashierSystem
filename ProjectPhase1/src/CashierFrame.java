@@ -65,131 +65,137 @@ public class CashierFrame extends GenericFrame {
             int quantity = Integer.parseInt(JOptionPane.showInputDialog(
                 "How many do you want to sell?",
                 JOptionPane.YES_NO_OPTION));
-            s.is.sell(((Item) storeItems.getSelectedValue()).getUPC(), quantity);
-            selling.addElement(quantity + " x " + ((Item) storeItems.getSelectedValue()).getName());
-            price += ((Item) storeItems.getSelectedValue()).getSellPrice();
+            if (quantity <= ((Item) storeItems.getSelectedValue()).getQuantity()) {
+
+              s.is.sell(((Item) storeItems.getSelectedValue()).getUPC(), quantity);
+              selling.addElement(quantity + " x " + ((Item) storeItems.getSelectedValue()).getName());
+              price += ((Item) storeItems.getSelectedValue()).getSellPrice();
+              total.setText("Total:" + Double.toString(price));
+              JOptionPane.showMessageDialog(null,
+                  "You now have " + ((Item) storeItems.getSelectedValue()).getQuantity()
+                      + " left over");
+              Store.logger.info(quantity + " of " + ((Item) storeItems.getSelectedValue()).getName()
+                  + " has been sold.");
+            } else {
+              JOptionPane.showMessageDialog(null, "You don't have that many!");
+            }
+          } else {
+            JOptionPane.showMessageDialog(null, "You don't "
+                + "have any in stock!");
+          }
+
+        }
+      }
+  });
+
+  /**
+   * Create a "Change quantity" button that ask for the number of quantity that the user wants to
+   * change to for a selected item and then show the updated number of item in stock.
+   *
+   * @return input boxes and message boxes
+   */
+  JButton changeQuantity = new JButton("Change quantity");
+    changeQuantity.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      if (storeItems.getSelectedIndex() != -1) {
+        ((Item) storeItems.getSelectedValue()).iv.quantity = Integer.parseInt(
+            JOptionPane.showInputDialog("There are currently " +
+                ((Item) storeItems.getSelectedValue()).getQuantity() + " of this item."
+                + "How many do you want to change it to?", JOptionPane.YES_NO_OPTION));
+        JOptionPane.showMessageDialog(null, "Now there are " +
+            ((Item) storeItems.getSelectedValue()).getQuantity());
+
+        Store.logger.info(((Item) storeItems.getSelectedValue()) + " now has " +
+            ((Item) storeItems.getSelectedValue()).getQuantity() + " in stock.");
+      }
+    }
+  });
+
+  JButton checkOut = new JButton("Check out");
+    checkOut.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      Double received = Double.parseDouble(JOptionPane.showInputDialog("Your total is " +
+          price + ". Enter paid amount:", JOptionPane.YES_NO_OPTION));
+      if (received >= price) {
+        JOptionPane.showMessageDialog(null, "Your change is " +
+            (received - price));
+        Store.logger.info(price + " worth of goods has been sold.");
+        price = 0;
+        total.setText("0.0");
+        selling.removeAllElements();
+      } else {
+        JOptionPane.showMessageDialog(null, "not enough money! "
+            + "Try again.");
+      }
+    }
+  });
+
+  JButton checkSaleDates = new JButton("Check sale dates");
+    checkSaleDates.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      if (storeItems.getSelectedIndex() != -1) {
+        JOptionPane.showMessageDialog(null, s.sm.getSaleDuration(
+            ((Item) storeItems.getSelectedValue()).getUPC()));
+        Store.logger.info("Sale duration for " + ((Item) storeItems.getSelectedValue()).getName()
+            + " is " + s.sm.getSaleDuration(((Item) storeItems.getSelectedValue()).getUPC()));
+      }
+    }
+  });
+
+  JButton resetDay = new JButton("New day");
+    resetDay.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      JOptionPane.showMessageDialog(null, "Today's revenue is "
+          + s.fm.revenueToday + " and today's profit is " + s.fm.profitToday + ".");
+      Store.logger.info("A day has ended with profit " + s.fm.profitToday + ". A new day "
+          + "has begun!");
+      s.fm.revenueToday = 0;
+      s.fm.profitToday = 0;
+    }
+  });
+
+  JButton scanOut = new JButton("Scan out");
+    scanOut.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      try {
+        openScanner();
+        String UPC = JOptionPane.showInputDialog("What is the UPC of the "
+            + "item that you want to sell?");
+        if (s.UPCToItem.containsKey(UPC)) {
+          int quantity = Integer.parseInt(JOptionPane.showInputDialog(
+              "How many do you want to sell?",
+              JOptionPane.YES_NO_OPTION));
+          if (s.UPCToItem.get(UPC).getQuantity() > 0) {
+            s.is.sell(UPC, quantity);
+            selling.addElement(s.UPCToItem.get(UPC).getName());
+            price += (s.UPCToItem.get(UPC).getSellPrice());
             total.setText("Total:" + Double.toString(price));
             JOptionPane.showMessageDialog(null,
-                "You now have " + ((Item) storeItems.getSelectedValue()).getQuantity()
-                    + " left over");
-            Store.logger.info(quantity + " of " + ((Item) storeItems.getSelectedValue()).getName()
+                "You now have " + (s.UPCToItem.get(UPC).getQuantity()) + " left over");
+            Store.logger.info(quantity + " of " + (s.UPCToItem.get(UPC).getName())
                 + " has been sold.");
           } else {
             JOptionPane.showMessageDialog(null, "You don't "
                 + "have any in stock!");
           }
-        }
-      }
-    });
 
-    /**
-     * Create a "Change quantity" button that ask for the number of quantity that the user wants to
-     * change to for a selected item and then show the updated number of item in stock.
-     *
-     * @return input boxes and message boxes
-     */
-    JButton changeQuantity = new JButton("Change quantity");
-    changeQuantity.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        if (storeItems.getSelectedIndex() != -1) {
-          ((Item) storeItems.getSelectedValue()).iv.quantity = Integer.parseInt(
-              JOptionPane.showInputDialog("There are currently " +
-                  ((Item) storeItems.getSelectedValue()).getQuantity() + " of this item."
-                  + "How many do you want to change it to?", JOptionPane.YES_NO_OPTION));
-          JOptionPane.showMessageDialog(null, "Now there are " +
-              ((Item) storeItems.getSelectedValue()).getQuantity());
-
-          Store.logger.info(((Item) storeItems.getSelectedValue()) + " now has " +
-              ((Item) storeItems.getSelectedValue()).getQuantity() + " in stock.");
-        }
-      }
-    });
-
-    JButton checkOut = new JButton("Check out");
-    checkOut.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        Double received = Double.parseDouble(JOptionPane.showInputDialog("Your total is " +
-            price + ". Enter paid amount:", JOptionPane.YES_NO_OPTION));
-        if (received >= price) {
-          JOptionPane.showMessageDialog(null, "Your change is " +
-              (received - price));
-          Store.logger.info(price + " worth of goods has been sold.");
-          price = 0;
-          total.setText("0.0");
-          selling.removeAllElements();
         } else {
-          JOptionPane.showMessageDialog(null, "not enough money! "
-              + "Try again.");
-        }
-      }
-    });
+          JOptionPane.showMessageDialog(null, "You don't have this item!");
+          Store.logger.info("Tried to scan out an item that was not in stock.");
 
-    JButton checkSaleDates = new JButton("Check sale dates");
-    checkSaleDates.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        if (storeItems.getSelectedIndex() != -1) {
-          JOptionPane.showMessageDialog(null, s.sm.getSaleDuration(
-              ((Item) storeItems.getSelectedValue()).getUPC()));
-          Store.logger.info("Sale duration for " + ((Item) storeItems.getSelectedValue()).getName()
-              + " is " + s.sm.getSaleDuration(((Item) storeItems.getSelectedValue()).getUPC()));
-        }
-      }
-    });
-
-    JButton resetDay = new JButton("New day");
-    resetDay.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        JOptionPane.showMessageDialog(null, "Today's revenue is "
-            + s.fm.revenueToday + " and today's profit is " + s.fm.profitToday + ".");
-        Store.logger.info("A day has ended with profit " + s.fm.profitToday + ". A new day "
-            + "has begun!");
-        s.fm.revenueToday = 0;
-        s.fm.profitToday = 0;
-      }
-    });
-
-    JButton scanOut = new JButton("Scan out");
-    scanOut.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        try {
-          openScanner();
-          String UPC = JOptionPane.showInputDialog("What is the UPC of the "
-              + "item that you want to sell?");
-          if (s.UPCToItem.containsKey(UPC)) {
-            int quantity = Integer.parseInt(JOptionPane.showInputDialog(
-                "How many do you want to sell?",
-                JOptionPane.YES_NO_OPTION));
-            if (s.UPCToItem.get(UPC).getQuantity() > 0) {
-              s.is.sell(UPC, quantity);
-              selling.addElement(s.UPCToItem.get(UPC).getName());
-              price += (s.UPCToItem.get(UPC).getSellPrice());
-              total.setText("Total:" + Double.toString(price));
-              JOptionPane.showMessageDialog(null,
-                  "You now have " + (s.UPCToItem.get(UPC).getQuantity()) + " left over");
-              Store.logger.info(quantity + " of " + (s.UPCToItem.get(UPC).getName())
-                  + " has been sold.");
-            } else {
-              JOptionPane.showMessageDialog(null, "You don't "
-                  + "have any in stock!");
-            }
-
-          } else {
-            JOptionPane.showMessageDialog(null, "You don't have this item!");
-            Store.logger.info("Tried to scan out an item that was not in stock.");
-
-          }
-
-        } catch (ScriptException e1) {
-          e1.printStackTrace();
         }
 
+      } catch (ScriptException e1) {
+        e1.printStackTrace();
       }
-    });
+
+    }
+  });
 
     controlPanel.add(sellButton);
     controlPanel.add(changeQuantity);
@@ -201,7 +207,7 @@ public class CashierFrame extends GenericFrame {
 
 
 
-  }
+}
 
 
 
