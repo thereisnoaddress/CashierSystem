@@ -14,12 +14,9 @@ import java.util.logging.SimpleFormatter;
 import javax.swing.JOptionPane;
 
 /**
- * A class that initializes a Store object that can be used in other classes. It also
- * initializes a logger that logs events.
+ * A class that simulates a store.
  */
-
 class StoreSimulator implements Serializable {
-
 
   private static final Logger logger = Logger.getLogger(Store.class.getName());
   private static final Handler consoleHandler = new ConsoleHandler();

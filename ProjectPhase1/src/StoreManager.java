@@ -1,7 +1,9 @@
+import java.io.Serializable;
+
 /**
  * This class manages the general Store-level methods that a user would like to use
  */
-public class StoreManager {
+public class StoreManager implements Serializable {
 
   protected Store s;
 
