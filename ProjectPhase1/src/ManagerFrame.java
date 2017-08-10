@@ -67,10 +67,12 @@ public class ManagerFrame extends GenericFrame {
     setSellPrice.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        double price = Double.parseDouble(JOptionPane.showInputDialog("Please enter a new price:"));
-        JOptionPane.showMessageDialog(null, "The new sell price is: "
-            + price);
-        Store.logger.info("Sell price has been changed to: " +  price);
+        if (storeItems.getSelectedIndex() != -1) {
+          double price = Double
+              .parseDouble(JOptionPane.showInputDialog("Please enter a new price:"));
+          ((Item)storeItems.getSelectedValue()).setSellPrice(price);
+          Store.logger.info("Sell price has been changed to: " + price);
+        }
       }
     });
 
@@ -78,10 +80,12 @@ public class ManagerFrame extends GenericFrame {
     setSalePrice.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        double price = Double.parseDouble(JOptionPane.showInputDialog("Please enter a new price:"));
-        JOptionPane.showMessageDialog(null, "The new sale price is: "
-            + price);
-        Store.logger.info("Sale price has been changed to: " +  price);
+        if (storeItems.getSelectedIndex() != -1) {
+          double price = Double
+              .parseDouble(JOptionPane.showInputDialog("Please enter a new price:"));
+          ((Item)storeItems.getSelectedValue()).ia.salePrice = price;
+          Store.logger.info("Sale price has been changed to: " + price);
+        }
       }
     });
 
@@ -89,10 +93,11 @@ public class ManagerFrame extends GenericFrame {
     saleStart.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        String start = JOptionPane.showInputDialog("Please enter the start date:");
-        JOptionPane.showMessageDialog(null, "New sale start date is "
-            + start);
-        Store.logger.info("New sale start date is " +  start);
+        if (storeItems.getSelectedIndex() != -1) {
+          String start = JOptionPane.showInputDialog("Please enter the start date:");
+          ((Item)storeItems.getSelectedValue()).ia.saleStart = start;
+          Store.logger.info("New sale start date is " + start);
+        }
       }
     });
 
@@ -100,10 +105,11 @@ public class ManagerFrame extends GenericFrame {
     saleEnd.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        String end = JOptionPane.showInputDialog("Please enter the end date:");
-        JOptionPane.showMessageDialog(null, "New sale end date is  "
-            + end);
-        Store.logger.info("New sale end date is " +  end);
+        if (storeItems.getSelectedIndex() != -1) {
+          String end = JOptionPane.showInputDialog("Please enter the end date:");
+          ((Item)storeItems.getSelectedValue()).ia.saleEnd = end;
+          Store.logger.info("New sale end date is " + end);
+        }
       }
     });
 
