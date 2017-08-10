@@ -6,8 +6,6 @@ import javax.swing.JOptionPane;
 
 public class ReshelverFrame extends GenericFrame {
 
-  protected JButton location;
-  protected JButton orderHistory;
   protected JButton quantity;
 
   ReshelverFrame() throws IOException, ClassNotFoundException {
@@ -15,10 +13,9 @@ public class ReshelverFrame extends GenericFrame {
     prepareButtons();
   }
 
-  void prepareButtons() {
+  private void prepareButtons() {
 
-
-    location = new JButton("Show location");
+    JButton location = new JButton("Show location");
     location.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -31,8 +28,7 @@ public class ReshelverFrame extends GenericFrame {
       }
     });
 
-
-    orderHistory = new JButton("Show order history");
+    JButton orderHistory = new JButton("Show order history");
     orderHistory.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {

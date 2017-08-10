@@ -14,18 +14,14 @@ public class ReceiverFrame extends GenericFrame {
 
 
   protected JButton add;
-  protected JButton location;
-  protected JButton cost;
-  protected JButton priceHistory;
-  protected JButton curPrice;
 
 
-  public ReceiverFrame() throws IOException, ClassNotFoundException {
+  ReceiverFrame() throws IOException, ClassNotFoundException {
     super("Receiver");
     prepareButtons();
   }
 
-  void prepareButtons() {
+  private void prepareButtons() {
 
     add = new JButton("Scan in");
     add.addActionListener(new ActionListener() {
@@ -70,62 +66,50 @@ public class ReceiverFrame extends GenericFrame {
       }
     });
 
-    location = new JButton("Show location");
-    location.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        if (storeItems.getSelectedIndex() != -1) {
-          JOptionPane.showMessageDialog(null,
-              "The item is in aisle " + ((Item) storeItems.getSelectedValue()).iv.aisle);
-          Store.logger.info(((Item) storeItems.getSelectedValue()).iv.name +
-              " is in aisle " + ((Item) storeItems.getSelectedValue()).iv.aisle);
-        }
+    JButton location = new JButton("Show location");
+    location.addActionListener(e -> {
+      if (storeItems.getSelectedIndex() != -1) {
+        JOptionPane.showMessageDialog(null,
+            "The item is in aisle " + ((Item) storeItems.getSelectedValue()).iv.aisle);
+        Store.logger.info(((Item) storeItems.getSelectedValue()).iv.name +
+            " is in aisle " + ((Item) storeItems.getSelectedValue()).iv.aisle);
       }
     });
 
-    cost = new JButton("Show cost");
-    cost.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        if (storeItems.getSelectedIndex() != -1) {
-          JOptionPane.showMessageDialog(null,
-              "The bought price of the item is " +
-                  ((Item) storeItems.getSelectedValue()).ia.boughtPrice);
-          Store.logger.info(((Item) storeItems.getSelectedValue()).iv.name +
-              " has bought price " + ((Item) storeItems.getSelectedValue()).ia.boughtPrice);
-        }
+    JButton cost = new JButton("Show cost");
+    cost.addActionListener(e -> {
+      if (storeItems.getSelectedIndex() != -1) {
+        JOptionPane.showMessageDialog(null,
+            "The bought price of the item is " +
+                ((Item) storeItems.getSelectedValue()).ia.boughtPrice);
+        Store.logger.info(((Item) storeItems.getSelectedValue()).iv.name +
+            " has bought price " + ((Item) storeItems.getSelectedValue()).ia.boughtPrice);
       }
     });
 
-    priceHistory = new JButton("Show price history");
-    priceHistory.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        if (storeItems.getSelectedIndex() != -1) {
+    JButton priceHistory = new JButton("Show price history");
+    priceHistory.addActionListener(e -> {
+      if (storeItems.getSelectedIndex() != -1) {
 
-          String history = ((Item) storeItems.getSelectedValue()).infoToString(
-              ((Item) storeItems.getSelectedValue()).ih.priceHistory);
-          JOptionPane.showMessageDialog(null,
-              "The price history of this item is " + history);
-          Store.logger.info(((Item) storeItems.getSelectedValue()).iv.name +
-              " has price history " + ((Item) storeItems.getSelectedValue()).ih.priceHistory);
-        }
+        String history = ((Item) storeItems.getSelectedValue()).infoToString(
+            ((Item) storeItems.getSelectedValue()).ih.priceHistory);
+        JOptionPane.showMessageDialog(null,
+            "The price history of this item is " + history);
+        Store.logger.info(((Item) storeItems.getSelectedValue()).iv.name +
+            " has price history " + ((Item) storeItems.getSelectedValue()).ih.priceHistory);
       }
     });
 
-    curPrice = new JButton("Show current price");
-    curPrice.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        if (storeItems.getSelectedIndex() != -1){
-          JOptionPane.showMessageDialog(null,
-              "The current price of this item is " +
-                  ((Item) storeItems.getSelectedValue()).ia.sellPrice);
-          Store.logger.info(((Item) storeItems.getSelectedValue()).iv.name +
-              " has current price " + ((Item) storeItems.getSelectedValue()).ia.sellPrice);
-        }
-
+    JButton curPrice = new JButton("Show current price");
+    curPrice.addActionListener(e -> {
+      if (storeItems.getSelectedIndex() != -1){
+        JOptionPane.showMessageDialog(null,
+            "The current price of this item is " +
+                ((Item) storeItems.getSelectedValue()).ia.sellPrice);
+        Store.logger.info(((Item) storeItems.getSelectedValue()).iv.name +
+            " has current price " + ((Item) storeItems.getSelectedValue()).ia.sellPrice);
       }
+
     });
 
     controlPanel.add(add);

@@ -1,38 +1,30 @@
-import com.sun.codemodel.internal.JOp;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Insets;
-import java.awt.TextField;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
+
+/**
+ * A frame that either logs the user into the system or lets the user register to enter the system.
+ */
 
 public class LoginFrame {
 
   private UserManager um;
-  private JFrame mainFrame;
-  private String filename;
-  boolean current;
+  private boolean current;
 
 
-  LoginFrame() throws IOException, ClassNotFoundException {
+  private LoginFrame() throws IOException, ClassNotFoundException {
 
     prepGUI();
     current = deserealize();
@@ -40,13 +32,13 @@ public class LoginFrame {
   }
 
 
-  void prepGUI() {
+  private void prepGUI() {
     JFrame mainFrame;
 
     // Default for all
     mainFrame = new JFrame("Please sign in or register");
     mainFrame.setSize(350, 450);
-    mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     mainFrame.setLocationRelativeTo(null);
 
     // Default panel
@@ -134,60 +126,52 @@ public class LoginFrame {
     });
 
     // Listener1
-    loginButton.addActionListener(new ActionListener() {
-                                    @Override
-                                    public void actionPerformed(ActionEvent e) {
-                                      // Access the input
-                                      String loginText = login.getText();
-                                      String loginPasswordText = loginPassword.getText();
-                                      if (current) {
-                                        if (loginText.equals("") || loginPasswordText.equals("")) {
-                                          JOptionPane.showMessageDialog(mainFrame, "Please enter the id and password!");
-                                        } else if (um.loginID.containsKey(loginText) && um.loginID.get(loginText)
-                                            .equals(loginPasswordText)) {
-                                          try {
-                                            StartFrame sf = new StartFrame();
-                                          } catch (IOException e1) {
-                                            e1.printStackTrace();
-                                          } catch (ClassNotFoundException e1) {
-                                            e1.printStackTrace();
-                                          }
-                                          mainFrame.setVisible(false);
+    loginButton.addActionListener(e -> {
+      // Access the input
+      String loginText = login.getText();
+      String loginPasswordText = loginPassword.getText();
+      if (current) {
+        if (loginText.equals("") || loginPasswordText.equals("")) {
+          JOptionPane.showMessageDialog(mainFrame, "Please enter the id and password!");
+        } else if (um.loginID.containsKey(loginText) && um.loginID.get(loginText)
+            .equals(loginPasswordText)) {
+          try {
+            StartFrame sf = new StartFrame();
+          } catch (IOException | ClassNotFoundException e1) {
+            e1.printStackTrace();
+          }
+          mainFrame.setVisible(false);
 
-                                        } else {
-                                          JOptionPane.showMessageDialog(null, "You messed up");
-                                        }
-                                      }
-                                    }
-                                  });
+        } else {
+          JOptionPane.showMessageDialog(null, "You messed up");
+        }
+      }
+    });
 
-        registerButton.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            // Access the input
-            String registrationText = registration.getText();
-            String registrationPasswordText = registrationPassword.getText();
+        registerButton.addActionListener(e -> {
+          // Access the input
+          String registrationText = registration.getText();
+          String registrationPasswordText = registrationPassword.getText();
 
-            if (registrationText.equals("") || registrationPasswordText.equals("")) {
-              JOptionPane.showMessageDialog(mainFrame, "Please enter the id and password!");
-            } else {
-              try {
-                um.register(registrationText, registrationPasswordText);
-                um.serealize();
-                StartFrame sf = new StartFrame();
-                mainFrame.setVisible(false);
+          if (registrationText.equals("") || registrationPasswordText.equals("")) {
+            JOptionPane.showMessageDialog(mainFrame, "Please enter the id and password!");
+          } else {
+            try {
+              um.register(registrationText, registrationPasswordText);
+              um.serealize();
+              StartFrame sf = new StartFrame();
+              mainFrame.setVisible(false);
 
-              } catch (IOException | ClassNotFoundException el) {
-                JOptionPane.showMessageDialog(mainFrame, "Cannot open StartFrame!");
-              }
+            } catch (IOException | ClassNotFoundException el) {
+              JOptionPane.showMessageDialog(mainFrame, "Cannot open StartFrame!");
             }
           }
         });
       }
 
 
-      boolean deserealize() {
-        filename = "users.ser";
+      private boolean deserealize() {
+        String filename = "users.ser";
 
         FileInputStream fis;
         ObjectInputStream in;
@@ -200,12 +184,9 @@ public class LoginFrame {
           return true;
 
         } catch (FileNotFoundException ex) {
-          UserManager um = new UserManager();
-          this.um = um;
+          this.um = new UserManager();
 
-        } catch (IOException e) {
-          e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
           e.printStackTrace();
         }
 
